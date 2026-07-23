@@ -1,0 +1,23 @@
+# Dependências
+node_modules/
+
+# Ambiente / segredos
+.env
+.env.*
+!.env.example
+
+# Builds
+.next/
+dist/
+build/
+out/
+coverage/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.log
