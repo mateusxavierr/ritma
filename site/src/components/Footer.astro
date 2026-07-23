@@ -1,0 +1,45 @@
+---
+/**
+ * Footer sóbrio (PLANO §5.11, §4.14): continuidade do bloco escuro de fechamento.
+ * Dados publicados pela própria marca (papelaria oficial); sem telefone (§10.12).
+ */
+import logoOsso from '../assets/logo-ritma-osso.svg';
+---
+
+<footer class="bloco-escuro bg-(--surface-inverse) text-(--text-on-inverse-2)">
+  <div class="container-page grid gap-10 py-12 md:grid-cols-3 md:py-16">
+    <div>
+      <img src={logoOsso.src} alt="Ritma Registros" width="103" height="26" class="h-6 w-auto" />
+      <p class="mt-4 text-body-sm">Santa Cruz do Capibaribe, PE</p>
+      <p class="text-body-sm">Atendimento digital para todo o Brasil</p>
+    </div>
+    <div>
+      <a
+        href="https://www.instagram.com/ritmaregistros"
+        rel="noopener"
+        class="flex min-h-12 items-center text-body-sm underline-offset-4 hover:underline"
+        >@ritmaregistros</a
+      >
+      <a
+        href="mailto:ritmaregistros@gmail.com"
+        class="flex min-h-12 items-center text-body-sm underline-offset-4 hover:underline"
+        >ritmaregistros@gmail.com</a
+      >
+    </div>
+    <div class="md:text-right">
+      <p class="text-caption">© 2026 Ritma Registros. Todos os direitos reservados.</p>
+      {/* [PENDENTE:CNPJ] — inserir aqui quando confirmado (PERGUNTAS-ABERTAS 12):
+          <p class="text-caption">CNPJ 00.000.000/0001-00</p> */}
+    </div>
+  </div>
+</footer>
+
+<!-- ANALYTICS: inserir tags aqui quando os IDs chegarem (PERGUNTAS-ABERTAS 9) -->
+
+<style>
+  /* Separador do CTA final (§5.11): osso a 15% */
+  footer {
+    border-top: 1px solid rgb(235 232 226 / 0.15);
+    --focus-ring: var(--text-on-inverse-2);
+  }
+</style>

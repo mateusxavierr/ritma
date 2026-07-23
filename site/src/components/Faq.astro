@@ -1,0 +1,105 @@
+---
+/**
+ * FAQ (PLANO §5.10): 8 objeções canônicas em <details>/<summary> nativos —
+ * teclado e leitor de tela de graça, zero JS, múltiplos abertos permitidos.
+ */
+const itens = [
+  {
+    p: 'Já uso meu nome há anos. Ele não é meu automaticamente?',
+    r: 'Não. No Brasil o direito sobre a marca nasce do registro no INPI. Usar há mais tempo ajuda muito pouco se outra pessoa registrar primeiro.',
+  },
+  {
+    p: 'Minha empresa é pequena. Vale a pena registrar?',
+    r: 'É justamente quem é pequeno que não tem caixa pra recomeçar: trocar nome, fachada, embalagem e perfil dói mais no pequeno. E a taxa do INPI tem desconto de 50% pra MEI, micro e pequenas empresas.',
+  },
+  {
+    p: 'Quanto custa?',
+    r: 'A taxa oficial do INPI parte de R$ 440 por classe com o desconto legal para MEI, micro e pequenas empresas e pessoas físicas.',
+    // [PENDENTE:PRECO] · default OAB-safe (§10.23). Variante pós-liberação, trocar a resposta por:
+    // 'Dois custos: a taxa oficial do INPI, a partir de R$ 440 por classe com o desconto legal,
+    // e os honorários da assessoria, que dependem do seu caso. O valor exato é apresentado antes
+    // de qualquer contratação, sem surpresa.'
+  },
+  {
+    p: 'Quanto tempo demora?',
+    r: 'O protocolo é a parte rápida. O exame do INPI leva meses, porque a fila é do órgão. O que importa: sua prioridade vale desde o protocolo, não desde a decisão.',
+  },
+  {
+    p: 'É muito burocrático?',
+    r: 'A burocracia existe, mas ela é nossa. Do seu lado, uma conversa de WhatsApp e os documentos básicos. Do nosso, o resto.',
+  },
+  {
+    p: 'Posso registrar sozinho no INPI?',
+    r: 'Pode, o sistema é público. Os riscos de fazer sem apoio técnico: pesquisa de anterioridade incompleta, classe errada e exigências que pedem argumentação jurídica. Se o pedido for negado, a taxa não volta.',
+  },
+  {
+    p: 'Preciso ter CNPJ?',
+    r: 'Não. Pessoa física também registra, desde que exerça atividade ligada à marca.',
+  },
+  {
+    p: 'Registrei. Acabou?',
+    r: 'O registro vale 10 anos e é renovável indefinidamente. Vale acompanhar o mercado: quem registra tem o direito de se opor a pedidos parecidos com o seu.',
+  },
+];
+---
+
+<section class="bg-(--surface-page)">
+  <div class="container-page py-16 md:py-24">
+    <div class="mx-auto max-w-[720px]">
+      <h2 class="text-h2">O que todo mundo pergunta</h2>
+      <div class="mt-8">
+        {
+          itens.map((item) => (
+            <details class="border-b border-(--border-subtle)">
+              <summary>
+                <span>{item.p}</span>
+                <span aria-hidden="true" class="chev" />
+              </summary>
+              <div class="prose-measure pb-5 text-body-sm text-(--text-secondary)">{item.r}</div>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-block: 20px; /* área clicável ≥56px (§5.10) */
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    list-style: none;
+    transition: color 150ms ease;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover {
+    color: var(--cta-bg-hover); /* ink-900 (§5.10); token semântico mais escuro disponível */
+  }
+  details[open] summary {
+    font-weight: 700;
+  }
+
+  /* Chevron em CSS puro (§5.10): sem pacote de ícones */
+  .chev {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    margin-right: 2px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg) translateY(-2px);
+    transition: transform 150ms ease;
+  }
+  details[open] .chev {
+    transform: rotate(225deg) translateY(-2px);
+  }
+</style>

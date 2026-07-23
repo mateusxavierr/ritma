@@ -1,0 +1,32 @@
+---
+/**
+ * Header mínimo (PLANO §5.1): barra estática (não fixa), sem menu, sem hambúrguer.
+ * Logo à esquerda + CTA compacto à direita (atalho do comparador, §3).
+ * Mobile: monograma R oficial no lugar do wordmark — o label único OAB-safe (§10.23)
+ * tem ~287px no botão compacto e não coexiste com o wordmark em 360–375px sem quebrar
+ * linha (proibido). Monograma é variante oficial da prancheta; desvio registrado no build.
+ */
+import logoChumbo from '../assets/logo-ritma-chumbo.svg';
+import rGlyph from '../assets/r-glyph.svg';
+import CtaButton from './CtaButton.astro';
+---
+
+<header>
+  <div class="container-page flex h-14 items-center justify-between gap-2 md:h-[72px]">
+    <img
+      src={rGlyph.src}
+      alt="Ritma Registros"
+      width="17"
+      height="22"
+      class="block h-[22px] w-auto md:hidden"
+    />
+    <img
+      src={logoChumbo.src}
+      alt="Ritma Registros"
+      width="103"
+      height="26"
+      class="hidden h-[26px] w-auto md:block"
+    />
+    <CtaButton size="sm" />
+  </div>
+</header>

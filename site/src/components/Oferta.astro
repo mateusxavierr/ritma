@@ -1,0 +1,57 @@
+---
+/**
+ * Oferta estrutural (PLANO §5.7): escopo sem preço + transparência de custos.
+ * Card central isolado com a única sombra permitida da página (§2.3).
+ */
+import CtaButton from './CtaButton.astro';
+---
+
+<section class="bg-(--surface-alt)">
+  <div class="container-page py-16 md:py-24">
+    <div
+      class="oferta-card mx-auto max-w-[640px] rounded-2xl bg-(--surface-page) p-8 md:p-12"
+    >
+      <h2 class="text-h2">Muito além de um processo burocrático</h2>
+      <p class="mt-3 text-(--text-secondary)">
+        Uma assessoria estratégica que assume a burocracia por você.
+      </p>
+      {/*
+        [PENDENTE:SERVICOS] — escopo definicional abaixo; validar contra a lista real
+        da agência quando chegar (PERGUNTAS-ABERTAS 1).
+      */}
+      <ul class="mt-8 grid gap-3">
+        <li class="li-square">Consulta de viabilidade e análise de colidência</li>
+        <li class="li-square">Definição de classes e estratégia de proteção</li>
+        <li class="li-square">Preparação e protocolo do pedido no INPI</li>
+        <li class="li-square">Acompanhamento do processo e aviso de cada despacho</li>
+        <li class="li-square">Atendimento digital para todo o Brasil</li>
+      </ul>
+      <p class="mt-8 text-body-sm text-(--text-secondary)">
+        Todo registro de marca envolve a taxa oficial do INPI, que parte de R$ 440 por classe para
+        MEI, micro e pequenas empresas e pessoas físicas.
+      </p>
+      {/*
+        Variante pós-liberação (§10.23), trocar o parágrafo acima por:
+        `Registrar uma marca tem dois custos: a taxa oficial do INPI, que parte de R$ 440 por
+        classe para MEI, micro e pequenas empresas e pessoas físicas, e os honorários da
+        assessoria, que dependem do seu caso e são apresentados com clareza antes de qualquer
+        contratação.`
+
+        [PENDENTE:PRECO] — linha de preço/parcelamento entra aqui quando confirmada
+        (PERGUNTAS-ABERTAS 2).
+
+        [PENDENTE:GARANTIA] — linha de risk reversal entra aqui SÓ se a Amanda confirmar
+        (PERGUNTAS-ABERTAS 3).
+      */}
+      <div class="mt-8">
+        <CtaButton block reassurance align="center" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .oferta-card {
+    box-shadow: var(--shadow-elev);
+  }
+</style>

@@ -1,0 +1,62 @@
+---
+/**
+ * Hero (PLANO §5.2): dor/risco + CTA imediato. Fundo osso puro, sem pattern.
+ * Desktop: grid 7fr/5fr, texto à esquerda, render do R em cerâmica à direita.
+ * Mobile: empilhado, header + hero completos em ≤1 tela de 812px.
+ */
+import { Picture } from 'astro:assets';
+import heroR from '../assets/hero-r.jpg';
+import CtaButton from './CtaButton.astro';
+---
+
+<section class="bg-(--surface-alt)">
+  <div
+    class="container-page grid items-center gap-10 pt-10 pb-16 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:pt-24 lg:pb-32"
+  >
+    <div>
+      <h1 class="text-display">A sua marca é realmente sua?</h1>
+      {/*
+        Alternativa B do H1 (PLANO §4.3, guardada): `No Brasil, só é dono quem registra.`
+
+        Variante Google Search (swap de 1 linha se a resposta da pergunta 15 for Search — §10.6):
+        H1: `Registro de marca no INPI, do protocolo ao certificado`
+        + 3 bullets no lugar da sub:
+          `Consulta de viabilidade` (pós-liberação §10.23: `Consulta gratuita de viabilidade`)
+          `Atendimento digital para todo o Brasil`
+          `Acompanhamento até a decisão`
+      */}
+      <p class="mt-4 max-w-[36rem] text-(--text-secondary)">
+        No Brasil, a marca é de quem registra primeiro no INPI, não de quem usa há mais tempo.
+      </p>
+      {/*
+        [PENDENTE:PROVA] Quando houver número real confirmado pela Amanda, a sub ganha
+        segunda linha curta (ex.: `+ de N marcas acompanhadas`). Nunca contador zerado.
+      */}
+      <div class="mt-8">
+        <CtaButton id="hero-cta" reassurance block align="start" />
+      </div>
+    </div>
+    <Picture
+      src={heroR}
+      alt="Letra R em cerâmica, símbolo da Ritma"
+      formats={['avif', 'webp']}
+      widths={[240, 480, 800, 1200]}
+      sizes="(min-width: 1024px) 480px, 200px"
+      loading="eager"
+      fetchpriority="high"
+      class="mx-auto w-[200px] rounded-2xl lg:w-full lg:max-w-[480px]"
+    />
+  </div>
+</section>
+
+<style>
+  /* Mobile: CTA full-width (§5.2); de md pra cima volta ao tamanho do conteúdo */
+  @media (min-width: 768px) {
+    section :global(.cta-fill) {
+      align-items: flex-start;
+    }
+    section :global(.cta-fill .cta) {
+      width: auto;
+    }
+  }
+</style>

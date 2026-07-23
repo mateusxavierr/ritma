@@ -1,0 +1,121 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/* Catamaran variable self-host (PLANO §8): 1 woff2, subset latin, pesos 100–900 */
+@font-face {
+  font-family: 'Catamaran';
+  src: url('/fonts/catamaran-var.woff2') format('woff2-variations');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fallback métrico aproximado (reduz CLS do swap): métricas verticais da Catamaran
+   (ascent 1100 / descent 540 / upm 1000) aplicadas sobre a fonte de sistema */
+@font-face {
+  font-family: 'Catamaran Fallback';
+  src: local('Helvetica Neue'), local('Arial');
+  ascent-override: 110%;
+  descent-override: 54%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  html {
+    color-scheme: light; /* tema claro único, travado (PLANO §2.1) */
+  }
+
+  body {
+    background-color: var(--surface-page);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Itálico proibido (PLANO §2.2): Catamaran não tem; o navegador sintetizaria oblíquo */
+  em,
+  i,
+  cite,
+  address,
+  dfn,
+  var {
+    font-style: normal;
+  }
+
+  /* Foco visível em TODO interativo (PLANO §8) */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  /* Espaço reservado pra sticky CTA bar mobile (PLANO §5.12): a barra nunca cobre conteúdo */
+  @media (max-width: 767.98px) {
+    body {
+      padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      transition-duration: 0.01ms !important;
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}
+
+@layer components {
+  /* Container único da página (PLANO §2.3): 1120px, 20px mobile / 32px desktop */
+  .container-page {
+    margin-inline: auto;
+    width: 100%;
+    max-width: calc(1120px + 2 * 20px);
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .container-page {
+      max-width: calc(1120px + 2 * 32px);
+      padding-inline: 32px;
+    }
+  }
+
+  /* Medida de texto corrido (PLANO §2.2) */
+  .prose-measure {
+    max-width: 62ch;
+  }
+
+  /* Item de lista com marcador quadrado 6x6 (PLANO §5.4): sem ícone de biblioteca */
+  .li-square {
+    position: relative;
+    padding-left: 20px;
+  }
+  .li-square::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    background: var(--text-primary);
+  }
+
+  /* Skip-link (PLANO §8): primeiro elemento focável */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 50;
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-weight: 700;
+    padding: 12px 20px;
+    border-radius: 0 0 12px 0;
+  }
+  .skip-link:focus-visible {
+    left: 0;
+  }
+}

@@ -1,0 +1,60 @@
+---
+/**
+ * Portfólio de proteção (PLANO §5.8): marca é o carro-chefe, direitos autorais é o segundo
+ * confirmado. Card B com o pattern oficial de R como textura (diversidade de fundo da skill).
+ * Cards sem CTA próprio: CTA único da página (§10.9).
+ */
+import patternR from '../assets/pattern-r.svg';
+---
+
+<section class="bg-(--surface-page)">
+  <div class="container-page py-16 md:py-24">
+    <h2 class="text-h2">A marca é só o começo</h2>
+    <p class="mt-3 max-w-[62ch] text-(--text-secondary)">
+      A Ritma protege os ativos que fazem o seu negócio valer alguma coisa.
+    </p>
+    <div class="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
+      <div class="rounded-xl border border-(--border-subtle) p-8">
+        <h3 class="text-h3">Registro de marca</h3>
+        <p class="mt-3 text-body-sm text-(--text-secondary)">
+          O nome e a identidade do seu negócio, com exclusividade nacional renovável a cada 10 anos.
+          É a espinha desta página inteira.
+        </p>
+      </div>
+      <div class="card-pattern relative overflow-hidden rounded-xl bg-(--surface-alt) p-8">
+        <div
+          aria-hidden="true"
+          class="pattern-layer absolute inset-0"
+          style={`background-image: url(${patternR.src})`}
+        >
+        </div>
+        <div class="relative">
+          <h3 class="text-h3">Direitos autorais</h3>
+          <p class="mt-3 text-body-sm text-(--text-secondary)">
+            Prova de autoria para o que você cria: logotipo, fotos, textos, músicas, código.
+            Proteção reconhecida internacionalmente pela Convenção de Berna.
+          </p>
+        </div>
+      </div>
+    </div>
+    {/*
+      [PENDENTE:SERVICOS] — cards C+ (software, desenho industrial, monitoramento…) entram
+      quando a lista real chegar (PERGUNTAS-ABERTAS 1). Fórmula de copy (§4.9):
+      nome + definição em linguagem de dono + 1 benefício + assinatura de tempo. Ex.:
+
+      <div class="rounded-xl border border-(--border-subtle) p-8">
+        <h3 class="text-h3">NOME DO SERVIÇO</h3>
+        <p class="mt-3 text-body-sm text-(--text-secondary)">DEFINIÇÃO + BENEFÍCIO + TEMPO.</p>
+      </div>
+    */}
+  </div>
+</section>
+
+<style>
+  /* Pattern oficial de R, tom-sobre-tom (branco sancionado sobre osso — §5.8, §7) */
+  .pattern-layer {
+    background-size: 170px auto;
+    background-repeat: repeat;
+    opacity: 0.55;
+  }
+</style>

@@ -1,0 +1,30 @@
+---
+/**
+ * CTA final (PLANO §5.11): fechamento isolado no único bloco escuro da página,
+ * eco do verso chumbo da papelaria. Contíguo ao footer (mesmo fundo).
+ * id="cta-final" é observado pela sticky bar (§5.12): a barra some enquanto
+ * este bloco estiver na viewport.
+ */
+import CtaButton from './CtaButton.astro';
+---
+
+<section id="cta-final" class="bloco-escuro bg-(--surface-inverse) text-center">
+  <div class="container-page pt-16 pb-12 md:pt-24 md:pb-16">
+    <h2 class="text-h2 text-(--text-on-inverse)">Descubra hoje se a sua marca ainda está livre</h2>
+    <p class="mx-auto mt-4 max-w-[36rem] text-(--text-on-inverse-2)">
+      Uma conversa no WhatsApp resolve. Se o nome estiver disponível, você decide o próximo passo
+      com calma.
+    </p>
+    <div class="mt-8">
+      <CtaButton variant="inverse" reassurance align="center" />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Remap contextual do bloco escuro (§2.1): focus ring osso e reassurance legível */
+  .bloco-escuro {
+    --focus-ring: var(--text-on-inverse-2);
+    --text-secondary: var(--text-on-inverse-2);
+  }
+</style>

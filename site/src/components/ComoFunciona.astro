@@ -1,0 +1,114 @@
+---
+/**
+ * Como funciona (PLANO §5.6): 4 passos, mata as objeções "demora" e "burocrático".
+ * Desktop: grid de 4 colunas com numeral grande decorativo + linha conectora horizontal.
+ * Mobile: lista com numeral à esquerda + linha conectora vertical.
+ * CTA de meio (§10.26): só em ≥768px; no mobile a sticky bar cobre o meio da página.
+ */
+import CtaButton from './CtaButton.astro';
+
+const passos = [
+  {
+    titulo: 'Consulta de viabilidade',
+    corpo:
+      'Você chama no WhatsApp e a Ritma pesquisa o seu nome nas bases do INPI. Sai sabendo se ele está disponível.',
+  },
+  {
+    titulo: 'Estratégia',
+    corpo:
+      'Definição da classe e da forma de proteção certas pro seu negócio. Você entende cada escolha antes de aprovar.',
+  },
+  {
+    titulo: 'Protocolo',
+    corpo:
+      'Pedido depositado no INPI. A partir daqui, quem chegar depois fica atrás de você na fila.',
+  },
+  {
+    titulo: 'Acompanhamento',
+    corpo:
+      'A Ritma acompanha cada movimentação do processo e te avisa do que importa, até a decisão final.',
+  },
+];
+/*
+ * Variante pós-liberação (§10.23): título do passo 1 vira `Consulta gratuita`.
+ */
+---
+
+<section class="bg-(--surface-page)">
+  <div class="container-page py-16 md:py-24">
+    <h2 class="text-h2">Como funciona, sem juridiquês</h2>
+    <div class="relative mt-10">
+      <span aria-hidden="true" class="linha-h hidden md:block"></span>
+      <span aria-hidden="true" class="linha-v md:hidden"></span>
+      <ol class="passos grid gap-8 md:grid-cols-4 md:gap-6">
+      {
+        passos.map((p, i) => (
+          <li class="grid grid-cols-[48px_1fr] gap-x-2 md:block">
+            <span aria-hidden="true" class="numeral">
+              {i + 1}
+            </span>
+            <div>
+              <h3 class="text-h3 md:mt-3">{p.titulo}</h3>
+              <p class="mt-2 text-body-sm text-(--text-secondary)">{p.corpo}</p>
+            </div>
+          </li>
+        ))
+      }
+      </ol>
+    </div>
+    <div class="mt-10 max-w-[62ch] rounded-xl bg-(--surface-alt) p-6">
+      <p class="text-body-sm">
+        <strong>Transparência:</strong> as etapas 1 a 3 são rápidas. Lenta é a fila de exame do
+        INPI, que leva meses e não depende de ninguém. É por isso que protocolar cedo importa: a
+        proteção prática começa ali.
+      </p>
+    </div>
+    <div class="mt-8 hidden md:block">
+      <CtaButton reassurance align="start" />
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Numeral decorativo (§5.6): sand-300 sobre branco — nunca carrega informação
+     (o <li> numerado da <ol> é a semântica real; numeral é aria-hidden) */
+  .numeral {
+    position: relative;
+    display: inline-block;
+    width: fit-content;
+    background: var(--surface-page);
+    color: var(--border-strong);
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    padding-block: 4px;
+  }
+  @media (min-width: 768px) {
+    .numeral {
+      font-size: 48px;
+      line-height: 1.1;
+      padding-right: 16px;
+      padding-block: 0;
+    }
+  }
+
+  .linha-h {
+    position: absolute;
+    top: 26px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+  .linha-v {
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 15px;
+    width: 1px;
+    background: var(--border-subtle);
+  }
+  .passos li {
+    position: relative;
+  }
+</style>

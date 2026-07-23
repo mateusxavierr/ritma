@@ -1,0 +1,160 @@
+---
+/**
+ * O botão único da página (PLANO §9, §10.9): mesmo intent, mesmo label, mesmo href
+ * em todas as instâncias. Tudo vem de src/config.ts.
+ * Único glifo SVG da página: WhatsApp monocromático inline (exceção registrada, PLANO §1, §10.19).
+ */
+import { CTA_ARIA_LABEL, CTA_LABEL, CTA_REASSURANCE, waHref } from '../config';
+
+interface Props {
+  /** solid = chumbo sobre claro · inverse = osso sobre o bloco escuro (PLANO §2.1) */
+  variant?: 'solid' | 'inverse';
+  /** lg = instâncias de conversão (56px) · sm = botão compacto do header (§5.1) */
+  size?: 'lg' | 'sm';
+  /** ocupa a largura toda (CTA do card de oferta, mobile do hero) */
+  block?: boolean;
+  /** exibe a micro-reassurance sob o botão (hero/meio/oferta/CTA final — §4.1) */
+  reassurance?: boolean;
+  /** alinhamento do bloco (botão + reassurance) */
+  align?: 'start' | 'center';
+  id?: string;
+}
+
+const {
+  variant = 'solid',
+  size = 'lg',
+  block = false,
+  reassurance = false,
+  align = 'start',
+  id,
+} = Astro.props;
+---
+
+<div id={id} class:list={['cta-block', align === 'center' && 'cta-center', block && 'cta-fill']}>
+  <a
+    href={waHref()}
+    aria-label={CTA_ARIA_LABEL}
+    class:list={['cta', `cta-${variant}`, `cta-${size}`, block && 'w-full']}
+  >
+    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <use href="#wa-icon"></use>
+    </svg>
+    <span>{CTA_LABEL}</span>
+  </a>
+  {reassurance && <p class="cta-reassurance">{CTA_REASSURANCE}</p>}
+</div>
+
+<style>
+  .cta-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .cta-center {
+    align-items: center;
+    text-align: center;
+  }
+  .cta-fill {
+    align-items: stretch;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+      background-color 150ms ease,
+      transform 150ms ease;
+  }
+  .cta:active {
+    transform: translateY(1px);
+  }
+
+  .cta-solid {
+    background-color: var(--cta-bg);
+    color: var(--cta-text);
+  }
+  .cta-solid:hover {
+    background-color: var(--cta-bg-hover);
+  }
+
+  /* CTA invertido do bloco escuro: fonte ≥17px/700 (contraste AA em §2.1) */
+  .cta-inverse {
+    background-color: var(--cta-inverse-bg);
+    color: var(--cta-inverse-text);
+  }
+  .cta-inverse:hover {
+    background-color: var(--cta-inverse-bg-hover);
+  }
+
+  /* O label OAB-safe tem 42 caracteres: abaixo de 768px ele quebra em 2 linhas
+     BALANCEADAS e centradas (nunca texto minúsculo); de md pra cima, 1 linha sempre. */
+  .cta-lg {
+    min-height: 56px;
+    padding: 12px 20px;
+    font-size: 16px;
+    line-height: 1.25;
+    text-align: center;
+    text-wrap: balance;
+  }
+  @media (min-width: 768px) {
+    .cta-lg {
+      padding: 16px 32px;
+      font-size: 17px;
+      line-height: 1;
+      white-space: nowrap;
+    }
+  }
+
+  /* Botão compacto do header (§5.1): visual menor, área de toque ≥48x48 via ::after.
+     No mobile o glifo sai (label + ícone não coexistem em 360-375px sem quebrar linha). */
+  .cta-sm {
+    position: relative;
+    padding: 8px 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+  .cta-sm svg {
+    display: none;
+    width: 16px;
+    height: 16px;
+  }
+  @media (min-width: 768px) {
+    .cta-sm svg {
+      display: block;
+    }
+  }
+  .cta-sm::after {
+    content: '';
+    position: absolute;
+    inset: -6px 0;
+  }
+  @media (min-width: 768px) {
+    .cta-sm {
+      padding: 10px 20px;
+      font-size: 15px;
+    }
+    .cta-sm::after {
+      inset: 0;
+    }
+  }
+  /* Guarda pra viewports ≤359px: o label único não pode quebrar linha */
+  @media (max-width: 359px) {
+    .cta-sm {
+      padding: 8px 10px;
+      font-size: 12.5px;
+    }
+  }
+
+  .cta-reassurance {
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    color: var(--text-secondary);
+  }
+</style>

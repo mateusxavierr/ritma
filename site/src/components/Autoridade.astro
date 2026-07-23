@@ -1,0 +1,55 @@
+---
+/**
+ * Autoridade (PLANO §5.9, §10.24): nome, rosto real e papel ANTES do pedido de conversa.
+ * Foto escolhida no build: docs/marca/!fotos amanda/photo.jpg — única do lote com fundo
+ * cinza claro neutro, olhar direto e expressão sóbria compatível com o tom OAB (critérios §5.9).
+ * Crop quadrado do 3:4 com o rosto no terço superior feito em scripts/assets.sh.
+ */
+import { Picture } from 'astro:assets';
+import amanda from '../assets/amanda.jpg';
+---
+
+<section class="bg-(--surface-soft)">
+  <div
+    class="container-page grid items-center gap-10 py-16 md:py-24 lg:grid-cols-[5fr_7fr] lg:gap-16"
+  >
+    <Picture
+      src={amanda}
+      alt="Amanda Pereira, da Ritma Registros"
+      formats={['avif', 'webp']}
+      widths={[420, 840, 1260]}
+      quality={75}
+      sizes="(min-width: 1024px) 420px, calc(100vw - 40px)"
+      loading="lazy"
+      decoding="async"
+      class="retrato h-60 w-full rounded-2xl object-cover lg:h-auto lg:max-w-[420px]"
+    />
+    <div>
+      <h2 class="text-h2">Quem acompanha o seu registro</h2>
+      <p class="mt-6 text-2xl font-extrabold leading-tight">Amanda Pereira</p>
+      <p class="mt-1 text-body-sm font-semibold text-(--text-secondary)">Registro de Marcas</p>
+      <p class="prose-measure mt-4">
+        À frente da Ritma Registros, Amanda cuida de processos de marca com atendimento digital para
+        todo o Brasil.
+      </p>
+      {/*
+        [PENDENTE:BIO] — cobre APENAS o texto da mini-bio (formação, nº OAB, tempo de atuação —
+        PERGUNTAS-ABERTAS 11). Quando chegar, substitui o parágrafo fallback acima.
+        A foto NÃO depende deste placeholder (Adendo do BRIEF).
+      */}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Mobile: retrato full-width 240px com o rosto enquadrado (§5.9) */
+  .retrato {
+    object-position: 50% 18%;
+  }
+  @media (min-width: 1024px) {
+    .retrato {
+      object-position: 50% 50%;
+      aspect-ratio: 1;
+    }
+  }
+</style>
