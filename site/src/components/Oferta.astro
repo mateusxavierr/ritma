@@ -1,16 +1,31 @@
 ---
 /**
- * Oferta estrutural (PLANO §5.7): escopo sem preço + transparência de custos.
- * Card central isolado com a única sombra permitida da página (§2.3).
+ * Oferta (redesign 2026-07-24 — composição do panfleto A6).
+ * O H2 é a copy do panfleto; a papelaria traz o R cerâmico ao lado da oferta. Reproduz isso:
+ * R cerâmico grande à esquerda (com um respiro radial atrás pra não sumir tom-sobre-tom no osso)
+ * + card da oferta à direita, com a única sombra permitida da página (§2.3).
+ * Faixa clara (osso) — mantém a alternância claro/escuro.
  */
+import { Picture } from 'astro:assets';
 import CtaButton from './CtaButton.astro';
+import rCeramico from '../assets/r-ceramico.png';
 ---
 
-<section class="bg-(--surface-alt)">
-  <div class="container-page py-16 md:py-24">
-    <div
-      class="oferta-card reveal mx-auto max-w-[640px] rounded-2xl bg-(--surface-page) p-8 md:p-12"
-    >
+<section class="oferta bg-(--surface-alt)">
+  <div class="container-page oferta__grid">
+    <div class="oferta__r reveal" aria-hidden="true">
+      <span class="oferta__r-halo"></span>
+      <Picture
+        src={rCeramico}
+        alt=""
+        formats={['avif', 'webp']}
+        widths={[320, 480, 700, 900]}
+        sizes="(min-width: 1024px) 420px, 60vw"
+        class="oferta__r-img"
+      />
+    </div>
+
+    <div class="oferta-card card-lift reveal" style="--reveal-delay:120ms">
       <h2 class="text-h2">Muito além de um processo burocrático</h2>
       <p class="mt-3 text-(--text-secondary)">
         Uma assessoria estratégica que assume a burocracia por você.
@@ -51,7 +66,66 @@ import CtaButton from './CtaButton.astro';
 </section>
 
 <style>
+  .oferta {
+    overflow: hidden;
+  }
+  .oferta__grid {
+    display: grid;
+    gap: 24px;
+    align-items: center;
+    padding-block: 64px;
+  }
+  @media (min-width: 1024px) {
+    .oferta__grid {
+      grid-template-columns: 0.85fr 1fr;
+      gap: 40px;
+      padding-block: 96px;
+    }
+  }
+
+  /* R cerâmico */
+  .oferta__r {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    isolation: isolate;
+  }
+  .oferta__r-img {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: min(240px, 55vw);
+    height: auto;
+    filter: drop-shadow(0 24px 40px rgb(76 78 78 / 0.22));
+  }
+  @media (min-width: 1024px) {
+    .oferta__r-img {
+      width: 100%;
+      max-width: 420px;
+      margin-left: -12px; /* leve bleed pra esquerda, como no panfleto */
+    }
+  }
+  /* respiro radial atrás do R — separa do osso sem virar faixa escura */
+  .oferta__r-halo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      52% 46% at 50% 52%,
+      rgb(76 78 78 / 0.08),
+      transparent 70%
+    );
+  }
+
   .oferta-card {
-    box-shadow: var(--shadow-elev);
+    background: var(--surface-page);
+    border-radius: 18px;
+    padding: 32px 24px;
+  }
+  @media (min-width: 768px) {
+    .oferta-card {
+      padding: 44px 48px;
+    }
   }
 </style>
