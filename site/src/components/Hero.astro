@@ -28,9 +28,17 @@ const letras = [
   { k: 'M', clip: 'inset(0 21% 0 47%)', tx: '-8.5%' },
   { k: 'A', clip: 'inset(0 0 0 79%)', tx: '-25.7%' },
 ];
+
+/* R osso do kit — o glifo chumbo sumiria na faixa escura. */
+const rGlyphOsso = import.meta.env.BASE_URL + 'r-glyph-osso.svg';
 ---
 
 <section class="hero band-dark">
+  {/* R gigante (2026-07-24): UMA curva grande a 3%, no vão entre a coluna de texto e a foto.
+      Diferente da textura de R repetidos que saiu daqui — aquilo era detalhe de alta frequência
+      atrás das letras e atrapalhava a leitura; isto é uma forma só, lisa, que dá profundidade.
+      Só no desktop: no mobile não existe vão nenhum entre texto e foto. */}
+  <img src={rGlyphOsso} alt="" aria-hidden="true" class="hero__r" />
   <div class="container-page hero__grid">
     <div class="hero__content">
       {/* Assinatura da marca — decorativa; o texto acessível vai no aria-label */}
@@ -166,7 +174,10 @@ const letras = [
      pede corpo menor — a hierarquia continua intacta porque nada mais no hero compete. */
   .hero__title {
     color: var(--text-on-dark);
-    font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.375rem); /* 24→38px */
+    /* Teto de 38 -> 44px em 2026-07-24: o mínimo segue 24px por causa do mobile (o H1 tem 93
+       caracteres e precisa caber em uma tela), mas no desktop havia folga e a tipografia
+       pequena era parte da sensação de hero vazio. */
+    font-size: clamp(1.5rem, 1.05rem + 1.9vw, 2.75rem); /* 24→44px */
     line-height: 1.15;
     letter-spacing: -0.01em;
     font-weight: 800;
@@ -222,6 +233,26 @@ const letras = [
     }
   }
 
+  /* R gigante — só a partir de 1024px (ver comentário no markup) */
+  .hero__r {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .hero__r {
+      display: block;
+      position: absolute;
+      z-index: -1;
+      left: 44%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 150%;
+      width: auto;
+      opacity: 0.03;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+
   /* ——— Foto da Amanda ——— */
   /* Mobile: foto no TOPO (order -1), full-bleed, altura controlada — funde na base pro texto */
   .hero__figure {
@@ -272,6 +303,16 @@ const letras = [
     .wordmark__ritma {
       width: 340px;
     }
+    /* Luz de estúdio atrás da foto: devolve o volume que a máscara radial tira das bordas.
+       Fica atrás (z-index -1) e longe do texto — zero custo de legibilidade. */
+    .hero__figure::before {
+      content: '';
+      position: absolute;
+      z-index: -1;
+      inset: -12% -8%;
+      pointer-events: none;
+      background: radial-gradient(52% 48% at 52% 40%, rgb(255 255 255 / 0.07), transparent 72%);
+    }
     .hero__photo {
       position: static;
       width: 100%;
@@ -282,12 +323,12 @@ const letras = [
       /* melt simétrico nas 4 bordas — esquerda = direita (feedback do Mateus).
          mask-composite intersect é ESSENCIAL: sem ele os 2 gradientes se somam (union) e a
          foto vira retângulo. Restaurado após a reestruturação do mobile. */
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 24% 76%, transparent),
-        linear-gradient(180deg, transparent, #000 14% 86%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 24% 76%, transparent),
-        linear-gradient(180deg, transparent, #000 14% 86%, transparent);
-      -webkit-mask-composite: source-in;
-      mask-composite: intersect;
+      /* FUSÃO (2026-07-24). Antes eram dois gradientes lineares cruzados: davam um retângulo
+         de bordas macias — os cantos continuavam denunciando a forma, e o resultado ficava
+         entre moldura e fusão. Máscara RADIAL não tem canto: a foto deixa de existir conforme
+         se afasta do centro. Um gradiente só, sem mask-composite. */
+      -webkit-mask-image: radial-gradient(64% 68% at 54% 43%, #000 38%, rgba(0, 0, 0, 0) 88%);
+      mask-image: radial-gradient(64% 68% at 54% 43%, #000 38%, rgba(0, 0, 0, 0) 88%);
     }
   }
 
