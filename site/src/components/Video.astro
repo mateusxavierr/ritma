@@ -3,11 +3,18 @@
  * Seção 2 — vídeo (pedido do Mateus, 2026-07-24; estrutura de referência: hero → vídeo → ...).
  * Título acima, vídeo no meio, CTA abaixo. Fundo com a marca d'água de R (padrão oficial).
  *
- * O VÍDEO É PLACEHOLDER: moldura 16:9 marcada em amarelo (.ph, convenção do projeto pra
- * "isto não é final"). Quando o vídeo da Amanda chegar (PERGUNTAS-ABERTAS 7), trocar o bloco
- * .video__frame por <iframe>/<video> e apagar a etiqueta .ph — nada mais muda.
+ * PLAY AUTOMÁTICO NO SCROLL (pedido do Manolo via Mateus): o iframe só é criado quando a
+ * seção entra na tela — antes disso não existe request nenhum pro YouTube. Ao sair da tela,
+ * pausa. Autoplay em navegador só roda MUDO (regra do Chrome/Safari, não escolha nossa);
+ * o som fica a um clique, nos controles do próprio player.
+ *
+ * VÍDEO PROVISÓRIO: demo de natureza em 4K (aquele tipo que roda em TV OLED de loja), só
+ * pra validar o comportamento. Trocar YT_ID pelo vídeo da Amanda quando chegar
+ * (PERGUNTAS-ABERTAS 7) — nada mais muda.
  */
 import CtaButton from './CtaButton.astro';
+
+const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test nature relaxation"
 ---
 
 <section class="video band-light">
@@ -23,20 +30,90 @@ import CtaButton from './CtaButton.astro';
         O escuro abraça o player em vez de tomar a seção inteira: assim a alternância
         escuro/claro da página continua de pé E o contraste ao redor do vídeo fica MAIOR,
         porque a faixa em volta é clara. */}
-    <div class="video__frame band-dark reveal" style="--reveal-delay:120ms">
+    <div
+      class="video__frame band-dark reveal"
+      style="--reveal-delay:120ms"
+      data-yt={YT_ID}
+      data-video-stage
+    >
+      {/* Estado de espera: some no instante em que o iframe entra. Sem JS, fica o botão. */}
       <span class="video__play" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
           <path d="M8 5v14l11-7z"></path>
         </svg>
       </span>
-      <span class="ph video__ph">Placeholder — o vídeo da Amanda entra aqui</span>
+      <noscript>
+        <a class="video__fallback" href={`https://www.youtube.com/watch?v=${YT_ID}`} rel="noopener">
+          Assistir ao vídeo
+        </a>
+      </noscript>
     </div>
+
+    <p class="ph video__ph">Vídeo provisório (demo 4K). Entra o vídeo da Amanda quando chegar.</p>
 
     <div class="video__cta reveal" style="--reveal-delay:180ms">
       <CtaButton align="center" origin="video" />
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (function () {
+    var palco = document.querySelector('[data-video-stage]');
+    if (!palco || !('IntersectionObserver' in window)) return;
+
+    var id = palco.getAttribute('data-yt');
+    var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var iframe = null;
+
+    function criarIframe(autoplay) {
+      iframe = document.createElement('iframe');
+      // youtube-nocookie: sem cookie de tracking enquanto ninguém der play de verdade.
+      iframe.src =
+        'https://www.youtube-nocookie.com/embed/' +
+        id +
+        '?enablejsapi=1&rel=0&modestbranding=1&playsinline=1&loop=1&playlist=' +
+        id +
+        (autoplay ? '&autoplay=1&mute=1' : '');
+      iframe.title = 'Vídeo de apresentação da Ritma Registros';
+      iframe.allow =
+        'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+      iframe.allowFullscreen = true;
+      iframe.className = 'video__iframe';
+      palco.appendChild(iframe);
+      palco.classList.add('is-playing');
+    }
+
+    // Comanda o player já criado (pausar ao sair da tela, voltar ao entrar).
+    function comando(func) {
+      if (!iframe || !iframe.contentWindow) return;
+      iframe.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func: func, args: [] }),
+        '*'
+      );
+    }
+
+    // Sem JS o iframe nem nasce; com movimento reduzido, nasce só no clique.
+    if (reduzirMovimento) {
+      palco.addEventListener('click', function () {
+        if (!iframe) criarIframe(true);
+      });
+      palco.style.cursor = 'pointer';
+      return;
+    }
+
+    new IntersectionObserver(
+      function (entradas) {
+        var visivel = entradas[entradas.length - 1].isIntersecting;
+        if (visivel && !iframe) criarIframe(true);
+        else if (iframe) comando(visivel ? 'playVideo' : 'pauseVideo');
+        palco.classList.toggle('is-playing', visivel && !!iframe);
+      },
+      // 55%: o vídeo só começa quando está mesmo enquadrado, não de raspão.
+      { threshold: 0.55 }
+    ).observe(palco);
+  })();
+</script>
 
 <style>
   .video {
@@ -75,11 +152,44 @@ import CtaButton from './CtaButton.astro';
     box-shadow:
       0 2px 6px rgb(46 48 48 / 0.14),
       0 24px 60px rgb(46 48 48 / 0.22);
+    transition:
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 600ms ease;
+  }
+  /* "Apagar as luzes" (foco no vídeo): quando começa a tocar, o palco cresce 1,5% e a sombra
+     aprofunda. Só isso — nada de escurecer texto ou botão em volta, que é onde a conversão
+     mora. O contraste já vem do palco escuro contra a faixa clara. */
+  .video__frame.is-playing {
+    transform: scale(1.015);
+    box-shadow:
+      0 4px 10px rgb(46 48 48 / 0.18),
+      0 34px 80px rgb(46 48 48 / 0.3);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .video__frame.is-playing {
+      transform: none;
+    }
   }
   /* O grain da faixa escura no palco: reforça a sensação de tela, não de caixa vazia. */
   .video__frame::after {
     border-radius: inherit;
   }
+  /* O vídeo preenche o palco inteiro; o botão de espera some quando ele entra.
+     :global obrigatório — o iframe nasce em runtime, sem o atributo de escopo do Astro,
+     então uma regra escopada não o alcançaria (foi exatamente o bug do primeiro print:
+     o player renderizou no tamanho default, um retângulo pequeno no meio do palco). */
+  :global(.video__iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: inherit;
+  }
+  .video__frame.is-playing .video__play {
+    opacity: 0;
+  }
+
   /* Botão de play dentro do palco escuro: contorno osso, sem preenchimento claro. */
   .video__play {
     display: flex;
@@ -91,9 +201,19 @@ import CtaButton from './CtaButton.astro';
     background: transparent;
     border: 1px solid var(--border-strong);
     color: var(--text-secondary);
+    transition: opacity 300ms ease;
   }
+  .video__fallback {
+    color: var(--text-primary);
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
   .video__ph {
-    max-width: 80%;
+    display: block;
+    max-width: 46ch;
+    margin: 16px auto 0;
     text-align: center;
     font-size: var(--text-caption);
   }
