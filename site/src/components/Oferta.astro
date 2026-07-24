@@ -14,7 +14,6 @@ import rCeramico from '../assets/r-ceramico.png';
 <section class="oferta bg-(--surface-alt)">
   <div class="container-page oferta__grid">
     <div class="oferta__r reveal" aria-hidden="true">
-      <span class="oferta__r-halo"></span>
       <Picture
         src={rCeramico}
         alt=""
@@ -75,15 +74,33 @@ import rCeramico from '../assets/r-ceramico.png';
     }
   }
 
-  /* R cerâmico */
+  /* R cerâmico num PALCO ESCURO — o R foi renderizado pra fundo escuro, então aqui ele fica
+     nativo (como o panfleto) e a profundidade vem do palco, não de drop-shadow (à prova de
+     flicker, pedido do Mateus). */
   .oferta__r {
     position: relative;
     display: flex;
+    align-items: center;
     justify-content: center;
-    isolation: isolate;
+    padding: 48px 40px;
+    border-radius: 22px;
+    overflow: hidden;
+    background:
+      radial-gradient(58% 52% at 50% 42%, rgb(255 255 255 / 0.07), transparent 70%),
+      linear-gradient(180deg, var(--ink-800), var(--ink-950));
   }
-  /* Mobile: esconde o R (opção A do Mateus) — a composição R+card só faz sentido lado a lado;
-     no mobile a oferta lidera e o R só comeria espaço vertical. */
+  /* grain fino no palco — casa com as faixas escuras */
+  .oferta__r::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+  /* Mobile: esconde o R (opção A do Mateus) — composição R+card só faz sentido lado a lado. */
   @media (max-width: 1023.98px) {
     .oferta__r {
       display: none;
@@ -93,34 +110,9 @@ import rCeramico from '../assets/r-ceramico.png';
     position: relative;
     z-index: 1;
     display: block;
-    width: min(240px, 55vw);
+    width: 100%;
+    max-width: 340px;
     height: auto;
-    filter: drop-shadow(0 22px 34px rgb(76 78 78 / 0.2));
-  }
-  /* A sombra "bugava" no reload porque o drop-shadow re-renderizava DURANTE o movimento
-     (transform) da animação de reveal. Fix: o R entra só por OPACIDADE (sem transform),
-     então a sombra nunca é recalculada em movimento. */
-  .js .oferta__r.reveal {
-    transform: none !important;
-  }
-  @media (min-width: 1024px) {
-    .oferta__r-img {
-      width: 100%;
-      max-width: 420px;
-      margin-left: -12px; /* leve bleed pra esquerda, como no panfleto */
-    }
-  }
-  /* respiro radial atrás do R — separa do osso sem virar faixa escura */
-  .oferta__r-halo {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background: radial-gradient(
-      52% 46% at 50% 52%,
-      rgb(76 78 78 / 0.08),
-      transparent 70%
-    );
   }
 
   .oferta-card {
