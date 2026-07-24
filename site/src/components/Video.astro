@@ -66,6 +66,29 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
     var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var iframe = null;
 
+    // O parâmetro autoplay=1 sozinho NÃO é confiável: o player carrega e fica em
+    // playerState -1 (unstarted). O que funciona é mandar mute+playVideo pela API assim que
+    // ele avisa onReady — e repetir uma vez, porque a primeira chamada às vezes chega antes
+    // de o player estar pronto pra obedecer.
+    function ouvirPlayer() {
+      window.addEventListener('message', function (e) {
+        if (!iframe || e.source !== iframe.contentWindow) return;
+        var dado;
+        try {
+          dado = JSON.parse(e.data);
+        } catch (err) {
+          return;
+        }
+        if (dado.event === 'onReady') {
+          comando('mute');
+          comando('playVideo');
+          setTimeout(function () {
+            comando('playVideo');
+          }, 900);
+        }
+      });
+    }
+
     function criarIframe(autoplay) {
       iframe = document.createElement('iframe');
       // youtube-nocookie: sem cookie de tracking enquanto ninguém der play de verdade.
@@ -82,6 +105,18 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
       iframe.className = 'video__iframe';
       palco.appendChild(iframe);
       palco.classList.add('is-playing');
+      ouvirPlayer();
+      // Handshake: sem isto o player não emite onReady nem os eventos de estado.
+      var handshake = setInterval(function () {
+        if (!iframe || !iframe.contentWindow) return;
+        iframe.contentWindow.postMessage(
+          JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }),
+          '*'
+        );
+      }, 300);
+      setTimeout(function () {
+        clearInterval(handshake);
+      }, 4000);
     }
 
     // Comanda o player já criado (pausar ao sair da tela, voltar ao entrar).
@@ -102,15 +137,51 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
       return;
     }
 
+    /* ——— MODO CINEMA (ideia do Mateus, 2026-07-24) ———
+       Depois de ~3,5s com a seção enquadrada, a página toda escurece por baixo de um véu e
+       ficam acesos só o título, o vídeo e o botão. O título clareia junto (chumbo → osso),
+       senão sumiria no escuro. Sai no instante em que a seção deixa a tela.
+       Regras que eu não abri mão: o véu NÃO captura clique (pointer-events:none), então nada
+       trava a rolagem; o BOTÃO continua aceso e clicável — apagar a conversão pra fazer efeito
+       seria trocar venda por firula. */
+    var veu = null;
+    var tempoCinema = null;
+
+    function cinema(ligar) {
+      if (!ligar) {
+        document.documentElement.classList.remove('cinema-on');
+        return;
+      }
+      if (veu) {
+        // Segunda visita à seção: o véu já existe, só reacende.
+        document.documentElement.classList.add('cinema-on');
+        return;
+      }
+      veu = document.createElement('div');
+      veu.className = 'video__veu';
+      document.body.appendChild(veu);
+      // Um respiro antes de ligar a classe, senão o opacity entra sem animar.
+      // (setTimeout e não requestAnimationFrame: rAF não roda em aba de fundo, e aí o véu
+      // ficava criado porém invisível — foi o que apareceu no teste.)
+      setTimeout(function () {
+        document.documentElement.classList.add('cinema-on');
+      }, 20);
+    }
+
     new IntersectionObserver(
       function (entradas) {
         var visivel = entradas[entradas.length - 1].isIntersecting;
         if (visivel && !iframe) criarIframe(true);
         else if (iframe) comando(visivel ? 'playVideo' : 'pauseVideo');
         palco.classList.toggle('is-playing', visivel && !!iframe);
+
+        clearTimeout(tempoCinema);
+        if (visivel) tempoCinema = setTimeout(function () { cinema(true); }, 3500);
+        else cinema(false);
       },
-      // 55%: o vídeo só começa quando está mesmo enquadrado, não de raspão.
-      { threshold: 0.55 }
+      // 40%: começa assim que a seção está de fato enquadrada. Acima disso, em tela baixa
+      // (notebook 13"), o palco às vezes nunca atingia o limiar e o vídeo não engatava.
+      { threshold: 0.4 }
     ).observe(palco);
   })();
 </script>
@@ -125,6 +196,52 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
     margin-inline: auto;
     text-align: center;
     text-wrap: balance;
+    transition: color 700ms ease;
+  }
+
+  /* ——— MODO CINEMA ———
+     O véu é fixo, cobre tudo (inclusive o header) e NÃO recebe clique. Fica abaixo da sticky
+     bar (z-40) e acima do header (z-30). Os três elementos acesos sobem pra 36. */
+  :global(.video__veu) {
+    position: fixed;
+    inset: 0;
+    z-index: 35;
+    pointer-events: none;
+    background: rgb(18 19 19 / 0.88);
+    opacity: 0;
+    transition: opacity 900ms ease;
+  }
+  :global(.cinema-on) .video__veu,
+  :global(.cinema-on) :global(.video__veu) {
+    opacity: 1;
+  }
+  /* .band-light cria contexto de empilhamento (isolation: isolate) — dentro dele, z-index 36
+     não alcança o véu, que vive na raiz. Sem isto, o "holofote" vira só "tudo escurece":
+     foi exatamente o que apareceu no primeiro teste. No modo cinema a seção abre mão do
+     isolamento e os quatro elementos sobem de verdade. */
+  :global(.cinema-on) .video {
+    isolation: auto;
+  }
+  :global(.cinema-on) .video__title,
+  :global(.cinema-on) .video__frame,
+  :global(.cinema-on) .video__cta,
+  :global(.cinema-on) .video__ph {
+    position: relative;
+    z-index: 36;
+  }
+  /* O título vira osso: no escuro, chumbo sobre véu não se lê. */
+  :global(.cinema-on) .video__title,
+  :global(.cinema-on) .video__title strong {
+    color: var(--sand-100);
+  }
+  /* Com tudo escuro em volta, o botão ganha o mesmo contorno que usa nas faixas escuras. */
+  :global(.cinema-on) .video__cta :global(.cta) {
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--petrol-200) 42%, transparent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.video__veu) {
+      transition: none;
+    }
   }
   /* O negrito aqui é hierarquia dentro do H2, que já é 700: sobe pro 800 e escurece o tom.
      Peso sozinho não separaria o suficiente de um título que já é pesado. */
