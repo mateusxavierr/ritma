@@ -48,8 +48,9 @@ export const CTA_REASSURANCE = 'Pelo WhatsApp, sem compromisso.';
 /** aria-label acessível dos links de WhatsApp (PLANO §8): acompanha o swap do label sem edição manual. */
 export const CTA_ARIA_LABEL = `${CTA_LABEL} pelo WhatsApp`;
 
-/** URL canônica do site. Default: domínio da Vercel até a pergunta 13 ser respondida. */
-export const SITE_URL = 'https://ritma-registros.vercel.app';
+/** Origem do site. Deploy de revisão no GitHub Pages (path /ritma/ vem do base do Astro).
+ *  Pra produção em domínio próprio, trocar por ex. 'https://ritmaregistros.com.br' + base '/'. */
+export const SITE_URL = 'https://mateusxavierr.github.io';
 
 /** href único de conversão (PLANO §3), com mensagem por origem do clique. */
 export function waHref(origin: string = 'default'): string {
