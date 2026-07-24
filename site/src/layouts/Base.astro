@@ -4,23 +4,14 @@
  */
 import '../styles/global.css';
 import { SITE_URL } from '../config';
+import copy from '../copy.json';
 
 const canonical = new URL(import.meta.env.BASE_URL, SITE_URL).href;
 const ogImage = new URL(`${import.meta.env.BASE_URL}og.png`, SITE_URL).href;
 
-const title = 'Ritma Registros | Registro de marca seguro e descomplicado';
-const description =
-  'No Brasil, a marca é de quem registra primeiro. Descubra pelo WhatsApp se o seu nome ainda está disponível no INPI.';
-const ogTitle = 'A sua marca é realmente sua?';
-const ogDescription =
-  'Descubra pelo WhatsApp se o seu nome ainda pode ser registrado no INPI. Atendimento digital para todo o Brasil.';
-/*
- * Variante pós-liberação (§10.23) — ativar SÓ se a pergunta 12 confirmar empresa:
- * description = 'No Brasil, a marca é de quem registra primeiro. Faça uma consulta gratuita
- *   pelo WhatsApp e descubra se o seu nome ainda está disponível no INPI.'
- * ogDescription = 'Consulta gratuita pelo WhatsApp: descubra se o seu nome ainda pode ser
- *   registrado no INPI. Atendimento digital para todo o Brasil.'
- */
+/* Metadados saem de src/copy.json, a mesma fonte do hero (regra do Mateus, 2026-07-24:
+   mudou título/eyebrow do hero, muda a OG junto). Nada de string solta aqui. */
+const { title, description, ogTitle, ogDescription, ogImageAlt } = copy.meta;
 ---
 
 <html lang="pt-BR">
@@ -43,7 +34,7 @@ const ogDescription =
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Ritma Registros: a sua marca é realmente sua?" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#EBE8E2" />

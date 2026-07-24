@@ -1,0 +1,25 @@
+{
+  "_comentario": [
+    "FONTE ÚNICA da copy do hero e dos metadados de compartilhamento (regra do Mateus, 2026-07-24:",
+    "mudou título/eyebrow do hero, muda a OG junto). Consumido por três lugares:",
+    "  1. site/src/components/Hero.astro  — o hero renderizado",
+    "  2. site/src/layouts/Base.astro     — <title>, description, og:title, og:description",
+    "  3. scripts/lib/og-image.mjs        — o texto DENTRO da imagem og.png",
+    "Mexeu aqui? Rode `bash scripts/assets.sh` (ou só a etapa 4) pra regerar o og.png,",
+    "senão a imagem de compartilhamento continua com a frase velha.",
+    "hero.sub aceita **negrito** (só isso); meta.* é texto puro — meta tag não renderiza HTML."
+  ],
+  "hero": {
+    "eyebrow": "Você constrói. A gente protege.",
+    "title": "Tenha ao seu lado um acompanhamento completo para proteger a marca que você está construindo.",
+    "sub": "A Ritma orienta empreendedoras no **registro, acompanhamento e proteção jurídica** de suas marcas, com clareza, cuidado e segurança **em cada etapa**."
+  },
+  "meta": {
+    "title": "Ritma Registros | Registro de marca seguro e descomplicado",
+    "description": "A Ritma orienta empreendedoras no registro de marcas no INPI: acompanhamento e proteção jurídica com clareza, cuidado e segurança em cada etapa.",
+    "ogTitle": "Você constrói. A gente protege.",
+    "ogDescription": "A Ritma orienta empreendedoras no registro, acompanhamento e proteção jurídica de suas marcas, com clareza, cuidado e segurança em cada etapa.",
+    "ogImageAlt": "Ritma Registros: você constrói, a gente protege.",
+    "ogImageLines": ["Você constrói.", "A gente protege."]
+  }
+}

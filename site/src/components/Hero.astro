@@ -11,6 +11,11 @@
  */
 import { Picture } from 'astro:assets';
 import heroAmanda from '../assets/hero-amanda.jpg';
+import copy from '../copy.json';
+
+/* O subtítulo é o ÚNICO texto com marcação: **negrito** vira <strong>. Nada mais é
+   interpretado, e a fonte é um JSON do próprio repositório — sem entrada de terceiro. */
+const subHtml = copy.hero.sub.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
 import CtaButton from './CtaButton.astro';
 
 // Bandas de recorte de cada letra do RITMA (medidas por cobertura de tinta do SVG osso).
@@ -44,26 +49,13 @@ const letras = [
         <div class="wordmark__registros" aria-hidden="true">Registros</div>
       </div>
 
-      {/* Eyebrow (2026-07-24, skill `copywriting`): ecoa o verbo do H1 ("a marca que você está
-          construindo") e o "caminhar junto" do subtítulo, em 31 caracteres — teto pra caber em
-          1 linha em caixa alta a 375px. Sem promessa de resultado (OAB). */}
-      <p class="hero__eyebrow">Você constrói. A gente protege.</p>
-      {/* H1 e subtítulo: texto do Mateus/Amanda (2026-07-24), aplicado na íntegra.
-          H1 tem 93 caracteres — usa a escala própria .hero__title (menor que --text-display),
-          porque display de 56px em 93 caracteres estoura o hero mobile. */}
-      <h1 class="hero__title">
-        Tenha ao seu lado um acompanhamento completo para proteger a marca que você está construindo.
-      </h1>
-      <div class="hero__sub">
-        <p>
-          A Ritma orienta empreendedoras no registro, acompanhamento e proteção jurídica de suas
-          marcas, com clareza, cuidado e segurança em cada etapa.
-        </p>
-        <p>
-          Mais do que dar entrada em um pedido, nosso trabalho é caminhar junto com você para
-          proteger o nome, a identidade e a reputação que fazem parte da história do seu negócio.
-        </p>
-      </div>
+      {/* Texto vem de src/copy.json — mesma fonte dos metadados de compartilhamento e do
+          texto dentro do og.png, pra eyebrow/título e OG nunca divergirem (regra do Mateus).
+          Eyebrow em 31 caracteres: teto pra 1 linha em caixa alta a 375px.
+          H1 com 93 caracteres usa a escala própria .hero__title, menor que --text-display. */}
+      <p class="hero__eyebrow">{copy.hero.eyebrow}</p>
+      <h1 class="hero__title">{copy.hero.title}</h1>
+      <p class="hero__sub" set:html={subHtml} />
       <div class="hero__cta">
         <CtaButton id="hero-cta" variant="inverse" block align="start" origin="hero" />
       </div>
@@ -185,18 +177,12 @@ const letras = [
     margin-top: 12px;
     max-width: 46ch;
     color: var(--text-on-dark-soft);
-    display: grid;
-    gap: 10px;
   }
-  /* 2º parágrafo do subtítulo: fora da primeira tela no mobile ele empurraria o CTA pra baixo
-     da dobra. Some abaixo de md — o 1º parágrafo já entrega a proposta inteira. */
-  .hero__sub p:nth-child(2) {
-    display: none;
-  }
-  @media (min-width: 768px) {
-    .hero__sub p:nth-child(2) {
-      display: block;
-    }
+  /* Negrito do subtítulo: sobe do texto suave (70% do osso) pro osso cheio. O peso sozinho
+     não bastava sobre fundo escuro — sem o ganho de luminância a ênfase some. */
+  .hero__sub :global(strong) {
+    font-weight: 700;
+    color: var(--text-on-dark);
   }
   .hero__cta {
     margin-top: 20px;
