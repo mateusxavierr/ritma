@@ -4,10 +4,20 @@
  * Rosto real + nome + papel + credenciais + citação, ANTES do pedido de conversa (§5.9, §10.24).
  * Foto: photo 7 (Amanda, olhar direto, fundo escuro) fundindo na faixa via máscara.
  *
- * REGRA (feedback do Mateus): não inventar. O que NÃO temos confirmado (formação, OAB, tempo de
- * atuação, nº de marcas, citação real) entra como PLACEHOLDER AMARELO visível (.ph) — impossível
- * confundir com final. Some quando a Amanda preencher (PERGUNTAS-ABERTAS 11).
- * O que é real/sabido está escrito de verdade (Ritma, INPI/PI, atendimento nacional, @ritmaregistros).
+ * REGRA (feedback do Mateus): não inventar. O que NÃO temos confirmado entra como PLACEHOLDER
+ * AMARELO visível (.ph) — impossível confundir com final.
+ *
+ * 2026-07-24: PERGUNTAS-ABERTAS 11 RESPONDIDA pela Amanda (bio + trajetória). Todos os .ph desta
+ * seção saíram; a classe .ph continua definida no <style> por ser o marcador do projeto.
+ * Decisões de edição (aprovadas pelo Mateus):
+ * — Bio vira 1ª pessoa (é a voz do texto dela; nenhuma outra seção fala da Amanda em prosa).
+ * — Trajetória de ~250 → ~110 palavras, preservando o gancho (professor de espanhol), a virada
+ *   (Direito) e a prova (2022, +60 processos). Fundida com o antigo "além do protocolo".
+ * — Citação = última frase do texto dela; removida do corpo pra não repetir na mesma tela.
+ * — Pós-graduação em Direito Imobiliário FORA das credenciais: é real, mas dilui o
+ *   posicionamento de foco exclusivo em marcas.
+ * — "+60 processos" só aqui e em formulação informativa (OAB-safe, Provimento 205/2021):
+ *   "acompanhei mais de 60 processos", não "60 marcas registradas com sucesso".
  */
 import { Picture } from 'astro:assets';
 import amanda from '../assets/autoridade.jpg';
@@ -31,40 +41,37 @@ import amanda from '../assets/autoridade.jpg';
       <p class="autoridade__eyebrow reveal">Quem vai cuidar da sua marca</p>
       <p class="autoridade__nome reveal" style="--reveal-delay:80ms">Amanda Pereira</p>
       <p class="autoridade__papel reveal" style="--reveal-delay:120ms">
-        Especialista em Registro de Marcas
-        <span class="ph">OAB/PE 000.000 — confirmar nº</span>
+        Especialista em Registro de Marcas · OAB/PE 57.651
       </p>
 
-      {/* Credenciais — estrutura de autoridade (todas placeholder até a Amanda confirmar) */}
+      {/* Credenciais — confirmadas pela Amanda (2026-07-24) */}
       <ul class="autoridade__creds reveal" style="--reveal-delay:180ms">
-        <li><span class="ph">Formação — ex.: Direito, [Universidade]</span></li>
-        <li><span class="ph">Especialização em Propriedade Intelectual — confirmar</span></li>
-        <li><span class="ph">Atua com marcas há [X] anos / desde [ano]</span></li>
+        <li>Bacharel em Direito — ASCES/UNITA (2019)</li>
+        <li>Capacitação em Registro de Marcas e formação promovida pelo INPI</li>
+        <li>Atuação exclusiva em registro de marcas desde 2022</li>
       </ul>
 
       <div class="autoridade__bio reveal" style="--reveal-delay:240ms">
         <p>
-          À frente da Ritma Registros, Amanda conduz processos de registro de marca no INPI e
-          proteção de propriedade intelectual, com atendimento digital para todo o Brasil.
+          Minha conexão com marcas começou antes do Direito. Na escola, um professor de espanhol
+          contava como as grandes marcas nasceram — o nome, o símbolo, a estratégia por trás de cada
+          identidade. Cheguei a imaginar que seria designer de marcas.
         </p>
         <p>
-          <span class="ph"
-            >Trajetória da Amanda — quando começou, o que a levou a se dedicar a marcas, casos ou
-            números que dão autoridade. Escreva com ela; isso é o coração desta seção.</span
-          >
+          No curso de Direito, descobri outro jeito de trabalhar nesse universo: proteger
+          juridicamente aquilo que torna uma marca única. Era o caminho que fazia sentido pra mim.
         </p>
         <p>
-          Seu trabalho vai além do protocolo: definição da classe certa, acompanhamento de cada
-          despacho do INPI e uma conversa sem juridiquês — pra você entender e decidir cada passo
-          com segurança.
+          Desde 2022 atuo exclusivamente com registro de marcas no INPI — já acompanhei mais de 60
+          processos. Antes de qualquer protocolo, quero entender o nome, as cores, os valores.
+          Escolher a classe certa, acompanhar cada despacho e conversar sem juridiquês, pra você
+          decidir cada passo com segurança.
         </p>
       </div>
 
-      {/* Citação — dá muita autoridade e humaniza. Frase REAL da Amanda (não inventar). */}
+      {/* Citação — frase REAL da Amanda (fecho do texto de trajetória que ela enviou). */}
       <blockquote class="autoridade__quote reveal" style="--reveal-delay:300ms">
-        <span class="ph"
-          >Frase da Amanda sobre por que proteger a marca importa — 1 ou 2 linhas, com a voz dela.</span
-        >
+        Cada marca carrega uma história que merece ser protegida.
       </blockquote>
 
       <a
