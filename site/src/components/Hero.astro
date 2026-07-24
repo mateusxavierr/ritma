@@ -242,12 +242,21 @@ const rGlyphOsso = import.meta.env.BASE_URL + 'r-glyph-osso.svg';
       display: block;
       position: absolute;
       z-index: -1;
-      left: 44%;
+      /* Ancorado À DIREITA, sangrando pra fora: a haste vertical do R fica atrás da foto e a
+         barriga escapa pela borda. Centralizado no vão (era left: 44%), a haste virava uma
+         linha vertical dura colada na foto — parecia emenda, não profundidade. */
+      right: -10%;
       top: 50%;
       transform: translateY(-50%);
-      height: 150%;
+      height: 155%;
       width: auto;
-      opacity: 0.03;
+      opacity: 0.05;
+      /* A haste do R é uma barra vertical de borda dura — mesmo a 3% ela lia como emenda no
+         fundo. A máscara dissolve o lado esquerdo do glifo, então só a barriga curva aparece,
+         nascendo do nada. O blur tira o resto da aresta. */
+      -webkit-mask-image: linear-gradient(90deg, transparent 8%, #000 62%);
+      mask-image: linear-gradient(90deg, transparent 8%, #000 62%);
+      filter: blur(1.5px);
       pointer-events: none;
       user-select: none;
     }
@@ -309,9 +318,9 @@ const rGlyphOsso = import.meta.env.BASE_URL + 'r-glyph-osso.svg';
       content: '';
       position: absolute;
       z-index: -1;
-      inset: -12% -8%;
+      inset: -24% -18%;
       pointer-events: none;
-      background: radial-gradient(52% 48% at 52% 40%, rgb(255 255 255 / 0.07), transparent 72%);
+      background: radial-gradient(46% 44% at 53% 38%, rgb(255 255 255 / 0.05), transparent 78%);
     }
     .hero__photo {
       position: static;
@@ -327,8 +336,25 @@ const rGlyphOsso = import.meta.env.BASE_URL + 'r-glyph-osso.svg';
          de bordas macias — os cantos continuavam denunciando a forma, e o resultado ficava
          entre moldura e fusão. Máscara RADIAL não tem canto: a foto deixa de existir conforme
          se afasta do centro. Um gradiente só, sem mask-composite. */
-      -webkit-mask-image: radial-gradient(64% 68% at 54% 43%, #000 38%, rgba(0, 0, 0, 0) 88%);
-      mask-image: radial-gradient(64% 68% at 54% 43%, #000 38%, rgba(0, 0, 0, 0) 88%);
+      /* A elipse tem que chegar a ZERO antes de cada borda da caixa, senão sobra degrau.
+         Com centro em 50% 46%, os raios 50% e 46% batem exatamente nas bordas esquerda,
+         direita e topo — e a de baixo fica além do gradiente, ou seja, também transparente.
+         Foi o erro da primeira tentativa: raio maior que a distância até o topo deixava a
+         borda superior em ~55% de opacidade, e o retângulo da foto aparecia. */
+      -webkit-mask-image: radial-gradient(
+        50% 46% at 50% 46%,
+        #000 20%,
+        rgba(0, 0, 0, 0.85) 48%,
+        rgba(0, 0, 0, 0.45) 74%,
+        rgba(0, 0, 0, 0) 100%
+      );
+      mask-image: radial-gradient(
+        50% 46% at 50% 46%,
+        #000 20%,
+        rgba(0, 0, 0, 0.85) 48%,
+        rgba(0, 0, 0, 0.45) 74%,
+        rgba(0, 0, 0, 0) 100%
+      );
     }
   }
 

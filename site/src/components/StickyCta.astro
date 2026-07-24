@@ -39,9 +39,11 @@ import { CTA_ARIA_LABEL, CTA_LABEL, waHref } from '../config';
         });
         bar.classList.toggle('is-visible', naTela.size === 0);
       },
-      // A margem inferior desconta a faixa que a própria barra ocupa: botão escondido ATRÁS
-      // da barra não conta como visível — senão os dois se revezariam piscando na mesma rolagem.
-      { rootMargin: '0px 0px -84px 0px' }
+      // Sem margem negativa (2026-07-24): ela descontava os 84px de baixo pra ignorar botão
+      // escondido atrás da barra, mas no estado de ENTRADA do mobile o CTA do hero fica
+      // justamente ali, coladinho no rodapé da primeira tela — e a barra subia por cima dele,
+      // dois botões empilhados. Regra agora é literal: um pixel de botão na tela, barra fora.
+      { rootMargin: '0px' }
     );
     botoes.forEach(function (b) {
       obs.observe(b);
