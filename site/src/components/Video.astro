@@ -1,0 +1,93 @@
+---
+/**
+ * Seção 2 — vídeo (pedido do Mateus, 2026-07-24; estrutura de referência: hero → vídeo → ...).
+ * Título acima, vídeo no meio, CTA abaixo. Fundo com a marca d'água de R (padrão oficial).
+ *
+ * O VÍDEO É PLACEHOLDER: moldura 16:9 marcada em amarelo (.ph, convenção do projeto pra
+ * "isto não é final"). Quando o vídeo da Amanda chegar (PERGUNTAS-ABERTAS 7), trocar o bloco
+ * .video__frame por <iframe>/<video> e apagar a etiqueta .ph — nada mais muda.
+ */
+import CtaButton from './CtaButton.astro';
+---
+
+<section class="video">
+  <span class="texture-r-ink" aria-hidden="true"></span>
+  <div class="container-page py-16 md:py-24">
+    <h2 class="text-h2 video__title reveal">
+      A <strong>proteção</strong> que seu negócio precisa para <strong>crescer com segurança</strong>!
+    </h2>
+
+    <div class="video__frame reveal" style="--reveal-delay:120ms">
+      <span class="video__play" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
+          <path d="M8 5v14l11-7z"></path>
+        </svg>
+      </span>
+      <span class="ph video__ph">Placeholder — o vídeo da Amanda entra aqui</span>
+    </div>
+
+    <div class="video__cta reveal" style="--reveal-delay:180ms">
+      <CtaButton align="center" origin="video" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .video {
+    position: relative;
+    isolation: isolate;
+    background: var(--surface-page);
+  }
+
+  .video__title {
+    max-width: 22ch;
+    margin-inline: auto;
+    text-align: center;
+    text-wrap: balance;
+  }
+  /* O negrito aqui é hierarquia dentro do H2, que já é 700: sobe pro 800 e escurece o tom.
+     Peso sozinho não separaria o suficiente de um título que já é pesado. */
+  .video__title strong {
+    font-weight: 800;
+    color: var(--text-primary);
+  }
+
+  /* Moldura 16:9 — vira <iframe>/<video> sem mexer no layout */
+  .video__frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin: 32px auto 0;
+    max-width: 860px;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--border-subtle);
+    border-radius: 20px;
+    background: var(--surface-soft);
+    box-shadow: var(--shadow-elev);
+  }
+  .video__play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--surface-page);
+    border: 1px solid var(--border-strong);
+    color: var(--text-secondary);
+  }
+  .video__ph {
+    max-width: 80%;
+    text-align: center;
+    font-size: var(--text-caption);
+  }
+
+  .video__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+  }
+</style>

@@ -56,7 +56,9 @@ const passos = [
         }
       </ol>
 
-      <div class="cf-cta hidden md:flex reveal">
+      {/* 2026-07-24: era `hidden md:flex` (§10.26, CTA de meio só no desktop). Regra nova do
+          Mateus: todo botão do desktop existe no mobile — a sticky bar é que se ajusta. */}
+      <div class="cf-cta reveal">
         <CtaButton
           label="Começar pela etapa 1 — verificar a disponibilidade da minha marca"
           align="center"
@@ -162,6 +164,7 @@ const passos = [
   }
 
   .cf-cta {
+    display: flex; /* vinha do utilitário `md:flex` que saiu junto com o `hidden` */
     justify-content: center;
     margin-top: 44px;
   }

@@ -1,9 +1,12 @@
 ---
 /**
  * Sticky CTA bar mobile (PLANO §5.12): ÚNICO elemento fixo da página.
- * Nunca no primeiro paint; aparece quando o CTA do hero sai da viewport e some
- * enquanto o bloco escuro de fechamento está visível (evita CTA duplicado e
- * chumbo-sobre-chumbo ilegível). z-index 40: único z alto da página.
+ *
+ * Regra nova (Mateus, 2026-07-24): TODO botão do desktop também existe no mobile, e a barra
+ * é quem se ajusta — ela aparece só quando NENHUM botão de conversão está na tela. Resultado:
+ * sempre há exatamente um botão visível, seja o da seção, seja a barra.
+ * Antes ela observava só o CTA do hero e o do bloco final; agora observa todos os .cta-lg.
+ * z-index 40: único z alto da página.
  */
 import { CTA_ARIA_LABEL, CTA_LABEL, waHref } from '../config';
 ---
@@ -20,22 +23,29 @@ import { CTA_ARIA_LABEL, CTA_LABEL, waHref } from '../config';
 <script is:inline>
   (function () {
     var bar = document.getElementById('sticky-cta');
-    var heroCta = document.getElementById('hero-cta');
-    var ctaFinal = document.getElementById('cta-final');
-    if (!bar || !heroCta || !ctaFinal || !('IntersectionObserver' in window)) return;
-    var heroVisible = true;
-    var finalVisible = false;
-    var update = function () {
-      bar.classList.toggle('is-visible', !heroVisible && !finalVisible);
-    };
-    new IntersectionObserver(function (entries) {
-      heroVisible = entries[entries.length - 1].isIntersecting;
-      update();
-    }).observe(heroCta);
-    new IntersectionObserver(function (entries) {
-      finalVisible = entries[entries.length - 1].isIntersecting;
-      update();
-    }).observe(ctaFinal);
+    if (!bar || !('IntersectionObserver' in window)) return;
+
+    // Todos os botões de conversão da página (o .cta-sm do header fica de fora: é secundário
+    // e vive num header fixo, então nunca deixaria a barra aparecer).
+    var botoes = document.querySelectorAll('.cta-lg');
+    if (!botoes.length) return;
+
+    var naTela = new Set();
+    var obs = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) naTela.add(e.target);
+          else naTela.delete(e.target);
+        });
+        bar.classList.toggle('is-visible', naTela.size === 0);
+      },
+      // A margem inferior desconta a faixa que a própria barra ocupa: botão escondido ATRÁS
+      // da barra não conta como visível — senão os dois se revezariam piscando na mesma rolagem.
+      { rootMargin: '0px 0px -84px 0px' }
+    );
+    botoes.forEach(function (b) {
+      obs.observe(b);
+    });
   })();
 </script>
 

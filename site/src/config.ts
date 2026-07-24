@@ -14,6 +14,7 @@ export const WHATSAPP_NUMBER = '5581997469578';
 export const WA_MESSAGES: Record<string, string> = {
   default: 'Olá! Vim pelo site da Ritma sobre registro de marcas. Tenho interesse em mais informações.',
   hero: 'Olá! Vim pelo site da Ritma e quero saber se a minha marca ainda pode ser registrada.',
+  video: 'Olá! Vim pelo site da Ritma e quero proteger a marca do meu negócio.',
   comofunciona: 'Olá! Vim pelo site da Ritma e quero entender como funciona o registro da minha marca.',
   oferta: 'Olá! Vim pelo site da Ritma e quero saber mais sobre o registro da minha marca.',
   final: 'Olá! Vim pelo site da Ritma e quero verificar se a minha marca ainda está livre.',
