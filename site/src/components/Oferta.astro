@@ -94,6 +94,13 @@ import rCeramico from '../assets/r-ceramico.png';
     justify-content: center;
     isolation: isolate;
   }
+  /* Mobile: esconde o R (opção A do Mateus) — a composição R+card só faz sentido lado a lado;
+     no mobile a oferta lidera e o R só comeria espaço vertical. */
+  @media (max-width: 1023.98px) {
+    .oferta__r {
+      display: none;
+    }
+  }
   .oferta__r-img {
     position: relative;
     z-index: 1;
