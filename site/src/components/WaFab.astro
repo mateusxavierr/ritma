@@ -17,16 +17,18 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
 </a>
 
 <style>
+  /* No MOBILE o FAB não existe (fica só a sticky bar de baixo — decisão do Mateus pra os dois
+     botões não coexistirem). Aparece só no desktop, onde não há sticky bar. */
   .wa-fab {
+    display: none;
     position: fixed;
-    right: 20px;
-    bottom: 88px; /* mobile: acima da sticky bar (56px) + folga */
+    right: 28px;
+    bottom: 28px;
     z-index: 45;
-    display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 58px;
-    height: 58px;
+    width: 62px;
+    height: 62px;
     border-radius: 50%;
     background: #25d366;
     color: #fff;
@@ -40,10 +42,7 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
   }
   @media (min-width: 768px) {
     .wa-fab {
-      right: 28px;
-      bottom: 28px; /* desktop: sem sticky bar, encosta embaixo */
-      width: 62px;
-      height: 62px;
+      display: inline-flex;
     }
   }
   .wa-fab:hover {

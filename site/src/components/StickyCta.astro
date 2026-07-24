@@ -40,19 +40,24 @@ import { CTA_ARIA_LABEL, CTA_LABEL, waHref } from '../config';
 </script>
 
 <style>
+  /* Pílula flutuante (melhorada — feedback do Mateus): margens, cantos e sombra,
+     em vez de barra colada na borda. */
   .sticky-bar {
     position: fixed;
-    inset-inline: 0;
-    bottom: 0;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
     z-index: 40;
     background: var(--cta-bg);
-    padding-bottom: env(safe-area-inset-bottom);
-    box-shadow: var(--shadow-elev);
-    transform: translateY(100%);
+    border-radius: 16px;
+    box-shadow:
+      0 8px 26px rgb(20 21 21 / 0.3),
+      0 2px 6px rgb(0 0 0 / 0.2);
+    transform: translateY(calc(100% + 16px));
     visibility: hidden;
     transition:
-      transform 200ms ease,
-      visibility 200ms;
+      transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+      visibility 280ms;
   }
   .sticky-bar.is-visible {
     transform: translateY(0);
@@ -60,10 +65,11 @@ import { CTA_ARIA_LABEL, CTA_LABEL, waHref } from '../config';
   }
   .sticky-link {
     display: flex;
-    height: 56px;
+    height: 58px;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 10px;
+    border-radius: 16px;
     color: var(--cta-text);
     font-size: 16px;
     font-weight: 700;
