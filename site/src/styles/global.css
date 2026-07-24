@@ -120,6 +120,19 @@
       linear-gradient(180deg, var(--surface-dark-top), var(--surface-dark-bottom));
     color: var(--text-on-dark);
   }
+  /* Grain de filme em TODA faixa escura (padrão firmado 2026-07-24): textura tátil de
+     estúdio, dentro dos 2 tons. feTurbulence inline — sem asset externo. */
+  .band-dark::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='150' height='150'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+  }
 
   /* Textura de R (padrão oficial das diretrizes) — camada de profundidade sutil.
      .texture-r sobre faixa escura (R's osso), .texture-r-ink sobre faixa clara (R's chumbo). */
