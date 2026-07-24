@@ -79,11 +79,14 @@
   --cta-bg: var(--petrol-700);
   --cta-bg-hover: var(--petrol-800);
   --cta-text: var(--white);
-  /* Na faixa escura o petróleo cheio fica invisível (1.05:1 contra o fundo chumbo):
-     lá o botão vira o TINT do mesmo petróleo, com o petróleo escuro no texto. */
-  --cta-inverse-bg: var(--petrol-200);
-  --cta-inverse-bg-hover: var(--petrol-100);
-  --cta-inverse-text: var(--petrol-800);
+  /* 2026-07-24 — pedido do Mateus: MESMA cor em todo botão, inclusive dentro da faixa escura.
+     Custo medido e aceito: petrol-700 contra a faixa chumbo dá ~1.1:1 de contraste de fundo
+     (o mínimo pra componente de UI é 3:1). O texto branco sobre o botão continua em 9.5:1,
+     então o rótulo se lê; o que fica fraco é a BORDA do botão contra o fundo — quem enxerga
+     pouco pode não achar onde clicar. Reverter = apontar estes 3 tokens de volta pro tint. */
+  --cta-inverse-bg: var(--petrol-700);
+  --cta-inverse-bg-hover: var(--petrol-800);
+  --cta-inverse-text: var(--white);
   --focus-ring: var(--ink-700); /* sobrescrito pra sand-100 no bloco escuro */
 
   /* Única elevação permitida (PLANO §2.3): card de oferta e sticky bar. Tinted no chumbo. */
