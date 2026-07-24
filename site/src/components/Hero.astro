@@ -44,19 +44,26 @@ const letras = [
         <div class="wordmark__registros" aria-hidden="true">Registros</div>
       </div>
 
-      {/* Eyebrow (2026-07-24, skill `copywriting`): aponta pro passo 1 — a consulta de
-          disponibilidade — casando com o CTA de fechamento do "Como funciona".
-          Pergunta retórica: faz o leitor checar a própria situação antes de ler o H1.
-          Teto de ~30 caracteres: acima disso quebra em 2 linhas em caixa alta a 375px. */}
-      <p class="hero__eyebrow">Etapa 1: seu nome está livre?</p>
-      {/* H1 (troca pedida pelo Mateus, 2026-07-24): era "Quem não registra, perde." — gancho de
-          risco. Agora é promessa de serviço; o risco passa a viver no subtítulo abaixo.
-          "Tenha um" saiu: em tipo display, palavra sem carga custa uma linha inteira. */}
-      <h1 class="hero__title text-display">Acompanhamento completo para proteger a sua marca.</h1>
-      <p class="hero__sub">
-        A sua marca é realmente sua? No Brasil, a marca é de quem registra primeiro no INPI — não de
-        quem usa há mais tempo.
-      </p>
+      {/* Eyebrow (2026-07-24, skill `copywriting`): ecoa o verbo do H1 ("a marca que você está
+          construindo") e o "caminhar junto" do subtítulo, em 31 caracteres — teto pra caber em
+          1 linha em caixa alta a 375px. Sem promessa de resultado (OAB). */}
+      <p class="hero__eyebrow">Você constrói. A gente protege.</p>
+      {/* H1 e subtítulo: texto do Mateus/Amanda (2026-07-24), aplicado na íntegra.
+          H1 tem 93 caracteres — usa a escala própria .hero__title (menor que --text-display),
+          porque display de 56px em 93 caracteres estoura o hero mobile. */}
+      <h1 class="hero__title">
+        Tenha ao seu lado um acompanhamento completo para proteger a marca que você está construindo.
+      </h1>
+      <div class="hero__sub">
+        <p>
+          A Ritma orienta empreendedoras no registro, acompanhamento e proteção jurídica de suas
+          marcas, com clareza, cuidado e segurança em cada etapa.
+        </p>
+        <p>
+          Mais do que dar entrada em um pedido, nosso trabalho é caminhar junto com você para
+          proteger o nome, a identidade e a reputação que fazem parte da história do seu negócio.
+        </p>
+      </div>
       <div class="hero__cta">
         <CtaButton id="hero-cta" variant="inverse" block align="start" origin="hero" />
       </div>
@@ -163,16 +170,33 @@ const letras = [
     color: var(--text-on-dark-soft);
     margin-bottom: 12px;
   }
+  /* Escala própria, menor que --text-display (34→56px): o H1 tem 93 caracteres e em display
+     cheio ocupa 5 linhas no mobile, empurrando o CTA pra fora da primeira tela. Título longo
+     pede corpo menor — a hierarquia continua intacta porque nada mais no hero compete. */
   .hero__title {
     color: var(--text-on-dark);
-    /* 15ch era medida do H1 curto anterior (22 caracteres). Com o H1 de 50 caracteres,
-       15ch renderiza 4 linhas de display; 20ch segura em 3. */
-    max-width: 20ch;
+    font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.375rem); /* 24→38px */
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    font-weight: 800;
+    max-width: 26ch;
   }
   .hero__sub {
     margin-top: 12px;
-    max-width: 40ch;
+    max-width: 46ch;
     color: var(--text-on-dark-soft);
+    display: grid;
+    gap: 10px;
+  }
+  /* 2º parágrafo do subtítulo: fora da primeira tela no mobile ele empurraria o CTA pra baixo
+     da dobra. Some abaixo de md — o 1º parágrafo já entrega a proposta inteira. */
+  .hero__sub p:nth-child(2) {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .hero__sub p:nth-child(2) {
+      display: block;
+    }
   }
   .hero__cta {
     margin-top: 20px;
