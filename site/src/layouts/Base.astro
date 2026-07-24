@@ -36,9 +36,9 @@ const { title, description, ogTitle, ogDescription, ogImageAlt } = copy.meta;
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
-    {/* Site inteiro escuro desde 2026-07-24: a barra do navegador acompanha o fundo. */}
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#2E3030" />
+    {/* theme-color = topo da página (hero escuro); a página como um todo é clara. */}
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#3A3C3C" />
     <link rel="canonical" href={canonical} />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="32x32" />
     <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />

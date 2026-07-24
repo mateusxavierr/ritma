@@ -11,7 +11,7 @@ import CtaButton from './CtaButton.astro';
 import rCeramico from '../assets/r-ceramico.png';
 ---
 
-<section class="oferta band-dark">
+<section class="oferta band-light">
   <div class="container-page oferta__grid">
     <div class="oferta__r reveal" aria-hidden="true">
       <Picture
@@ -90,8 +90,7 @@ import rCeramico from '../assets/r-ceramico.png';
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    /* Halo atrás do R: no escuro tem que CLAREAR (era chumbo a 6%, invisível). */
-    background: radial-gradient(48% 42% at 50% 52%, rgb(235 232 226 / 0.05), transparent 70%);
+    background: radial-gradient(48% 42% at 50% 52%, rgb(76 78 78 / 0.06), transparent 70%);
   }
   /* Mobile: esconde o R (opção A do Mateus) — composição R+card só faz sentido lado a lado. */
   @media (max-width: 1023.98px) {
@@ -129,7 +128,7 @@ import rCeramico from '../assets/r-ceramico.png';
     position: absolute;
     inset: 0 0 auto 0;
     height: 4px;
-    background: var(--sand-100); /* era ink-700: acento tem que CLAREAR sobre card escuro */
+    background: var(--text-primary); /* segue a faixa: chumbo no claro, osso no escuro */
   }
 
   .oferta-card__title {
@@ -179,9 +178,8 @@ import rCeramico from '../assets/r-ceramico.png';
     top: 6px;
     width: 5px;
     height: 9px;
-    /* Site escuro (2026-07-24): o check era chumbo e sumia — agora é osso. */
-    border-right: 2px solid var(--sand-100);
-    border-bottom: 2px solid var(--sand-100);
+    border-right: 2px solid var(--text-primary);
+    border-bottom: 2px solid var(--text-primary);
     transform: rotate(45deg);
   }
 

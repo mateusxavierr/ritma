@@ -37,7 +37,7 @@ const perfis = [
 ];
 ---
 
-<section class="band-light paraquem">
+<section class="band-dark paraquem">
   <span class="paraquem__glow" aria-hidden="true"></span>
   <div class="container-page py-16 md:py-24">
     {/* Título trocado pelo Mateus em 2026-07-24 (era "Isso é pra você?"). */}
@@ -77,9 +77,9 @@ const perfis = [
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    /* Faixa clara (2026-07-24): o respiro que escurecia a base saiu — sobrou só o foco
-       central, agora em branco, pra dar a mesma sensação de luz de estúdio no claro. */
-    background: radial-gradient(58% 46% at 50% 46%, rgb(255 255 255 / 0.55), transparent 72%);
+    background:
+      radial-gradient(58% 46% at 50% 46%, rgb(255 255 255 / 0.06), transparent 72%),
+      radial-gradient(90% 60% at 50% 120%, rgb(20 21 21 / 0.5), transparent 70%);
   }
   .paraquem__title {
     color: var(--text-on-dark);

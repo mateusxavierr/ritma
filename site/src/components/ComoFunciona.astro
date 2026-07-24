@@ -9,6 +9,7 @@
  * empresa (Provimento 205/2021, §10.23). CTA de meio só ≥768px (§10.26; mobile tem sticky bar).
  */
 import CtaButton from './CtaButton.astro';
+import rGlyph from '../assets/r-glyph.svg';
 
 const passos = [
   {
@@ -35,7 +36,11 @@ const passos = [
 /* Variante pós-liberação (§10.23): passo 1 pode ganhar a pílula `Consulta gratuita`. */
 ---
 
-<section class="band-dark">
+<section class="band-light cf-sec">
+  {/* Glifo R gigante que morava na seção "Problema" e passou pelo vídeo — acabou aqui
+      (2026-07-24): era a única seção sem textura, e o R atrás do painel dá profundidade
+      sem competir com os numerais fantasma. */}
+  <img src={rGlyph.src} alt="" aria-hidden="true" class="cf-r" />
   <div class="container-page py-16 md:py-24">
     <div class="cf-panel">
       <p class="cf-eyebrow reveal">Do WhatsApp ao certificado</p>
@@ -70,6 +75,28 @@ const passos = [
 </section>
 
 <style>
+  .cf-sec {
+    overflow: hidden;
+  }
+  .cf-r {
+    position: absolute;
+    z-index: -1;
+    left: -14%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 116%;
+    width: auto;
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+  }
+  @media (min-width: 768px) {
+    .cf-r {
+      left: -4%;
+      opacity: 0.06;
+    }
+  }
+
   .cf-panel {
     border: 1px solid var(--border-subtle);
     border-radius: 24px;

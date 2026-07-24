@@ -103,12 +103,17 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
       height: 26px;
     }
   }
-  /* 2026-07-24 (alternância invertida): o hero virou faixa CLARA, então o logo é CHUMBO
-     desde o topo — e continua chumbo na pílula, que também é clara. O <img> osso fica no
-     HTML sem aparecer; volta se o hero escurecer de novo. */
-  .nav__logo--osso {
+  /* topo sobre hero escuro → osso; ao rolar → chumbo (pílula clara) */
+  .nav__logo--ink {
     position: absolute;
     opacity: 0;
+  }
+  .site-header.is-scrolled .nav__logo--osso {
+    opacity: 0;
+  }
+  .site-header.is-scrolled .nav__logo--ink {
+    position: static;
+    opacity: 1;
   }
 
   /* CTA mobile: outline claro sobre o hero; ao rolar acompanha a pílula clara */
@@ -119,9 +124,9 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
     align-items: center;
     gap: 8px;
     padding: 8px 14px;
-    border: 1px solid var(--border-strong);
+    border: 1px solid color-mix(in srgb, var(--sand-100) 45%, transparent);
     border-radius: 12px;
-    color: var(--text-primary);
+    color: var(--text-on-dark);
     font-size: 14px;
     font-weight: 700;
     line-height: 1.5;
@@ -149,15 +154,15 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
   /* CTA desktop do header: outline claro sobre o hero escuro; sólido chumbo ao rolar */
   .site-header :global(.cta-solid) {
     background-color: transparent;
-    color: var(--text-primary);
-    box-shadow: inset 0 0 0 1px var(--border-strong);
+    color: var(--text-on-dark);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--sand-100) 42%, transparent);
     transition:
       background-color 200ms ease,
       color 200ms ease,
       box-shadow 200ms ease;
   }
   .site-header :global(.cta-solid:hover) {
-    background-color: color-mix(in srgb, var(--ink-700) 8%, transparent);
+    background-color: color-mix(in srgb, var(--sand-100) 12%, transparent);
   }
   .site-header.is-scrolled :global(.cta-solid) {
     background-color: var(--cta-bg);

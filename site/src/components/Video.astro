@@ -8,23 +8,22 @@
  * .video__frame por <iframe>/<video> e apagar a etiqueta .ph — nada mais muda.
  */
 import CtaButton from './CtaButton.astro';
-/* R OSSO (não o chumbo de assets/): com o site escuro, o glifo chumbo sumiria no fundo. */
-const rGlyphOsso = `${import.meta.env.BASE_URL}r-glyph-osso.svg`;
 ---
 
-<section class="video band-dark">
-  {/* Textura de R repetidos — veio do hero em 2026-07-24 (pedido do Mateus: "muda da
-      primeira seção pra segunda"). Convive com o glifo R gigante abaixo. */}
-  <span class="texture-r" aria-hidden="true"></span>
-  {/* Glifo R gigante tom-sobre-tom, bleeding na borda — herdado da seção "Problema", que saiu
-      da página em 2026-07-24 a pedido do Mateus. Profundidade sem cor nova. */}
-  <img src={rGlyphOsso} alt="" aria-hidden="true" class="video__r" />
+<section class="video band-light">
+  {/* Textura de R repetidos — veio do hero (pedido do Mateus). Única textura desta seção:
+      o glifo R gigante saiu daqui em 2026-07-24 e foi pro "Como funciona". */}
+  <span class="texture-r-ink" aria-hidden="true"></span>
   <div class="container-page py-16 md:py-24">
     <h2 class="text-h2 video__title reveal">
       A <strong>proteção</strong> que seu negócio precisa para <strong>crescer com segurança</strong>!
     </h2>
 
-    <div class="video__frame reveal" style="--reveal-delay:120ms">
+    {/* PALCO ESCURO (2026-07-24 — ideia do Manolo: escuro em volta do vídeo dá foco).
+        O escuro abraça o player em vez de tomar a seção inteira: assim a alternância
+        escuro/claro da página continua de pé E o contraste ao redor do vídeo fica MAIOR,
+        porque a faixa em volta é clara. */}
+    <div class="video__frame band-dark reveal" style="--reveal-delay:120ms">
       <span class="video__play" aria-hidden="true">
         <svg viewBox="0 0 24 24" width="34" height="34" fill="currentColor">
           <path d="M8 5v14l11-7z"></path>
@@ -43,24 +42,6 @@ const rGlyphOsso = `${import.meta.env.BASE_URL}r-glyph-osso.svg`;
   .video {
     overflow: hidden;
   }
-  .video__r {
-    position: absolute;
-    z-index: -1;
-    right: -8%;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 118%;
-    width: auto;
-    opacity: 0.05;
-    pointer-events: none;
-    user-select: none;
-  }
-  @media (min-width: 768px) {
-    .video__r {
-      right: 2%;
-      opacity: 0.06;
-    }
-  }
 
   .video__title {
     max-width: 22ch;
@@ -75,7 +56,9 @@ const rGlyphOsso = `${import.meta.env.BASE_URL}r-glyph-osso.svg`;
     color: var(--text-primary);
   }
 
-  /* Moldura 16:9 — vira <iframe>/<video> sem mexer no layout */
+  /* Palco 16:9 — vira <iframe>/<video> sem mexer no layout. Herda o fundo escuro de
+     .band-dark (mesmo gradiente das faixas escuras da página) e, por tabela, o remap de
+     texto: o que estiver dentro já nasce em osso. */
   .video__frame {
     position: relative;
     display: flex;
@@ -86,11 +69,18 @@ const rGlyphOsso = `${import.meta.env.BASE_URL}r-glyph-osso.svg`;
     margin: 32px auto 0;
     max-width: 860px;
     aspect-ratio: 16 / 9;
-    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    border: 0;
     border-radius: 20px;
-    background: var(--surface-soft);
-    box-shadow: var(--shadow-elev);
+    box-shadow:
+      0 2px 6px rgb(46 48 48 / 0.14),
+      0 24px 60px rgb(46 48 48 / 0.22);
   }
+  /* O grain da faixa escura no palco: reforça a sensação de tela, não de caixa vazia. */
+  .video__frame::after {
+    border-radius: inherit;
+  }
+  /* Botão de play dentro do palco escuro: contorno osso, sem preenchimento claro. */
   .video__play {
     display: flex;
     align-items: center;
@@ -98,7 +88,7 @@ const rGlyphOsso = `${import.meta.env.BASE_URL}r-glyph-osso.svg`;
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background: var(--surface-page);
+    background: transparent;
     border: 1px solid var(--border-strong);
     color: var(--text-secondary);
   }

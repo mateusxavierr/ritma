@@ -8,8 +8,8 @@
 import CtaButton from './CtaButton.astro';
 ---
 
-<section id="cta-final" class="band-light cta-final text-center">
-  <span class="texture-r-ink" aria-hidden="true"></span>
+<section id="cta-final" class="band-dark cta-final text-center">
+  <span class="texture-r" aria-hidden="true"></span>
   <div class="container-page pt-16 pb-12 md:pt-24 md:pb-16">
     <h2 class="text-h2 reveal">Descubra hoje se a sua marca ainda está livre</h2>
     <p class="mx-auto mt-4 max-w-[36rem] text-(--text-secondary) reveal" style="--reveal-delay:100ms">
@@ -23,10 +23,8 @@ import CtaButton from './CtaButton.astro';
 </section>
 
 <style>
-  /* O remap de bloco escuro saiu em 2026-07-24: esta seção virou faixa CLARA e o footer
-     escuro passou a fechar a página sozinho. Fundo branco (não o osso das outras claras)
-     pra separar do footer chumbo logo abaixo. */
+  /* Faixa escura de novo (2026-07-24, 4ª rodada): fecha a página junto com o footer. */
   .cta-final {
-    background: var(--surface-page);
+    --focus-ring: var(--text-on-inverse-2);
   }
 </style>

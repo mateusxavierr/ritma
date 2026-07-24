@@ -84,14 +84,9 @@ const ariaLabel = label === CTA_LABEL ? CTA_ARIA_LABEL : `${label} pelo WhatsApp
     transform: translateY(1px);
   }
 
-  /* Contorno hairline no petróleo (2026-07-24, com o site inteiro escuro): a cor do botão é a
-     mesma que o Mateus aprovou, mas petróleo sobre chumbo tem ~1.1:1 de contraste de BORDA —
-     o rótulo se lê e o botão não se acha. A linha de petrol-200 devolve o limite sem mexer
-     no preenchimento. Tirar = remover as duas linhas de box-shadow abaixo. */
   .cta-solid {
     background-color: var(--cta-bg);
     color: var(--cta-text);
-    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--petrol-200) 42%, transparent);
   }
   .cta-solid:hover {
     background-color: var(--cta-bg-hover);
@@ -101,6 +96,13 @@ const ariaLabel = label === CTA_LABEL ? CTA_ARIA_LABEL : `${label} pelo WhatsApp
   .cta-inverse {
     background-color: var(--cta-inverse-bg);
     color: var(--cta-inverse-text);
+  }
+
+  /* Contorno hairline SÓ dentro de faixa escura: petróleo sobre chumbo tem ~1.1:1 de
+     contraste de borda (o rótulo se lê, o botão não se acha). Sobre faixa clara o petróleo
+     já tem 9.5:1 contra o fundo e a linha só sujaria. */
+  :global(.band-dark) .cta-solid,
+  :global(.band-dark) .cta-inverse {
     box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--petrol-200) 42%, transparent);
   }
   .cta-inverse:hover {
