@@ -51,7 +51,7 @@ const letras = [
         quem usa há mais tempo.
       </p>
       <div class="hero__cta">
-        <CtaButton id="hero-cta" variant="inverse" reassurance block align="start" />
+        <CtaButton id="hero-cta" variant="inverse" reassurance block align="start" origin="hero" />
       </div>
     </div>
 
@@ -60,8 +60,8 @@ const letras = [
         src={heroAmanda}
         alt="Amanda Pereira, especialista em registro de marcas da Ritma Registros"
         formats={['avif', 'webp']}
-        widths={[420, 700, 1000, 1400]}
-        sizes="(min-width: 1024px) 520px, 100vw"
+        widths={[440, 700, 1000, 1200, 1500]}
+        sizes="(min-width: 1024px) 600px, 100vw"
         quality={82}
         loading="eager"
         fetchpriority="high"
@@ -220,22 +220,22 @@ const letras = [
   /* ——— Desktop ——— */
   @media (min-width: 1024px) {
     .hero__grid {
-      grid-template-columns: 1fr 0.82fr;
+      grid-template-columns: 1fr 0.92fr;
       align-items: center;
-      gap: 48px;
+      gap: 40px;
       padding-top: 104px;
       padding-bottom: 88px;
     }
     .hero__figure {
       order: 2;
       margin-top: 0;
-      align-self: stretch;
+      align-self: center;
     }
     .wordmark__ritma {
       width: 340px;
     }
     .hero__photo {
-      max-width: 500px;
+      max-width: 600px;
       border-radius: 0;
       /* melt simétrico nas 4 bordas — esquerda = direita (feedback do Mateus) */
       -webkit-mask-image: linear-gradient(90deg, transparent, #000 24% 76%, transparent),

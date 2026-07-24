@@ -1,0 +1,112 @@
+---
+/**
+ * Faixa de confiança em movimento (redesign 2026-07-23 — pedido do Mateus, referência do ticker).
+ * Marquee horizontal no padrão Ritma: faixa escura, texto osso, glifo R da marca como separador.
+ * SELOS FACTUAIS (não depoimentos/estrelas): a OAB proíbe testemunhos e promessa de resultado na
+ * publicidade da advocacia (Provimento 205/2021) — e não inventamos reviews. Se houver
+ * depoimentos reais com autorização, entram depois.
+ * Movimento por CSS (translateX em loop); estático em prefers-reduced-motion.
+ */
+const selos = [
+  'Registro no INPI',
+  'Atendimento digital para todo o Brasil',
+  'Prioridade desde o protocolo',
+  'Exclusividade nacional renovável',
+  'Acompanhamento até a decisão',
+  'Processo sem juridiquês',
+  'Análise de viabilidade da marca',
+];
+---
+
+<section class="trust" aria-label="Diferenciais da Ritma">
+  <div class="trust__mask">
+    <div class="trust__track">
+      {
+        [0, 1].map((dup) => (
+          <ul class="trust__list" aria-hidden={dup === 1 ? 'true' : undefined}>
+            {selos.map((s) => (
+              <li class="trust__item">
+                <img src="/r-glyph-osso.svg" alt="" aria-hidden="true" class="trust__r" />
+                <span>{s}</span>
+              </li>
+            ))}
+          </ul>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust {
+    background: var(--ink-950);
+    border-block: 1px solid rgb(235 232 226 / 0.08);
+    overflow: hidden;
+  }
+  .trust__mask {
+    /* esmaece as pontas pra faixa "entrar e sair" do escuro */
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+  .trust__track {
+    display: flex;
+    width: max-content;
+    animation: trustScroll 44s linear infinite;
+  }
+  .trust:hover .trust__track {
+    animation-play-state: paused;
+  }
+  .trust__list {
+    display: flex;
+    align-items: center;
+    flex: none;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .trust__item {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: 15px 0;
+    color: var(--text-on-dark);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+  }
+  /* o R separa cada selo (padrão oficial de R — ponto 7 do brief) */
+  .trust__r {
+    height: 15px;
+    width: auto;
+    margin-inline: 40px;
+    opacity: 0.5;
+  }
+
+  @keyframes trustScroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .trust__track {
+      animation: none;
+      justify-content: center;
+      width: 100%;
+    }
+    .trust__list[aria-hidden='true'] {
+      display: none;
+    }
+    .trust__list {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .trust__mask {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+  }
+</style>

@@ -6,7 +6,8 @@
 import CtaButton from './CtaButton.astro';
 ---
 
-<section class="bg-(--surface-alt)">
+<section class="relative isolate overflow-hidden bg-(--surface-alt)">
+  <span class="texture-r-ink" aria-hidden="true"></span>
   <div class="container-page py-16 md:py-24">
     <div
       class="oferta-card reveal mx-auto max-w-[640px] rounded-2xl bg-(--surface-page) p-8 md:p-12"
@@ -44,7 +45,7 @@ import CtaButton from './CtaButton.astro';
         (PERGUNTAS-ABERTAS 3).
       */}
       <div class="mt-8">
-        <CtaButton block reassurance align="center" />
+        <CtaButton block reassurance align="center" origin="oferta" />
       </div>
     </div>
   </div>

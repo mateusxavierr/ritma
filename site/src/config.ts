@@ -1,17 +1,30 @@
 /**
  * Ponto único de configuração da página (PLANO §3, §4.1, §9).
- * Trocar número/mensagem/label AQUI atualiza todas as instâncias do CTA.
+ * Trocar número/mensagens/label AQUI atualiza todas as instâncias do CTA.
  */
 
-/** Número do WhatsApp — PLACEHOLDER (PERGUNTAS-ABERTAS 8). Formato: DDI+DDD+número, só dígitos. */
-export const WHATSAPP_NUMBER = '5500000000000';
-
-/** Mensagem pré-preenchida do wa.me (PLANO §4.1). Modo diagnóstico, sem dado pessoal. */
-export const WHATSAPP_MESSAGE =
-  'Olá, vim pelo site da Ritma e quero saber se a minha marca ainda pode ser registrada.';
+/** Número do WhatsApp — confirmado pelo Mateus 2026-07-23 (papelaria: (81) 99746-9578).
+ *  Formato: DDI+DDD+número, só dígitos. */
+export const WHATSAPP_NUMBER = '5581997469578';
 
 /**
- * Label único do CTA (mesmo intent, mesmo label, mesmo href em TODAS as instâncias — PLANO §10.9).
+ * Mensagens pré-preenchidas do wa.me, personalizadas por origem do clique (pedido do Mateus
+ * 2026-07-23). Modo diagnóstico, sem dado pessoal e OAB-safe (sem gratuidade/valores/promessa).
+ */
+export const WA_MESSAGES: Record<string, string> = {
+  default: 'Olá! Vim pelo site da Ritma sobre registro de marcas. Tenho interesse em mais informações.',
+  hero: 'Olá! Vim pelo site da Ritma e quero saber se a minha marca ainda pode ser registrada.',
+  comofunciona: 'Olá! Vim pelo site da Ritma e quero entender como funciona o registro da minha marca.',
+  oferta: 'Olá! Vim pelo site da Ritma e quero saber mais sobre o registro da minha marca.',
+  final: 'Olá! Vim pelo site da Ritma e quero verificar se a minha marca ainda está livre.',
+  fab: 'Olá! Vim pelo site da Ritma sobre registro de marcas. Tenho interesse em mais informações.',
+};
+
+/** Compat: mensagem padrão como const única (usada por metadados/legado). */
+export const WHATSAPP_MESSAGE = WA_MESSAGES.default;
+
+/**
+ * Label único do CTA (mesmo intent, mesmo label em TODAS as instâncias — PLANO §10.9).
  * Default OAB-safe ATIVO (PLANO §10.23): sem referência a gratuidade ou valores
  * (Provimento 205/2021 OAB, art. 4º, §2º), até a pergunta 12 confirmar a estrutura.
  */
@@ -38,7 +51,8 @@ export const CTA_ARIA_LABEL = `${CTA_LABEL} pelo WhatsApp`;
 /** URL canônica do site. Default: domínio da Vercel até a pergunta 13 ser respondida. */
 export const SITE_URL = 'https://ritma-registros.vercel.app';
 
-/** href único de conversão (PLANO §3). */
-export function waHref(): string {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+/** href único de conversão (PLANO §3), com mensagem por origem do clique. */
+export function waHref(origin: string = 'default'): string {
+  const msg = WA_MESSAGES[origin] ?? WA_MESSAGES.default;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
 }

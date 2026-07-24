@@ -17,6 +17,8 @@ interface Props {
   reassurance?: boolean;
   /** alinhamento do bloco (botão + reassurance) */
   align?: 'start' | 'center';
+  /** origem do clique → mensagem personalizada do WhatsApp (config.ts WA_MESSAGES) */
+  origin?: string;
   id?: string;
 }
 
@@ -26,13 +28,14 @@ const {
   block = false,
   reassurance = false,
   align = 'start',
+  origin = 'default',
   id,
 } = Astro.props;
 ---
 
 <div id={id} class:list={['cta-block', align === 'center' && 'cta-center', block && 'cta-fill']}>
   <a
-    href={waHref()}
+    href={waHref(origin)}
     aria-label={CTA_ARIA_LABEL}
     class:list={['cta', `cta-${variant}`, `cta-${size}`, block && 'w-full']}
   >

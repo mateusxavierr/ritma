@@ -20,7 +20,7 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
         <img src={logoChumbo.src} alt="" aria-hidden="true" width="103" height="26" class="nav__logo nav__logo--ink" />
       </a>
 
-      <a href={waHref()} aria-label={CTA_ARIA_LABEL} class="nav__wa md:hidden">
+      <a href={waHref('default')} aria-label={CTA_ARIA_LABEL} class="nav__wa md:hidden">
         <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <use href="#wa-icon"></use>
         </svg>

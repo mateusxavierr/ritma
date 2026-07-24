@@ -10,21 +10,22 @@
 import patternR from '../assets/pattern-r.svg';
 ---
 
-<section class="bg-(--surface-page)">
+<section class="relative isolate overflow-hidden bg-(--surface-page)">
+  <span class="texture-r-ink" aria-hidden="true"></span>
   <div class="container-page py-16 md:py-24">
     <h2 class="text-h2 reveal">A marca é só o começo</h2>
     <p class="mt-3 max-w-[62ch] text-(--text-secondary) reveal" style="--reveal-delay:80ms">
       A Ritma protege os ativos que fazem o seu negócio valer alguma coisa.
     </p>
     <div class="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
-      <div class="reveal rounded-xl border border-(--border-subtle) p-8">
+      <div class="card-lift reveal rounded-xl border border-(--border-subtle) bg-(--surface-page) p-8">
         <h3 class="text-h3">Registro de marca</h3>
         <p class="mt-3 text-body-sm text-(--text-secondary)">
           O nome e a identidade do seu negócio, com exclusividade nacional renovável a cada 10 anos.
           É a espinha desta página inteira.
         </p>
       </div>
-      <div class="reveal flex flex-col overflow-hidden rounded-xl border border-(--border-subtle)" style="--reveal-delay:100ms">
+      <div class="card-lift reveal flex flex-col overflow-hidden rounded-xl border border-(--border-subtle) bg-(--surface-page)" style="--reveal-delay:100ms">
         <div class="p-8">
           <h3 class="text-h3">Direitos autorais</h3>
           <p class="mt-3 text-body-sm text-(--text-secondary)">
@@ -61,5 +62,17 @@ import patternR from '../assets/pattern-r.svg';
     background-color: var(--surface-alt);
     background-size: 170px auto;
     background-repeat: repeat;
+  }
+
+  /* Relevo sutil dos cards sobre a textura (profundidade — feedback do Mateus) */
+  .card-lift {
+    box-shadow: 0 1px 2px rgb(76 78 78 / 0.05), 0 8px 24px rgb(76 78 78 / 0.06);
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 2px 4px rgb(76 78 78 / 0.06), 0 14px 34px rgb(76 78 78 / 0.1);
   }
 </style>
