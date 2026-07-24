@@ -1,27 +1,50 @@
 ---
 /**
- * Prova social (PLANO §5 via §4.11) — NÃO RENDERIZA na v1 (§10.8): nenhum depoimento
- * confirmado. Nunca placeholder visível em produção.
+ * Prova social — NÃO RENDERIZA (§10.8): nenhum relato autorizado até agora.
+ * Nunca placeholder visível em produção.
  *
- * ATIVAÇÃO: quando houver depoimentos reais autorizados (PERGUNTAS-ABERTAS 4/5),
- * descomentar o template e preencher. Regras (§4.11):
- * - Depoimento de até 3 linhas + nome + negócio + cidade (NUNCA só o primeiro nome);
- * - Slot de números agregados segue a TrustBar;
- * - Caso ITSMINE: SOMENTE com autorização expressa + CPFs tarjados + enquadramento honesto
- *   (é anterioridade autoral do logo da própria Ritma, NÃO registro no INPI — §10.14).
+ * ——— REGRAS OAB (parecer da Amanda, 2026-07-24) ———
+ * Provimento 205/2021: depoimento não é proibido, mas não pode virar captação de clientela
+ * nem promoção pessoal. Isso muda o DESENHO desta seção, não só o texto:
+ *
+ *  PODE
+ *  - relato espontâneo e sóbrio, com autorização do cliente;
+ *  - fala sobre ATENDIMENTO: clareza, organização, acompanhamento, segurança;
+ *  - avaliação do Google incorporada, sem destaque apelativo.
+ *
+ *  NÃO PODE
+ *  - resultado da causa ("conseguiu registrar em tempo recorde", "ganhei graças a ela");
+ *  - indução à contratação ("a melhor advogada", "recomendo pra qualquer pessoa");
+ *  - muro de depoimentos como estratégia principal de venda.
+ *
+ * Consequências no template abaixo:
+ *  - título institucional "Reconhecimento dos clientes" (não "O que nossos clientes dizem");
+ *  - TETO DE 2 RELATOS. Se chegarem mais, escolher dois — quantidade aqui é risco, não prova;
+ *  - sem aspas gigantes, sem estrelas, sem foto de cliente: mesma sobriedade do resto da página;
+ *  - a seção entra DEPOIS da autoridade e ANTES da oferta, nunca acima da dobra.
+ *
+ * A recomendação da própria Amanda, que eu subscrevo: pra registro de marcas, casos práticos
+ * anonimizados e conteúdo sobre o processo no INPI transmitem mais autoridade do que
+ * depoimento. O FAQ da página já faz parte desse trabalho.
+ *
+ * ATIVAÇÃO: com 1 ou 2 relatos autorizados, descomentar e preencher.
+ * Cada relato precisa de: texto + nome + negócio + cidade (nunca só o primeiro nome).
  */
 ---
 
 {/*
-  [PENDENTE:PROVA] — template de prova social:
+  [PENDENTE:PROVA] — template sóbrio (regras OAB acima):
 
-  <section class="bg-(--surface-soft)">
+  <section class="band-light">
     <div class="container-page py-16 md:py-24">
-      <h2 class="text-h2 text-center">Quem já passou por isso</h2>
-      <div class="mt-10 grid gap-4 md:grid-cols-2 md:gap-6">
-        <figure class="rounded-xl border border-(--border-subtle) bg-(--surface-page) p-8">
+      <h2 class="text-h2 text-center">Reconhecimento dos clientes</h2>
+      <div class="mx-auto mt-10 grid max-w-[880px] gap-4 md:grid-cols-2 md:gap-6">
+        <figure class="rounded-xl border border-(--border-subtle) bg-(--surface-soft) p-8">
           <blockquote class="text-body-sm">
-            <p>DEPOIMENTO DE ATÉ 3 LINHAS.</p>
+            <p>
+              RELATO SOBRE O ATENDIMENTO — clareza, organização, acompanhamento.
+              Nada sobre resultado do processo.
+            </p>
           </blockquote>
           <figcaption class="mt-4 text-caption text-(--text-secondary)">
             <strong>NOME COMPLETO</strong>, NEGÓCIO, CIDADE/UF
