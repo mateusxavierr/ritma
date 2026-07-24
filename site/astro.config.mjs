@@ -7,6 +7,8 @@ import { SITE_URL } from './src/config.ts';
 // e como estático na Vercel. Nenhuma função, nenhum redirect, nenhum header custom.
 export default defineConfig({
   site: SITE_URL,
+  // Deploy de REVISÃO no GitHub Pages (subpath /ritma/). Trocar/remover pra produção.
+  base: '/ritma/',
   output: 'static',
   vite: {
     plugins: [tailwindcss()],

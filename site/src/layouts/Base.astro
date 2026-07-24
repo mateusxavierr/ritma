@@ -48,12 +48,12 @@ const ogDescription =
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#EBE8E2" />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="32x32" />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
     <link
       rel="preload"
-      href="/fonts/catamaran-var.woff2"
+      href={`${import.meta.env.BASE_URL}fonts/catamaran-var.woff2`}
       as="font"
       type="font/woff2"
       crossorigin
