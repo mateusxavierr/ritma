@@ -1,8 +1,13 @@
 ---
 /**
- * Autoridade (redesign 2026-07-23 — faixa escura, rosto real em destaque).
- * Nome, rosto e papel ANTES do pedido de conversa (PLANO §5.9, §10.24).
- * Foto: photo 7 (Amanda sentada, olhar direto, fundo escuro) fundindo na faixa via máscara.
+ * Autoridade (redesign 2026-07-24 — copy aprofundada, mais autoridade, estilo da referência).
+ * Rosto real + nome + papel + credenciais + citação, ANTES do pedido de conversa (§5.9, §10.24).
+ * Foto: photo 7 (Amanda, olhar direto, fundo escuro) fundindo na faixa via máscara.
+ *
+ * REGRA (feedback do Mateus): não inventar. O que NÃO temos confirmado (formação, OAB, tempo de
+ * atuação, nº de marcas, citação real) entra como PLACEHOLDER AMARELO visível (.ph) — impossível
+ * confundir com final. Some quando a Amanda preencher (PERGUNTAS-ABERTAS 11).
+ * O que é real/sabido está escrito de verdade (Ritma, INPI/PI, atendimento nacional, @ritmaregistros).
  */
 import { Picture } from 'astro:assets';
 import amanda from '../assets/autoridade.jpg';
@@ -23,18 +28,54 @@ import amanda from '../assets/autoridade.jpg';
       />
     </div>
     <div class="autoridade__text">
-      <p class="autoridade__eyebrow reveal">Quem acompanha o seu registro</p>
+      <p class="autoridade__eyebrow reveal">Quem vai cuidar da sua marca</p>
       <p class="autoridade__nome reveal" style="--reveal-delay:80ms">Amanda Pereira</p>
-      <p class="autoridade__papel reveal" style="--reveal-delay:140ms">Registro de Marcas</p>
-      <p class="autoridade__bio reveal" style="--reveal-delay:200ms">
-        À frente da Ritma Registros, Amanda cuida de processos de marca com atendimento digital para
-        todo o Brasil.
+      <p class="autoridade__papel reveal" style="--reveal-delay:120ms">
+        Especialista em Registro de Marcas
+        <span class="ph">OAB/PE 000.000 — confirmar nº</span>
       </p>
-      {/*
-        [PENDENTE:BIO] — cobre APENAS o texto da mini-bio (formação, nº OAB, tempo de atuação —
-        PERGUNTAS-ABERTAS 11). Quando chegar, substitui o parágrafo fallback acima.
-        A foto NÃO depende deste placeholder (Adendo do BRIEF).
-      */}
+
+      {/* Credenciais — estrutura de autoridade (todas placeholder até a Amanda confirmar) */}
+      <ul class="autoridade__creds reveal" style="--reveal-delay:180ms">
+        <li><span class="ph">Formação — ex.: Direito, [Universidade]</span></li>
+        <li><span class="ph">Especialização em Propriedade Intelectual — confirmar</span></li>
+        <li><span class="ph">Atua com marcas há [X] anos / desde [ano]</span></li>
+      </ul>
+
+      <div class="autoridade__bio reveal" style="--reveal-delay:240ms">
+        <p>
+          À frente da Ritma Registros, Amanda conduz processos de registro de marca no INPI e
+          proteção de propriedade intelectual, com atendimento digital para todo o Brasil.
+        </p>
+        <p>
+          <span class="ph"
+            >Trajetória da Amanda — quando começou, o que a levou a se dedicar a marcas, casos ou
+            números que dão autoridade. Escreva com ela; isso é o coração desta seção.</span
+          >
+        </p>
+        <p>
+          Seu trabalho vai além do protocolo: definição da classe certa, acompanhamento de cada
+          despacho do INPI e uma conversa sem juridiquês — pra você entender e decidir cada passo
+          com segurança.
+        </p>
+      </div>
+
+      {/* Citação — dá muita autoridade e humaniza. Frase REAL da Amanda (não inventar). */}
+      <blockquote class="autoridade__quote reveal" style="--reveal-delay:300ms">
+        <span class="ph"
+          >Frase da Amanda sobre por que proteger a marca importa — 1 ou 2 linhas, com a voz dela.</span
+        >
+      </blockquote>
+
+      <a
+        href="https://www.instagram.com/ritmaregistros"
+        rel="noopener"
+        class="autoridade__ig reveal"
+        style="--reveal-delay:340ms"
+      >
+        Acompanhe no Instagram
+        <span>@ritmaregistros</span>
+      </a>
     </div>
   </div>
 </section>
@@ -65,7 +106,6 @@ import amanda from '../assets/autoridade.jpg';
     max-width: 380px;
     margin-inline: auto;
     border-radius: 16px;
-    /* funde a base e as laterais na faixa escura */
     -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent),
       linear-gradient(90deg, transparent, #000 12% 88%, transparent);
     mask-image: linear-gradient(180deg, #000 74%, transparent),
@@ -93,14 +133,85 @@ import amanda from '../assets/autoridade.jpg';
     color: var(--text-on-dark);
   }
   .autoridade__papel {
-    margin-top: 6px;
+    margin-top: 8px;
     font-size: var(--text-body-sm);
     font-weight: 600;
     color: var(--text-on-dark-soft);
   }
-  .autoridade__bio {
-    margin-top: 20px;
-    max-width: 46ch;
+
+  .autoridade__creds {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 8px;
+  }
+  .autoridade__creds li {
+    position: relative;
+    padding-left: 18px;
+    font-size: var(--text-body-sm);
     color: var(--text-on-dark-soft);
+  }
+  .autoridade__creds li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 6px;
+    height: 6px;
+    background: var(--text-on-dark-soft);
+  }
+
+  .autoridade__bio {
+    margin-top: 22px;
+    max-width: 52ch;
+    color: var(--text-on-dark-soft);
+    display: grid;
+    gap: 14px;
+  }
+
+  .autoridade__quote {
+    margin: 24px 0 0;
+    padding-left: 18px;
+    border-left: 2px solid var(--text-on-dark-soft);
+    max-width: 48ch;
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    color: var(--text-on-dark);
+  }
+
+  .autoridade__ig {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 24px;
+    font-size: var(--text-body-sm);
+    font-weight: 600;
+    color: var(--text-on-dark-soft);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+  .autoridade__ig span {
+    color: var(--text-on-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .autoridade__ig:hover {
+    color: var(--text-on-dark);
+  }
+
+  /* ——— Marcador de PLACEHOLDER (some quando preenchido) — feedback do Mateus.
+     Amarelo tracejado, óbvio: NÃO é design final, é lembrete de conteúdo a preencher. ——— */
+  :global(.ph) {
+    background: #fde68a;
+    color: #7c2d12;
+    border: 1px dashed #b45309;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-weight: 600;
+    font-style: normal;
+    text-decoration: none;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
   }
 </style>
