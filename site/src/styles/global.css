@@ -50,12 +50,10 @@
     outline-offset: 2px;
   }
 
-  /* Espaço reservado pra sticky CTA bar mobile (PLANO §5.12): a barra nunca cobre conteúdo */
-  @media (max-width: 767.98px) {
-    body {
-      padding-bottom: calc(72px + env(safe-area-inset-bottom));
-    }
-  }
+  /* A reserva de 72px pra sticky bar no body foi REMOVIDA (must-fix 5 do council visual):
+     ela pintava uma faixa branca depois do footer escuro. A sticky bar já se esconde
+     enquanto o bloco escuro de fechamento (#cta-final) está visível, então o fim da
+     página nunca fica coberto; o safe-area vive dentro do próprio footer. */
 
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -64,6 +62,11 @@
       transition-duration: 0.01ms !important;
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
+    }
+    /* Sem movimento: tudo já visível, nada escondido esperando animação */
+    .js .reveal {
+      opacity: 1 !important;
+      transform: none !important;
     }
   }
 }
@@ -103,7 +106,74 @@
     background: var(--text-primary);
   }
 
-  /* Skip-link (PLANO §8): primeiro elemento focável */
+  /* ————————————————————————————————————————————————————————————
+     Redesign 2026-07-23 — profundidade + movimento (dentro das 2 cores)
+     ———————————————————————————————————————————————————————————— */
+
+  /* Faixa escura com profundidade: gradiente vertical do chumbo + vinheta radial.
+     Usada no hero, autoridade e fechamento. Texto claro por padrão. */
+  .band-dark {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgb(255 255 255 / 0.04), transparent 60%),
+      linear-gradient(180deg, var(--surface-dark-top), var(--surface-dark-bottom));
+    color: var(--text-on-dark);
+  }
+
+  /* Textura de R (padrão oficial das diretrizes) — camada de profundidade sutil.
+     .texture-r sobre faixa escura (R's osso), .texture-r-ink sobre faixa clara (R's chumbo). */
+  .texture-r,
+  .texture-r-ink {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-repeat: repeat;
+    background-size: 300px auto;
+  }
+  .texture-r {
+    background-image: url('/pattern-r.svg');
+    opacity: 0.05;
+  }
+  .texture-r-ink {
+    background-image: url('/pattern-r-ink.svg');
+    opacity: 0.04;
+  }
+
+  /* Divisor de seção com o R — usado pra emendar faixas (ponto 7 do brief) */
+  .rule-r {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    color: var(--border-strong);
+  }
+  .rule-r::before,
+  .rule-r::after {
+    content: '';
+    height: 1px;
+    flex: 1;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  /* Revelação no scroll — o estado inicial só existe quando o JS está ativo (.js no <html>),
+     então sem JS/reduced-motion o conteúdo aparece normal (PLANO §8, a11y). */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .js .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
   .skip-link {
     position: absolute;
     left: -9999px;

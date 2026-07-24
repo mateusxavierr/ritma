@@ -1,62 +1,256 @@
 ---
 /**
- * Hero (PLANO §5.2): dor/risco + CTA imediato. Fundo osso puro, sem pattern.
- * Desktop: grid 7fr/5fr, texto à esquerda, render do R em cerâmica à direita.
- * Mobile: empilhado, header + hero completos em ≤1 tela de 812px.
+ * Hero (redesign 2026-07-23 — faixa escura + vinheta + foto da Amanda).
+ * — Faixa chumbo com profundidade (gradiente + vinheta radial + textura de R).
+ * — Assinatura animada da marca: RITMA revelado LETRA POR LETRA (5 camadas do SVG osso
+ *   recortadas nos vãos medidos) + REGISTROS entrando depois, mais rápido, com tracking
+ *   largo — mesma coreografia da vinheta oficial (docs/marca/.../Ritma vertical.mp4).
+ * — Headline: copy do panfleto A6 ("Quem não registra, perde.").
+ * — Foto: photo 5 (Amanda sentada, mão no queixo, fundo escuro) fundindo no fundo via máscara.
+ * Paleta travada em osso+chumbo (PDF de diretrizes) — sem cor nova, sem glow colorido.
  */
 import { Picture } from 'astro:assets';
-import heroR from '../assets/hero-r.jpg';
+import heroAmanda from '../assets/hero-amanda.jpg';
 import CtaButton from './CtaButton.astro';
+
+// Bandas de recorte de cada letra do RITMA (medidas por cobertura de tinta do SVG osso).
+const letras = [
+  { k: 'R', clip: 'inset(0 78.5% 0 0)' },
+  { k: 'I', clip: 'inset(0 70% 0 21.5%)' },
+  { k: 'T', clip: 'inset(0 53% 0 30%)' },
+  { k: 'M', clip: 'inset(0 21% 0 47%)' },
+  { k: 'A', clip: 'inset(0 0 0 79%)' },
+];
 ---
 
-<section class="bg-(--surface-alt)">
-  <div
-    class="container-page grid items-center gap-10 pt-10 pb-16 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:pt-24 lg:pb-32"
-  >
-    <div>
-      <h1 class="text-display">A sua marca é realmente sua?</h1>
-      {/*
-        Alternativa B do H1 (PLANO §4.3, guardada): `No Brasil, só é dono quem registra.`
+<section class="hero band-dark">
+  <span class="texture-r" aria-hidden="true"></span>
+  <div class="container-page hero__grid">
+    <div class="hero__content">
+      {/* Assinatura da marca — decorativa; o texto acessível vai no aria-label */}
+      <div class="wordmark" role="img" aria-label="Ritma Registros">
+        <div class="wordmark__ritma">
+          {
+            letras.map((l, i) => (
+              <span
+                class="wordmark__letter"
+                style={`clip-path:${l.clip};-webkit-clip-path:${l.clip};animation-delay:${180 + i * 130}ms`}
+              />
+            ))
+          }
+        </div>
+        <div class="wordmark__registros" aria-hidden="true">Registros</div>
+      </div>
 
-        Variante Google Search (swap de 1 linha se a resposta da pergunta 15 for Search — §10.6):
-        H1: `Registro de marca no INPI, do protocolo ao certificado`
-        + 3 bullets no lugar da sub:
-          `Consulta de viabilidade` (pós-liberação §10.23: `Consulta gratuita de viabilidade`)
-          `Atendimento digital para todo o Brasil`
-          `Acompanhamento até a decisão`
-      */}
-      <p class="mt-4 max-w-[36rem] text-(--text-secondary)">
-        No Brasil, a marca é de quem registra primeiro no INPI, não de quem usa há mais tempo.
+      <p class="hero__eyebrow">Registro de marca no INPI</p>
+      <h1 class="hero__title text-display">Quem não registra, perde.</h1>
+      <p class="hero__sub">
+        A sua marca é realmente sua? No Brasil, a marca é de quem registra primeiro no INPI — não de
+        quem usa há mais tempo.
       </p>
-      {/*
-        [PENDENTE:PROVA] Quando houver número real confirmado pela Amanda, a sub ganha
-        segunda linha curta (ex.: `+ de N marcas acompanhadas`). Nunca contador zerado.
-      */}
-      <div class="mt-8">
-        <CtaButton id="hero-cta" reassurance block align="start" />
+      <div class="hero__cta">
+        <CtaButton id="hero-cta" variant="inverse" reassurance block align="start" />
       </div>
     </div>
-    <Picture
-      src={heroR}
-      alt="Letra R em cerâmica, símbolo da Ritma"
-      formats={['avif', 'webp']}
-      widths={[240, 480, 800, 1200]}
-      sizes="(min-width: 1024px) 480px, 200px"
-      loading="eager"
-      fetchpriority="high"
-      class="mx-auto w-[200px] rounded-2xl lg:w-full lg:max-w-[480px]"
-    />
+
+    <div class="hero__figure">
+      <Picture
+        src={heroAmanda}
+        alt="Amanda Pereira, especialista em registro de marcas da Ritma Registros"
+        formats={['avif', 'webp']}
+        widths={[420, 700, 1000, 1400]}
+        sizes="(min-width: 1024px) 520px, 100vw"
+        quality={82}
+        loading="eager"
+        fetchpriority="high"
+        class="hero__photo"
+      />
+    </div>
   </div>
 </section>
 
 <style>
-  /* Mobile: CTA full-width (§5.2); de md pra cima volta ao tamanho do conteúdo */
-  @media (min-width: 768px) {
-    section :global(.cta-fill) {
-      align-items: flex-start;
+  .hero {
+    overflow: hidden;
+  }
+  .hero__grid {
+    display: grid;
+    gap: 12px;
+    padding-top: 32px;
+    padding-bottom: 40px;
+  }
+
+  /* ——— Assinatura RITMA REGISTROS (vinheta) ——— */
+  .wordmark {
+    margin-bottom: 28px;
+  }
+  .wordmark__ritma {
+    position: relative;
+    width: min(300px, 62vw);
+    aspect-ratio: 499.26 / 128.27;
+  }
+  .wordmark__letter {
+    position: absolute;
+    inset: 0;
+    background: url('/logo-ritma-osso.svg') no-repeat center / contain;
+    opacity: 0;
+    transform: translateX(-0.14em) scale(0.94);
+    transform-origin: left center;
+    animation: letterIn 620ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .wordmark__registros {
+    margin-top: 10px;
+    padding-left: 3px;
+    font-size: clamp(0.72rem, 0.62rem + 0.5vw, 0.9rem);
+    font-weight: 600;
+    letter-spacing: 0.62em;
+    text-indent: 0.62em;
+    text-transform: uppercase;
+    color: var(--text-on-dark-soft);
+    opacity: 0;
+    transform: translateY(6px);
+    animation: registrosIn 520ms ease-out 980ms forwards;
+  }
+
+  @keyframes letterIn {
+    to {
+      opacity: 1;
+      transform: translateX(0) scale(1);
     }
-    section :global(.cta-fill .cta) {
-      width: auto;
+  }
+  @keyframes registrosIn {
+    from {
+      opacity: 0;
+      letter-spacing: 0.3em;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      letter-spacing: 0.62em;
+      transform: translateY(0);
+    }
+  }
+
+  /* ——— Texto do hero (entra depois da assinatura) ——— */
+  .hero__eyebrow {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-on-dark-soft);
+    margin-bottom: 12px;
+  }
+  .hero__title {
+    color: var(--text-on-dark);
+    max-width: 15ch;
+  }
+  .hero__sub {
+    margin-top: 18px;
+    max-width: 40ch;
+    color: var(--text-on-dark-soft);
+  }
+  .hero__cta {
+    margin-top: 28px;
+  }
+
+  /* entrada suave e escalonada do conteúdo (acima da dobra → animação, não scroll) */
+  .hero__eyebrow,
+  .hero__title,
+  .hero__sub,
+  .hero__cta,
+  .hero__figure {
+    opacity: 0;
+    animation: heroRise 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hero__eyebrow {
+    animation-delay: 1180ms;
+  }
+  .hero__title {
+    animation-delay: 1300ms;
+  }
+  .hero__sub {
+    animation-delay: 1440ms;
+  }
+  .hero__cta {
+    animation-delay: 1560ms;
+  }
+  .hero__figure {
+    animation-delay: 640ms;
+  }
+  @keyframes heroRise {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* ——— Foto da Amanda ——— */
+  .hero__figure {
+    position: relative;
+    margin-top: 8px;
+  }
+  .hero__photo {
+    width: 100%;
+    max-width: 460px;
+    margin-inline: auto;
+    display: block;
+    border-radius: 18px;
+    /* funde a foto no fundo escuro (o fundo dela já é ~chumbo) */
+    -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent),
+      linear-gradient(90deg, #000 78%, transparent);
+    mask-image: linear-gradient(180deg, #000 62%, transparent),
+      linear-gradient(90deg, #000 78%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* ——— Desktop ——— */
+  @media (min-width: 1024px) {
+    .hero__grid {
+      grid-template-columns: 1fr 0.82fr;
+      align-items: center;
+      gap: 48px;
+      padding-top: 72px;
+      padding-bottom: 88px;
+    }
+    .hero__figure {
+      order: 2;
+      margin-top: 0;
+      align-self: stretch;
+    }
+    .wordmark__ritma {
+      width: 340px;
+    }
+    .hero__photo {
+      max-width: 520px;
+      border-radius: 0;
+      /* melt total: funde à esquerda (pro texto), no topo e na base — vira parte da faixa */
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 38%),
+        linear-gradient(180deg, transparent, #000 14% 80%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 38%),
+        linear-gradient(180deg, transparent, #000 14% 80%, transparent);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wordmark__letter,
+    .wordmark__registros,
+    .hero__eyebrow,
+    .hero__title,
+    .hero__sub,
+    .hero__cta,
+    .hero__figure {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      letter-spacing: 0.62em;
+    }
+    .wordmark__letter {
+      letter-spacing: normal;
     }
   }
 </style>

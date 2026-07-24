@@ -1,7 +1,10 @@
 ---
 /**
  * Portfólio de proteção (PLANO §5.8): marca é o carro-chefe, direitos autorais é o segundo
- * confirmado. Card B com o pattern oficial de R como textura (diversidade de fundo da skill).
+ * confirmado. Must-fix 1 do council visual: o pattern de R atrás do texto matava a
+ * legibilidade e rebaixava o card B. Agora os DOIS cards têm a mesma anatomia (borda +
+ * fundo branco) e o pattern oficial vive numa faixa inferior contida, tom-sobre-tom
+ * (branco sancionado sobre osso — §7), sem texto por cima.
  * Cards sem CTA próprio: CTA único da página (§10.9).
  */
 import patternR from '../assets/pattern-r.svg';
@@ -21,19 +24,19 @@ import patternR from '../assets/pattern-r.svg';
           É a espinha desta página inteira.
         </p>
       </div>
-      <div class="card-pattern relative overflow-hidden rounded-xl bg-(--surface-alt) p-8">
-        <div
-          aria-hidden="true"
-          class="pattern-layer absolute inset-0"
-          style={`background-image: url(${patternR.src})`}
-        >
-        </div>
-        <div class="relative">
+      <div class="flex flex-col overflow-hidden rounded-xl border border-(--border-subtle)">
+        <div class="p-8">
           <h3 class="text-h3">Direitos autorais</h3>
           <p class="mt-3 text-body-sm text-(--text-secondary)">
             Prova de autoria para o que você cria: logotipo, fotos, textos, músicas, código.
             Proteção reconhecida internacionalmente pela Convenção de Berna.
           </p>
+        </div>
+        <div
+          aria-hidden="true"
+          class="pattern-band mt-auto"
+          style={`background-image: url(${patternR.src})`}
+        >
         </div>
       </div>
     </div>
@@ -51,10 +54,12 @@ import patternR from '../assets/pattern-r.svg';
 </section>
 
 <style>
-  /* Pattern oficial de R, tom-sobre-tom (branco sancionado sobre osso — §5.8, §7) */
-  .pattern-layer {
+  /* Faixa de pattern oficial de R, tom-sobre-tom (branco sancionado sobre osso — §5.8, §7).
+     Zona puramente decorativa: nenhum texto por cima (must-fix 1 do council visual). */
+  .pattern-band {
+    height: 64px;
+    background-color: var(--surface-alt);
     background-size: 170px auto;
     background-repeat: repeat;
-    opacity: 0.55;
   }
 </style>

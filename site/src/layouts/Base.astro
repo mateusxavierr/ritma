@@ -25,6 +25,11 @@ const ogDescription =
 
 <html lang="pt-BR">
   <head>
+    {/* Marca JS ativo o quanto antes: só então os elementos .reveal começam ocultos
+        (sem JS/reduced-motion nada fica escondido — a11y PLANO §8). */}
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
@@ -66,5 +71,34 @@ const ogDescription =
       </symbol>
     </svg>
     <slot />
+
+    {/* Revelação no scroll (redesign): observa .reveal e libera ao entrar na viewport.
+        Uma vez visível, para de observar (não re-esconde). Respeita prefers-reduced-motion. */}
+    <script is:inline>
+      (function () {
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var nodes = document.querySelectorAll('.reveal');
+        if (reduce || !('IntersectionObserver' in window)) {
+          nodes.forEach(function (n) {
+            n.classList.add('is-in');
+          });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (e) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.12 }
+        );
+        nodes.forEach(function (n) {
+          io.observe(n);
+        });
+      })();
+    </script>
   </body>
 </html>

@@ -42,4 +42,12 @@ import logoOsso from '../assets/logo-ritma-osso.svg';
     border-top: 1px solid rgb(235 232 226 / 0.15);
     --focus-ring: var(--text-on-inverse-2);
   }
+
+  /* O dark do footer fecha a página (must-fix 5): o respiro do safe-area mobile
+     fica DENTRO do bloco escuro, não como padding branco do body. */
+  @media (max-width: 767.98px) {
+    footer {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+  }
 </style>

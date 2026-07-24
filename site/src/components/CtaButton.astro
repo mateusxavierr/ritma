@@ -102,6 +102,19 @@ const {
     text-align: center;
     text-wrap: balance;
   }
+  /* Ajuste 7 do council visual: com o label em 2 linhas, o flex deixava o glifo órfão
+     na borda esquerda enquanto o texto centrava. Abaixo de md o botão vira fluxo inline:
+     o glifo entra na primeira linha do texto e centraliza JUNTO, como bloco único. */
+  @media (max-width: 767.98px) {
+    .cta-lg {
+      display: block;
+    }
+    .cta-lg svg {
+      display: inline-block;
+      vertical-align: -0.22em;
+      margin-right: 8px;
+    }
+  }
   @media (min-width: 768px) {
     .cta-lg {
       padding: 16px 32px;
