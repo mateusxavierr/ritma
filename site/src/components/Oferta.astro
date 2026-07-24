@@ -181,7 +181,16 @@ import rCeramico from '../assets/r-ceramico.png';
   }
 
 
+  /* Some no mobile (pedido do Mateus, 2026-07-24): a sticky bar já está na tela nesta seção,
+     e dois botões idênticos a poucos pixels de distância viram ruído. Mesma regra que o CTA de
+     meio do "Como funciona" (§10.26). No desktop, onde não há sticky, o botão continua. */
   .oferta-card__cta {
-    margin-top: 28px;
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .oferta-card__cta {
+      display: block;
+      margin-top: 28px;
+    }
   }
 </style>
