@@ -44,6 +44,16 @@
   --sand-300: #C9C2B4;
   --white: #FFFFFF;
 
+  /* ——— Azul petróleo — TERCEIRA COR, pedido do Mateus 2026-07-24 ———
+     ATENÇÃO: as diretrizes da marca dizem "nunca mudar, incluir ou remover cores da paleta
+     oficial". Isto é uma cor NOVA (matiz ~193°), não uma derivação por luminância dos 2 hex.
+     Escopo: SÓ o botão de conversão. Nenhuma outra superfície usa petróleo.
+     Pendência 16 do PERGUNTAS-ABERTAS (validar com a Viegas Design) passa a incluir isto. */
+  --petrol-700: #0F4C5C; /* botão sobre fundo claro — 9.4:1 com branco */
+  --petrol-800: #0B3B47; /* hover do sólido + texto sobre o tint */
+  --petrol-200: #B3DDE5; /* botão dentro da faixa escura (o petróleo escuro some lá) */
+  --petrol-100: #CDEAEF; /* hover do tint */
+
   /* Camada semântica — o código usa SÓ estes nomes */
   --surface-page: var(--white);
   --surface-alt: var(--sand-100);
@@ -63,12 +73,17 @@
   --text-on-inverse-2: var(--sand-100);
   --border-subtle: var(--sand-200);
   --border-strong: var(--sand-300);
-  --cta-bg: var(--ink-700);
-  --cta-bg-hover: var(--ink-900);
+  /* Botão de conversão em azul petróleo (2026-07-24). Contrastes verificados:
+     branco sobre petrol-700 = 9.4:1 · petrol-800 sobre petrol-200 = 8.3:1 ·
+     botão vs. faixa escura = 9.3:1 (regra de 3:1 pra componente de UI). */
+  --cta-bg: var(--petrol-700);
+  --cta-bg-hover: var(--petrol-800);
   --cta-text: var(--white);
-  --cta-inverse-bg: var(--sand-100); /* CTA dentro do bloco escuro */
-  --cta-inverse-bg-hover: var(--white);
-  --cta-inverse-text: var(--ink-700);
+  /* Na faixa escura o petróleo cheio fica invisível (1.05:1 contra o fundo chumbo):
+     lá o botão vira o TINT do mesmo petróleo, com o petróleo escuro no texto. */
+  --cta-inverse-bg: var(--petrol-200);
+  --cta-inverse-bg-hover: var(--petrol-100);
+  --cta-inverse-text: var(--petrol-800);
   --focus-ring: var(--ink-700); /* sobrescrito pra sand-100 no bloco escuro */
 
   /* Única elevação permitida (PLANO §2.3): card de oferta e sticky bar. Tinted no chumbo. */

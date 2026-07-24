@@ -84,7 +84,9 @@ const itens = [
     display: none;
   }
   summary:hover {
-    color: var(--cta-bg-hover); /* ink-900 (§5.10); token semântico mais escuro disponível */
+    /* Era var(--cta-bg-hover), emprestado só por ser "o ink-900 semântico". Com o CTA em
+       petróleo (2026-07-24) esse token virou azul — aponta direto pro ink-900 agora. */
+    color: var(--ink-900);
   }
   details[open] summary {
     font-weight: 700;
