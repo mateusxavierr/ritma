@@ -4,7 +4,7 @@
  * 3 perfis em cards-imagem. Imagens CONCEITUAIS geradas por IA (não a Amanda), na mesma
  * ambiência das fotos dela (fundo carvão, luz de estúdio, paleta neutra osso/chumbo) —
  * cada uma casa com a copy do card: caixa em branco (começando) → produto finalizado
- * (conhecido) → duas opções sendo pesadas (comparando). Estrutura da referência aprovada.
+ * (conhecido) → disputa pelo mesmo produto (conflito). Estrutura da referência aprovada.
  * Reveal escalonado no scroll (ponto 5).
  */
 import { Picture } from 'astro:assets';
@@ -28,10 +28,13 @@ const perfis = [
     pos: '50% 42%',
   },
   {
+    /* Perfil trocado pelo Mateus em 2026-07-24 (era "comparando"): agora é quem já está
+       em conflito de marca. Imagem nova (disputa pelo produto com o R) pendente de geração —
+       a atual, de duas embalagens parecidas, segura a copy até a troca. */
     img: imgComparando,
-    titulo: 'Para você que está comparando',
+    titulo: 'Para você que está em conflito',
     corpo:
-      'Quer saber o que está incluído e quem cuida do processo. A resposta está a uma mensagem de distância.',
+      'Apareceu uma marca parecida demais com a sua — ou questionaram o seu nome. Casos assim têm defesa, e têm prazo.',
     pos: '50% 44%',
   },
 ];
