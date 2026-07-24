@@ -45,22 +45,10 @@ import rCeramico from '../assets/r-ceramico.png';
         <li>Atendimento digital para todo o Brasil</li>
       </ul>
 
-      <p class="oferta-card__nota">
-        <strong>Sobre os custos:</strong> todo registro de marca envolve a taxa oficial do INPI, que
-        parte de R$ 440 por classe para MEI, micro e pequenas empresas e pessoas físicas.
-      </p>
       {/*
-        Variante pós-liberação (§10.23), trocar a nota acima por:
-        `Registrar uma marca tem dois custos: a taxa oficial do INPI, que parte de R$ 440 por
-        classe para MEI, micro e pequenas empresas e pessoas físicas, e os honorários da
-        assessoria, que dependem do seu caso e são apresentados com clareza antes de qualquer
-        contratação.`
-
-        [PENDENTE:PRECO] — linha de preço/parcelamento entra aqui quando confirmada
-        (PERGUNTAS-ABERTAS 2).
-
-        [PENDENTE:GARANTIA] — linha de risk reversal entra aqui SÓ se a Amanda confirmar
-        (PERGUNTAS-ABERTAS 3).
+        Nota de custos removida a pedido do Mateus (não falar de valores no card).
+        [PENDENTE:PRECO] — se um dia entrar preço/taxa, é aqui (PERGUNTAS-ABERTAS 2).
+        [PENDENTE:GARANTIA] — risk reversal entra aqui SÓ se a Amanda confirmar (PERGUNTAS-ABERTAS 3).
       */}
       <div class="oferta-card__cta">
         <CtaButton block align="center" origin="oferta" />
@@ -107,7 +95,13 @@ import rCeramico from '../assets/r-ceramico.png';
     display: block;
     width: min(240px, 55vw);
     height: auto;
-    filter: drop-shadow(0 24px 40px rgb(76 78 78 / 0.22));
+    filter: drop-shadow(0 22px 34px rgb(76 78 78 / 0.2));
+  }
+  /* A sombra "bugava" no reload porque o drop-shadow re-renderizava DURANTE o movimento
+     (transform) da animação de reveal. Fix: o R entra só por OPACIDADE (sem transform),
+     então a sombra nunca é recalculada em movimento. */
+  .js .oferta__r.reveal {
+    transform: none !important;
   }
   @media (min-width: 1024px) {
     .oferta__r-img {
@@ -202,19 +196,6 @@ import rCeramico from '../assets/r-ceramico.png';
     transform: rotate(45deg);
   }
 
-  /* Nota de custo — separada por filete, lê como transparência/confiança, não como item */
-  .oferta-card__nota {
-    margin-top: 26px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border-subtle);
-    font-size: var(--text-body-sm);
-    line-height: var(--text-body-sm--line-height);
-    color: var(--text-secondary);
-  }
-  .oferta-card__nota strong {
-    color: var(--text-primary);
-    font-weight: 700;
-  }
 
   .oferta-card__cta {
     margin-top: 28px;
