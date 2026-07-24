@@ -48,7 +48,10 @@ const letras = [
           categoria/feature. Agora é benefício: o que o cliente ganha, não o que a gente faz.
           Sem "agora"/urgência: sob regras OAB, imperativo de urgência escorrega pra captação. */}
       <p class="hero__eyebrow">Registre sua marca e trabalhe tranquilo</p>
-      <h1 class="hero__title text-display">Quem não registra, perde.</h1>
+      {/* H1 (troca pedida pelo Mateus, 2026-07-24): era "Quem não registra, perde." — gancho de
+          risco. Agora é promessa de serviço; o risco passa a viver no subtítulo abaixo.
+          "Tenha um" saiu: em tipo display, palavra sem carga custa uma linha inteira. */}
+      <h1 class="hero__title text-display">Acompanhamento completo para proteger a sua marca.</h1>
       <p class="hero__sub">
         A sua marca é realmente sua? No Brasil, a marca é de quem registra primeiro no INPI — não de
         quem usa há mais tempo.
@@ -161,7 +164,9 @@ const letras = [
   }
   .hero__title {
     color: var(--text-on-dark);
-    max-width: 15ch;
+    /* 15ch era medida do H1 curto anterior (22 caracteres). Com o H1 de 50 caracteres,
+       15ch renderiza 4 linhas de display; 20ch segura em 3. */
+    max-width: 20ch;
   }
   .hero__sub {
     margin-top: 12px;
