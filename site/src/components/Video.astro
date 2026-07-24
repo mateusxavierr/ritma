@@ -8,10 +8,13 @@
  * .video__frame por <iframe>/<video> e apagar a etiqueta .ph — nada mais muda.
  */
 import CtaButton from './CtaButton.astro';
+import rGlyph from '../assets/r-glyph.svg';
 ---
 
 <section class="video">
-  <span class="texture-r-ink" aria-hidden="true"></span>
+  {/* Glifo R gigante tom-sobre-tom, bleeding na borda — herdado da seção "Problema", que saiu
+      da página em 2026-07-24 a pedido do Mateus. Profundidade sem cor nova. */}
+  <img src={rGlyph.src} alt="" aria-hidden="true" class="video__r" />
   <div class="container-page py-16 md:py-24">
     <h2 class="text-h2 video__title reveal">
       A <strong>proteção</strong> que seu negócio precisa para <strong>crescer com segurança</strong>!
@@ -35,8 +38,27 @@ import CtaButton from './CtaButton.astro';
 <style>
   .video {
     position: relative;
+    overflow: hidden;
     isolation: isolate;
     background: var(--surface-page);
+  }
+  .video__r {
+    position: absolute;
+    z-index: -1;
+    right: -8%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 118%;
+    width: auto;
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+  }
+  @media (min-width: 768px) {
+    .video__r {
+      right: 2%;
+      opacity: 0.06;
+    }
   }
 
   .video__title {
