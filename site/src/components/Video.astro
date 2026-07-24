@@ -8,13 +8,14 @@
  * .video__frame por <iframe>/<video> e apagar a etiqueta .ph — nada mais muda.
  */
 import CtaButton from './CtaButton.astro';
-import rGlyph from '../assets/r-glyph.svg';
+/* R OSSO (não o chumbo de assets/): com o site escuro, o glifo chumbo sumiria no fundo. */
+const rGlyphOsso = `${import.meta.env.BASE_URL}r-glyph-osso.svg`;
 ---
 
 <section class="video">
   {/* Glifo R gigante tom-sobre-tom, bleeding na borda — herdado da seção "Problema", que saiu
       da página em 2026-07-24 a pedido do Mateus. Profundidade sem cor nova. */}
-  <img src={rGlyph.src} alt="" aria-hidden="true" class="video__r" />
+  <img src={rGlyphOsso} alt="" aria-hidden="true" class="video__r" />
   <div class="container-page py-16 md:py-24">
     <h2 class="text-h2 video__title reveal">
       A <strong>proteção</strong> que seu negócio precisa para <strong>crescer com segurança</strong>!

@@ -54,25 +54,35 @@
   --petrol-200: #B3DDE5; /* botão dentro da faixa escura (o petróleo escuro some lá) */
   --petrol-100: #CDEAEF; /* hover do tint */
 
-  /* Camada semântica — o código usa SÓ estes nomes */
-  --surface-page: var(--white);
-  --surface-alt: var(--sand-100);
-  --surface-soft: var(--sand-50);
-  --surface-inverse: var(--ink-700);
-  --surface-inverse-deep: var(--ink-900);
+  /* ——— Camada semântica — o código usa SÓ estes nomes ———
+     2026-07-24: SITE INTEIRO ESCURO (pedido do Mateus — "o bg do site na cor do bg do hero").
+     A página passa a viver na mesma família do hero: base ink-950, faixas alternadas em
+     ink-900 e cards em ink-800. Nenhuma matiz nova; segue tudo derivado por luminância do
+     chumbo oficial. O texto inverte junto (osso sobre chumbo).
+     Contrastes verificados sobre a base #2E3030: osso 10.9:1 · secundário 8.1:1 ·
+     muted 6.4:1 · osso sobre card ink-800 7.9:1. */
+  --surface-page: var(--ink-950);
+  --surface-alt: var(--ink-900);
+  --surface-soft: var(--ink-800);
+  --surface-inverse: var(--sand-100);
+  --surface-inverse-deep: var(--sand-50);
   /* Faixas escuras com profundidade (redesign 2026-07-23): gradiente derivado só por
      luminância do chumbo oficial. text-on-dark = osso oficial. */
   --surface-dark-top: var(--ink-800);
   --surface-dark-bottom: var(--ink-950);
   --text-on-dark: var(--sand-100);
   --text-on-dark-soft: color-mix(in srgb, var(--sand-100) 70%, transparent);
-  --text-primary: var(--ink-700);
-  --text-secondary: var(--ink-600);
-  --text-muted: var(--ink-500); /* PROIBIDO sobre osso (3.97:1) — só sobre --surface-page */
-  --text-on-inverse: var(--white);
+  /* Texto invertido junto com as superfícies: osso sobre chumbo. Os níveis secundário e
+     muted são o MESMO osso com transparência — nunca um cinza novo. */
+  --text-primary: var(--sand-100);
+  /* Percentuais calibrados MEDINDO sobre a superfície mais clara da página (card ink-800),
+     que é o pior caso: 72/55 davam 4.99 e 3.63 — o muted reprovava em texto normal. */
+  --text-secondary: color-mix(in srgb, var(--sand-100) 80%, transparent);
+  --text-muted: color-mix(in srgb, var(--sand-100) 68%, transparent);
+  --text-on-inverse: var(--ink-700); /* texto sobre superfície clara (raro agora) */
   --text-on-inverse-2: var(--sand-100);
-  --border-subtle: var(--sand-200);
-  --border-strong: var(--sand-300);
+  --border-subtle: color-mix(in srgb, var(--sand-100) 14%, transparent);
+  --border-strong: color-mix(in srgb, var(--sand-100) 26%, transparent);
   /* Botão de conversão em azul petróleo (2026-07-24). Contrastes verificados:
      branco sobre petrol-700 = 9.4:1 · petrol-800 sobre petrol-200 = 8.3:1 ·
      botão vs. faixa escura = 9.3:1 (regra de 3:1 pra componente de UI). */
@@ -87,8 +97,9 @@
   --cta-inverse-bg: var(--petrol-700);
   --cta-inverse-bg-hover: var(--petrol-800);
   --cta-inverse-text: var(--white);
-  --focus-ring: var(--ink-700); /* sobrescrito pra sand-100 no bloco escuro */
+  --focus-ring: var(--sand-100); /* osso: agora TODO fundo é escuro */
 
-  /* Única elevação permitida (PLANO §2.3): card de oferta e sticky bar. Tinted no chumbo. */
-  --shadow-elev: 0 1px 2px rgb(76 78 78 / 0.06), 0 8px 24px rgb(76 78 78 / 0.08);
+  /* Elevação (PLANO §2.3): no site escuro, sombra tingida de chumbo é invisível — passa a ser
+     preta e mais funda. Quem cria a separação de verdade é a superfície mais clara do card. */
+  --shadow-elev: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px rgb(0 0 0 / 0.36);
 }

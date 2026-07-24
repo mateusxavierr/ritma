@@ -84,9 +84,9 @@ const itens = [
     display: none;
   }
   summary:hover {
-    /* Era var(--cta-bg-hover), emprestado só por ser "o ink-900 semântico". Com o CTA em
-       petróleo (2026-07-24) esse token virou azul — aponta direto pro ink-900 agora. */
-    color: var(--ink-900);
+    /* Com o site escuro (2026-07-24), o hover não pode escurecer: clareia pro osso cheio.
+       (Histórico: era --cta-bg-hover, depois --ink-900.) */
+    color: var(--text-primary);
   }
   details[open] summary {
     font-weight: 700;

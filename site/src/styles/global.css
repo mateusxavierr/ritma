@@ -22,7 +22,7 @@
 
 @layer base {
   html {
-    color-scheme: light; /* tema claro único, travado (PLANO §2.1) */
+    color-scheme: dark; /* site inteiro escuro desde 2026-07-24 (era light travado) */
   }
 
   body {
@@ -154,9 +154,11 @@
     background-image: url('/ritma/pattern-r.svg');
     opacity: 0.05;
   }
+  /* .texture-r-ink era o R chumbo pra faixas CLARAS. Com o site inteiro escuro (2026-07-24)
+     não sobrou faixa clara: aponta pro mesmo R osso, com opacidade menor. */
   .texture-r-ink {
-    background-image: url('/ritma/pattern-r-ink.svg');
-    opacity: 0.04;
+    background-image: url('/ritma/pattern-r.svg');
+    opacity: 0.035;
   }
 
   /* Divisor de seção com o R — usado pra emendar faixas (ponto 7 do brief) */
@@ -176,11 +178,12 @@
     opacity: 0.6;
   }
 
-  /* Card com relevo sutil sobre faixa clara (padrão firmado no redesign) */
+  /* Card com relevo sutil — sombras pretas desde o site escuro (2026-07-24): sombra tingida
+     de chumbo sobre fundo chumbo não existe. */
   .card-lift {
     box-shadow:
-      0 1px 2px rgb(76 78 78 / 0.05),
-      0 8px 24px rgb(76 78 78 / 0.06);
+      0 1px 2px rgb(0 0 0 / 0.28),
+      0 10px 28px rgb(0 0 0 / 0.32);
     transition:
       transform 200ms ease,
       box-shadow 200ms ease;
@@ -188,8 +191,8 @@
   .card-lift:hover {
     transform: translateY(-3px);
     box-shadow:
-      0 2px 4px rgb(76 78 78 / 0.06),
-      0 14px 34px rgb(76 78 78 / 0.1);
+      0 2px 6px rgb(0 0 0 / 0.32),
+      0 18px 40px rgb(0 0 0 / 0.4);
   }
 
   /* Revelação no scroll — o estado inicial só existe quando o JS está ativo (.js no <html>),

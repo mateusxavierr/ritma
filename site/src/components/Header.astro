@@ -77,11 +77,12 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
     padding-top: 14px;
   }
   .site-header.is-scrolled .nav {
-    background-color: color-mix(in srgb, var(--surface-alt) 88%, transparent);
+    background-color: color-mix(in srgb, var(--surface-soft) 88%, transparent);
     border-color: var(--border-subtle);
+    /* Sombra preta desde o site escuro (2026-07-24) — a de chumbo não aparecia mais. */
     box-shadow:
-      0 1px 2px rgb(46 48 48 / 0.06),
-      0 10px 30px rgb(46 48 48 / 0.1);
+      0 1px 2px rgb(0 0 0 / 0.3),
+      0 10px 30px rgb(0 0 0 / 0.34);
     -webkit-backdrop-filter: saturate(1.4) blur(10px);
     backdrop-filter: saturate(1.4) blur(10px);
   }
@@ -103,17 +104,12 @@ import { CTA_ARIA_LABEL, waHref } from '../config';
       height: 26px;
     }
   }
-  /* topo sobre hero escuro → osso; ao rolar → chumbo (pílula clara) */
+  /* 2026-07-24 (site inteiro escuro): a pílula do header também é escura, então o logo
+     fica OSSO o tempo todo. A troca pro chumbo existia porque a pílula era clara.
+     O <img> chumbo continua no HTML, só nunca aparece — volta se a pílula clarear. */
   .nav__logo--ink {
     position: absolute;
     opacity: 0;
-  }
-  .site-header.is-scrolled .nav__logo--osso {
-    opacity: 0;
-  }
-  .site-header.is-scrolled .nav__logo--ink {
-    position: static;
-    opacity: 1;
   }
 
   /* CTA mobile: outline claro sobre o hero; ao rolar acompanha a pílula clara */

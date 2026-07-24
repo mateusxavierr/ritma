@@ -90,7 +90,8 @@ import rCeramico from '../assets/r-ceramico.png';
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background: radial-gradient(48% 42% at 50% 52%, rgb(76 78 78 / 0.06), transparent 70%);
+    /* Halo atrás do R: no escuro tem que CLAREAR (era chumbo a 6%, invisível). */
+    background: radial-gradient(48% 42% at 50% 52%, rgb(235 232 226 / 0.05), transparent 70%);
   }
   /* Mobile: esconde o R (opção A do Mateus) — composição R+card só faz sentido lado a lado. */
   @media (max-width: 1023.98px) {
@@ -109,7 +110,10 @@ import rCeramico from '../assets/r-ceramico.png';
 
   .oferta-card {
     position: relative;
-    background: var(--surface-page);
+    /* Site escuro (2026-07-24): o card sobe pra superfície MAIS CLARA que a faixa
+       (era --surface-page, que agora é a base e deixaria o card mais escuro que o fundo). */
+    background: var(--surface-soft);
+    border: 1px solid var(--border-subtle);
     border-radius: 18px;
     padding: 34px 24px;
     overflow: hidden;
@@ -125,7 +129,7 @@ import rCeramico from '../assets/r-ceramico.png';
     position: absolute;
     inset: 0 0 auto 0;
     height: 4px;
-    background: var(--ink-700);
+    background: var(--sand-100); /* era ink-700: acento tem que CLAREAR sobre card escuro */
   }
 
   .oferta-card__title {
@@ -175,8 +179,9 @@ import rCeramico from '../assets/r-ceramico.png';
     top: 6px;
     width: 5px;
     height: 9px;
-    border-right: 2px solid var(--ink-700);
-    border-bottom: 2px solid var(--ink-700);
+    /* Site escuro (2026-07-24): o check era chumbo e sumia — agora é osso. */
+    border-right: 2px solid var(--sand-100);
+    border-bottom: 2px solid var(--sand-100);
     transform: rotate(45deg);
   }
 

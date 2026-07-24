@@ -60,9 +60,11 @@ import { CTA_ARIA_LABEL, CTA_LABEL, waHref } from '../config';
     z-index: 40;
     background: var(--cta-bg);
     border-radius: 16px;
+    /* inset hairline: mesmo motivo do botão (petróleo sobre chumbo não tem borda própria) */
     box-shadow:
-      0 8px 26px rgb(20 21 21 / 0.3),
-      0 2px 6px rgb(0 0 0 / 0.2);
+      inset 0 0 0 1px color-mix(in srgb, var(--petrol-200) 42%, transparent),
+      0 8px 26px rgb(0 0 0 / 0.45),
+      0 2px 6px rgb(0 0 0 / 0.3);
     transform: translateY(calc(100% + 16px));
     visibility: hidden;
     transition:
