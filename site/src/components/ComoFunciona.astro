@@ -1,66 +1,85 @@
 ---
 /**
- * Como funciona (redesign 2026-07-24 — elevado ao padrão das outras seções).
- * Faixa osso + 4 passos como cards com relevo (.card-lift) e numeral forte tom-sobre-tom.
- * Removidos (feedback do Mateus): a caixa "Transparência" (o ponto de prazo vive no FAQ)
- * e a micro-reassurance sob o CTA. Sem ícones — a tipografia e o numeral carregam (PLANO §5.6).
- * CTA de meio só em ≥768px (§10.26); no mobile a sticky bar cobre o meio.
+ * Como funciona (redesign 2026-07-24 v2 — direção do mockup aprovado pelo Mateus).
+ * Numeral FANTASMA (contorno, marca d'água) + pílula por etapa (cores da marca) + CTA de
+ * fechamento com enquadramento persuasivo "Começar pela etapa 1".
+ *
+ * OAB / não inventar: as pílulas NÃO usam "grátis" nem prazos não confirmados (24h, 2 dias).
+ * Cada pílula é um atributo VERDADEIRO da etapa. O "grátis" no CTA fica de fora até confirmar
+ * empresa (Provimento 205/2021, §10.23). CTA de meio só ≥768px (§10.26; mobile tem sticky bar).
  */
 import CtaButton from './CtaButton.astro';
 
 const passos = [
   {
     titulo: 'Consulta de viabilidade',
-    corpo:
-      'Você chama no WhatsApp e a Ritma pesquisa o seu nome nas bases do INPI. Sai sabendo se ele está disponível.',
+    corpo: 'Pesquisamos o seu nome nas bases do INPI e você já sabe se ele está disponível.',
+    pilula: 'Sem compromisso',
   },
   {
     titulo: 'Estratégia',
-    corpo:
-      'Definição da classe e da forma de proteção certas pro seu negócio. Você entende cada escolha antes de aprovar.',
+    corpo: 'Definimos a classe e a forma de proteção certas pro seu negócio.',
+    pilula: 'Você aprova antes',
   },
   {
     titulo: 'Protocolo',
-    corpo:
-      'Pedido depositado no INPI. A partir daqui, quem chegar depois fica atrás de você na fila.',
+    corpo: 'Depositamos o pedido no INPI e você garante o seu lugar na fila.',
+    pilula: 'Garante seu lugar',
   },
   {
     titulo: 'Acompanhamento',
-    corpo:
-      'A Ritma acompanha cada movimentação do processo e te avisa do que importa, até a decisão final.',
+    corpo: 'Seguimos cada movimentação do processo e avisamos do que importa, até a decisão final.',
+    pilula: 'Até a decisão',
   },
 ];
-/*
- * Variante pós-liberação (§10.23): título do passo 1 vira `Consulta gratuita`.
- */
+/* Variante pós-liberação (§10.23): passo 1 pode ganhar a pílula `Consulta gratuita`. */
 ---
 
 <section class="bg-(--surface-alt)">
   <div class="container-page py-16 md:py-24">
-    <p class="cf-eyebrow reveal">Do WhatsApp ao certificado</p>
-    <h2 class="text-h2 reveal" style="--reveal-delay:80ms">Como funciona, sem juridiquês</h2>
+    <div class="cf-panel">
+      <p class="cf-eyebrow reveal">Do WhatsApp ao certificado</p>
+      <h2 class="text-h2 reveal" style="--reveal-delay:80ms">Como funciona, sem juridiquês</h2>
 
-    <ol class="cf-grid">
-      {
-        passos.map((p, i) => (
-          <li class="cf-card card-lift reveal" style={`--reveal-delay:${120 + i * 90}ms`}>
-            <span aria-hidden="true" class="cf-num">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <h3 class="text-h3 cf-card__title">{p.titulo}</h3>
-            <p class="cf-card__body">{p.corpo}</p>
-          </li>
-        ))
-      }
-    </ol>
+      <ol class="cf-grid">
+        {
+          passos.map((p, i) => (
+            <li class="cf-step reveal" style={`--reveal-delay:${140 + i * 90}ms`}>
+              <span aria-hidden="true" class="cf-num">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 class="cf-step__title">{p.titulo}</h3>
+              <p class="cf-step__body">{p.corpo}</p>
+              <span class="cf-pill">{p.pilula}</span>
+            </li>
+          ))
+        }
+      </ol>
 
-    <div class="mt-10 hidden md:block reveal">
-      <CtaButton align="start" origin="comofunciona" />
+      <div class="cf-cta hidden md:flex reveal">
+        <CtaButton
+          label="Começar pela etapa 1 — verificar a disponibilidade da minha marca"
+          align="center"
+          origin="comofunciona"
+        />
+      </div>
     </div>
   </div>
 </section>
 
 <style>
+  .cf-panel {
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    background: var(--surface-soft);
+    padding: 32px 24px;
+  }
+  @media (min-width: 768px) {
+    .cf-panel {
+      padding: 48px 48px 40px;
+    }
+  }
+
   .cf-eyebrow {
     font-size: var(--text-caption);
     font-weight: 700;
@@ -72,7 +91,7 @@ const passos = [
 
   .cf-grid {
     display: grid;
-    gap: 16px;
+    gap: 32px;
     margin: 40px 0 0;
     padding: 0;
     list-style: none;
@@ -80,49 +99,70 @@ const passos = [
   @media (min-width: 768px) {
     .cf-grid {
       grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+      gap: 28px;
       margin-top: 48px;
     }
   }
 
-  .cf-card {
-    position: relative;
+  .cf-step {
     display: flex;
     flex-direction: column;
-    padding: 28px 24px 26px;
-    background: var(--surface-page);
-    border: 1px solid var(--border-subtle);
-    border-radius: 16px;
-    overflow: hidden;
-  }
-  /* faixa fina superior — sinal de “etapa”, tom-sobre-tom */
-  .cf-card::before {
-    content: '';
-    position: absolute;
-    inset: 0 0 auto 0;
-    height: 3px;
-    background: var(--border-strong);
+    align-items: flex-start;
   }
 
+  /* Numeral fantasma — contorno, marca d'água (direção do mockup) */
   .cf-num {
-    font-size: 40px;
+    font-size: 64px;
     font-weight: 800;
-    line-height: 1;
+    line-height: 0.9;
     letter-spacing: -0.02em;
-    color: var(--border-strong);
-    margin-bottom: 14px;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--border-strong);
+    margin-bottom: 16px;
   }
   @media (min-width: 768px) {
     .cf-num {
-      font-size: 46px;
+      font-size: 76px;
     }
   }
-  .cf-card__title {
+  @supports not ((-webkit-text-stroke: 1px black) or (text-stroke: 1px black)) {
+    .cf-num {
+      color: var(--border-strong);
+    }
+  }
+
+  .cf-step__title {
+    font-size: var(--text-h3);
+    font-weight: 700;
+    line-height: 1.25;
+    color: var(--text-primary);
     margin-bottom: 8px;
   }
-  .cf-card__body {
+  .cf-step__body {
     font-size: var(--text-body-sm);
     line-height: var(--text-body-sm--line-height);
     color: var(--text-secondary);
+    margin-bottom: 16px;
+  }
+
+  /* Pílula da etapa — cores da marca (osso/chumbo), sóbria */
+  .cf-pill {
+    display: inline-flex;
+    align-items: center;
+    margin-top: auto;
+    padding: 5px 13px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: var(--surface-page);
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .cf-cta {
+    justify-content: center;
+    margin-top: 44px;
   }
 </style>

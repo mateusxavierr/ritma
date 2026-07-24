@@ -19,6 +19,9 @@ interface Props {
   align?: 'start' | 'center';
   /** origem do clique → mensagem personalizada do WhatsApp (config.ts WA_MESSAGES) */
   origin?: string;
+  /** label próprio (ex.: enquadramento persuasivo "Começar pela etapa 1…") — mesmo href/intent.
+      Default = CTA_LABEL único (§10.9). Usar só em placement específico, com justificativa. */
+  label?: string;
   id?: string;
 }
 
@@ -29,20 +32,23 @@ const {
   reassurance = false,
   align = 'start',
   origin = 'default',
+  label = CTA_LABEL,
   id,
 } = Astro.props;
+
+const ariaLabel = label === CTA_LABEL ? CTA_ARIA_LABEL : `${label} pelo WhatsApp`;
 ---
 
 <div id={id} class:list={['cta-block', align === 'center' && 'cta-center', block && 'cta-fill']}>
   <a
     href={waHref(origin)}
-    aria-label={CTA_ARIA_LABEL}
+    aria-label={ariaLabel}
     class:list={['cta', `cta-${variant}`, `cta-${size}`, block && 'w-full']}
   >
     <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
       <use href="#wa-icon"></use>
     </svg>
-    <span>{CTA_LABEL}</span>
+    <span>{label}</span>
   </a>
   {reassurance && <p class="cta-reassurance">{CTA_REASSURANCE}</p>}
 </div>
