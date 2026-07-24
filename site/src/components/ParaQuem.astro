@@ -56,6 +56,7 @@ const perfis = [
               style={`object-position:${p.pos}`}
             />
             <div class="card-foto__scrim" aria-hidden="true" />
+            <span class="card-foto__seal" aria-hidden="true">&#174;</span>
             <div class="card-foto__body">
               <h3 class="text-h3">{p.titulo}</h3>
               <p>{p.corpo}</p>
@@ -119,6 +120,20 @@ const perfis = [
       rgb(24 25 25 / 0.94) 100%
     );
   }
+  /* Selo ® — âncora de "registro de marca", vetor nítido (nunca gerado por IA — decisão do council).
+     Discreto, canto superior direito, consistente nos 3 cards. */
+  .card-foto__seal {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    z-index: 3;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text-on-dark);
+    opacity: 0.62;
+  }
+
   .card-foto__body {
     position: absolute;
     inset: auto 0 0 0;
