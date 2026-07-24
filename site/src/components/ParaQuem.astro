@@ -37,7 +37,7 @@ const perfis = [
 ];
 ---
 
-<section class="band-dark paraquem">
+<section class="band-light paraquem">
   <span class="paraquem__glow" aria-hidden="true"></span>
   <div class="container-page py-16 md:py-24">
     {/* Título trocado pelo Mateus em 2026-07-24 (era "Isso é pra você?"). */}
@@ -77,9 +77,9 @@ const perfis = [
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(58% 46% at 50% 46%, rgb(255 255 255 / 0.06), transparent 72%),
-      radial-gradient(90% 60% at 50% 120%, rgb(20 21 21 / 0.5), transparent 70%);
+    /* Faixa clara (2026-07-24): o respiro que escurecia a base saiu — sobrou só o foco
+       central, agora em branco, pra dar a mesma sensação de luz de estúdio no claro. */
+    background: radial-gradient(58% 46% at 50% 46%, rgb(255 255 255 / 0.55), transparent 72%);
   }
   .paraquem__title {
     color: var(--text-on-dark);
@@ -142,7 +142,7 @@ const perfis = [
     font-size: 15px;
     font-weight: 600;
     line-height: 1;
-    color: var(--text-on-dark);
+    color: var(--sand-100); /* sobre FOTO: osso fixo, não acompanha a faixa */
     opacity: 0.62;
   }
 
@@ -151,7 +151,7 @@ const perfis = [
     inset: auto 0 0 0;
     z-index: 2;
     padding: 24px;
-    color: var(--text-on-dark);
+    color: var(--sand-100); /* sobre FOTO: osso fixo */
   }
   .card-foto__body h3 {
     margin-bottom: 8px;
@@ -159,6 +159,6 @@ const perfis = [
   .card-foto__body p {
     font-size: var(--text-body-sm);
     line-height: var(--text-body-sm--line-height);
-    color: var(--text-on-dark-soft);
+    color: color-mix(in srgb, var(--sand-100) 78%, transparent); /* sobre FOTO */
   }
 </style>

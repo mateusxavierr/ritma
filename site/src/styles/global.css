@@ -22,7 +22,7 @@
 
 @layer base {
   html {
-    color-scheme: dark; /* site inteiro escuro desde 2026-07-24 (era light travado) */
+    color-scheme: light; /* a página abre clara de novo (alternância invertida, 2026-07-24) */
   }
 
   body {
@@ -119,6 +119,40 @@
       radial-gradient(120% 80% at 50% -10%, rgb(255 255 255 / 0.04), transparent 60%),
       linear-gradient(180deg, var(--surface-dark-top), var(--surface-dark-bottom));
     color: var(--text-on-dark);
+
+    /* ——— A faixa escura REMAPEIA os tokens semânticos dentro dela (2026-07-24) ———
+       Todo componente usa --text-primary / --surface-card / --border-* e obedece a faixa
+       onde está, sem saber qual é. Inverter a página = trocar a classe da seção.
+       Percentuais medidos sobre o card ink-800 (pior caso): 80% → 5.7:1, 68% → 4.7:1. */
+    --text-primary: var(--sand-100);
+    --text-secondary: color-mix(in srgb, var(--sand-100) 80%, transparent);
+    --text-muted: color-mix(in srgb, var(--sand-100) 68%, transparent);
+    --surface-card: var(--ink-800);
+    --surface-page: var(--ink-950);
+    --surface-alt: var(--ink-900);
+    --surface-soft: var(--ink-800);
+    --border-subtle: color-mix(in srgb, var(--sand-100) 14%, transparent);
+    --border-strong: color-mix(in srgb, var(--sand-100) 26%, transparent);
+    --focus-ring: var(--sand-100);
+    --shadow-elev: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px rgb(0 0 0 / 0.36);
+  }
+
+  /* Faixa clara — o par de .band-dark. Explícita (em vez de "ausência de faixa escura")
+     pra que inverter a página seja trocar uma classe pela outra. */
+  .band-light {
+    position: relative;
+    isolation: isolate;
+    background: var(--surface-alt);
+    color: var(--text-primary);
+    /* As seções que nasceram escuras (hero, autoridade, CTA final) escrevem em --text-on-dark.
+       Aqui esses dois nomes passam a significar "o texto DESTA faixa" — assim virar a faixa é
+       trocar uma classe, sem reescrever cada cor. Exceção: texto sobre FOTO continua osso fixo
+       (ver os cards de ParaQuem), porque ali o fundo é a imagem, não a faixa. */
+    --text-on-dark: var(--ink-700);
+    --text-on-dark-soft: var(--ink-600);
+  }
+  .band-light--page {
+    background: var(--surface-page);
   }
   /* Grain de filme em TODA faixa escura (padrão firmado 2026-07-24): textura tátil de
      estúdio, dentro dos 2 tons. feTurbulence inline — sem asset externo. */
@@ -154,11 +188,10 @@
     background-image: url('/ritma/pattern-r.svg');
     opacity: 0.05;
   }
-  /* .texture-r-ink era o R chumbo pra faixas CLARAS. Com o site inteiro escuro (2026-07-24)
-     não sobrou faixa clara: aponta pro mesmo R osso, com opacidade menor. */
+  /* R chumbo — pra faixa CLARA (o .texture-r osso é pra faixa escura). */
   .texture-r-ink {
-    background-image: url('/ritma/pattern-r.svg');
-    opacity: 0.035;
+    background-image: url('/ritma/pattern-r-ink.svg');
+    opacity: 0.04;
   }
 
   /* Divisor de seção com o R — usado pra emendar faixas (ponto 7 do brief) */
@@ -178,21 +211,25 @@
     opacity: 0.6;
   }
 
-  /* Card com relevo sutil — sombras pretas desde o site escuro (2026-07-24): sombra tingida
-     de chumbo sobre fundo chumbo não existe. */
+  /* Card com relevo sutil. As sombras seguem a faixa: dentro de .band-dark elas são pretas
+     (sombra tingida de chumbo sobre chumbo não existe), fora são o chumbo suave de sempre. */
   .card-lift {
-    box-shadow:
-      0 1px 2px rgb(0 0 0 / 0.28),
-      0 10px 28px rgb(0 0 0 / 0.32);
+    box-shadow: var(--shadow-card, 0 1px 2px rgb(76 78 78 / 0.05), 0 8px 24px rgb(76 78 78 / 0.06));
     transition:
       transform 200ms ease,
       box-shadow 200ms ease;
   }
   .card-lift:hover {
     transform: translateY(-3px);
-    box-shadow:
-      0 2px 6px rgb(0 0 0 / 0.32),
-      0 18px 40px rgb(0 0 0 / 0.4);
+    box-shadow: var(
+      --shadow-card-hover,
+      0 2px 4px rgb(76 78 78 / 0.06),
+      0 14px 34px rgb(76 78 78 / 0.1)
+    );
+  }
+  .band-dark .card-lift {
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.28), 0 10px 28px rgb(0 0 0 / 0.32);
+    --shadow-card-hover: 0 2px 6px rgb(0 0 0 / 0.32), 0 18px 40px rgb(0 0 0 / 0.4);
   }
 
   /* Revelação no scroll — o estado inicial só existe quando o JS está ativo (.js no <html>),

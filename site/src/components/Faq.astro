@@ -43,7 +43,7 @@ const itens = [
 ];
 ---
 
-<section class="bg-(--surface-page)">
+<section class="band-dark faq-band">
   <div class="container-page py-16 md:py-24">
     <div class="mx-auto max-w-[720px]">
       <h2 class="text-h2 reveal">O que todo mundo pergunta</h2>
@@ -67,6 +67,13 @@ const itens = [
 </section>
 
 <style>
+  /* Oferta e FAQ ficaram escuras lado a lado na inversão. Antes eram osso e branco —
+     dois tons diferentes. O FAQ vira chumbo CHAPADO (sem o gradiente da faixa) pra
+     manter o degrau entre as duas seções. */
+  .faq-band {
+    background: var(--surface-dark-bottom);
+  }
+
   summary {
     display: flex;
     align-items: center;
