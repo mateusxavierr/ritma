@@ -1,9 +1,11 @@
 ---
 /**
  * Para quem é (redesign 2026-07-23 — faixa escura + cards com foto).
- * 3 perfis em cards-imagem (retratos da Amanda em fundo escuro que funde na faixa),
- * headline + texto sobre scrim na base — estrutura da referência aprovada pelo Mateus.
- * Reveal escalonado no scroll (ponto 5). Paleta osso+chumbo travada.
+ * 3 perfis em cards-imagem. Imagens CONCEITUAIS geradas por IA (não a Amanda), na mesma
+ * ambiência das fotos dela (fundo carvão, luz de estúdio, paleta neutra osso/chumbo) —
+ * cada uma casa com a copy do card: caixa em branco (começando) → produto finalizado
+ * (conhecido) → duas opções sendo pesadas (comparando). Estrutura da referência aprovada.
+ * Reveal escalonado no scroll (ponto 5).
  */
 import { Picture } from 'astro:assets';
 import imgComecando from '../assets/paraquem-comecando.jpg';
@@ -16,21 +18,21 @@ const perfis = [
     titulo: 'Para você que está começando',
     corpo:
       'Vai investir em logo, embalagem e divulgação. Melhor construir tudo isso sobre um nome que já é seu.',
-    pos: '50% 22%',
+    pos: '50% 40%',
   },
   {
     img: imgConhecido,
     titulo: 'Para você que já é conhecido',
     corpo:
       'Seu nome já tem valor no mercado. Cada mês sem registro é uma aposta de que ninguém vai registrá-lo antes.',
-    pos: '50% 20%',
+    pos: '50% 42%',
   },
   {
     img: imgComparando,
     titulo: 'Para você que está comparando',
     corpo:
       'Quer saber o que está incluído e quem cuida do processo. A resposta está a uma mensagem de distância.',
-    pos: '50% 18%',
+    pos: '50% 44%',
   },
 ];
 ---
