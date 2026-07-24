@@ -6,7 +6,7 @@
 import logoOsso from '../assets/logo-ritma-osso.svg';
 ---
 
-<footer class="bloco-escuro bg-(--surface-inverse) text-(--text-on-inverse-2)">
+<footer class="bloco-escuro footer-dark text-(--text-on-inverse-2)">
   <div class="container-page grid gap-10 py-12 md:grid-cols-3 md:py-16">
     <div>
       <img src={logoOsso.src} alt="Ritma Registros" width="103" height="26" class="h-6 w-auto" />
@@ -39,8 +39,12 @@ import logoOsso from '../assets/logo-ritma-osso.svg';
 <style>
   /* Separador do CTA final (§5.11): osso a 15% */
   footer {
-    border-top: 1px solid rgb(235 232 226 / 0.15);
+    border-top: 1px solid rgb(235 232 226 / 0.12);
     --focus-ring: var(--text-on-inverse-2);
+  }
+  /* Continua o tom escuro do CTA final sem emenda (bottom do band-dark = ink-950) */
+  .footer-dark {
+    background-color: var(--surface-dark-bottom);
   }
 
   /* O dark do footer fecha a página (must-fix 5): o respiro do safe-area mobile

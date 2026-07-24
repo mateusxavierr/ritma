@@ -1,34 +1,33 @@
 ---
 /**
- * Autoridade (PLANO §5.9, §10.24): nome, rosto real e papel ANTES do pedido de conversa.
- * Foto escolhida no build: docs/marca/!fotos amanda/photo.jpg — única do lote com fundo
- * cinza claro neutro, olhar direto e expressão sóbria compatível com o tom OAB (critérios §5.9).
- * Crop quadrado do 3:4 com o rosto no terço superior feito em scripts/assets.sh.
+ * Autoridade (redesign 2026-07-23 — faixa escura, rosto real em destaque).
+ * Nome, rosto e papel ANTES do pedido de conversa (PLANO §5.9, §10.24).
+ * Foto: photo 7 (Amanda sentada, olhar direto, fundo escuro) fundindo na faixa via máscara.
  */
 import { Picture } from 'astro:assets';
-import amanda from '../assets/amanda.jpg';
+import amanda from '../assets/autoridade.jpg';
 ---
 
-<section class="bg-(--surface-soft)">
-  <div
-    class="container-page grid items-center gap-10 py-16 md:py-24 lg:grid-cols-[5fr_7fr] lg:gap-16"
-  >
-    <Picture
-      src={amanda}
-      alt="Amanda Pereira, da Ritma Registros"
-      formats={['avif', 'webp']}
-      widths={[420, 840, 1260]}
-      quality={75}
-      sizes="(min-width: 1024px) 420px, calc(100vw - 40px)"
-      loading="lazy"
-      decoding="async"
-      class="retrato h-60 w-full rounded-2xl object-cover lg:h-auto lg:max-w-[420px]"
-    />
-    <div>
-      <h2 class="text-h2">Quem acompanha o seu registro</h2>
-      <p class="mt-6 text-2xl font-extrabold leading-tight">Amanda Pereira</p>
-      <p class="mt-1 text-body-sm font-semibold text-(--text-secondary)">Registro de Marcas</p>
-      <p class="prose-measure mt-4">
+<section class="band-dark autoridade">
+  <span class="texture-r" aria-hidden="true"></span>
+  <div class="container-page autoridade__grid">
+    <div class="autoridade__figure reveal">
+      <Picture
+        src={amanda}
+        alt="Amanda Pereira, da Ritma Registros"
+        formats={['avif', 'webp']}
+        widths={[440, 660, 880]}
+        sizes="(min-width: 1024px) 440px, 100vw"
+        quality={82}
+        loading="lazy"
+        class="autoridade__photo"
+      />
+    </div>
+    <div class="autoridade__text">
+      <p class="autoridade__eyebrow reveal">Quem acompanha o seu registro</p>
+      <p class="autoridade__nome reveal" style="--reveal-delay:80ms">Amanda Pereira</p>
+      <p class="autoridade__papel reveal" style="--reveal-delay:140ms">Registro de Marcas</p>
+      <p class="autoridade__bio reveal" style="--reveal-delay:200ms">
         À frente da Ritma Registros, Amanda cuida de processos de marca com atendimento digital para
         todo o Brasil.
       </p>
@@ -42,14 +41,67 @@ import amanda from '../assets/amanda.jpg';
 </section>
 
 <style>
-  /* Mobile: retrato full-width 240px com o rosto enquadrado (§5.9) */
-  .retrato {
-    object-position: 50% 18%;
+  .autoridade__grid {
+    display: grid;
+    gap: 32px;
+    align-items: center;
+    padding-top: 64px;
+    padding-bottom: 64px;
   }
   @media (min-width: 1024px) {
-    .retrato {
-      object-position: 50% 50%;
-      aspect-ratio: 1;
+    .autoridade__grid {
+      grid-template-columns: 0.82fr 1fr;
+      gap: 56px;
+      padding-top: 96px;
+      padding-bottom: 96px;
     }
+  }
+
+  .autoridade__figure {
+    position: relative;
+  }
+  .autoridade__photo {
+    display: block;
+    width: 100%;
+    max-width: 380px;
+    margin-inline: auto;
+    border-radius: 16px;
+    /* funde a base e as laterais na faixa escura */
+    -webkit-mask-image: linear-gradient(180deg, #000 74%, transparent),
+      linear-gradient(90deg, transparent, #000 12% 88%, transparent);
+    mask-image: linear-gradient(180deg, #000 74%, transparent),
+      linear-gradient(90deg, transparent, #000 12% 88%, transparent);
+  }
+  @media (min-width: 1024px) {
+    .autoridade__photo {
+      max-width: 440px;
+      margin-inline: 0;
+    }
+  }
+
+  .autoridade__eyebrow {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-on-dark-soft);
+    margin-bottom: 16px;
+  }
+  .autoridade__nome {
+    font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.375rem);
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-on-dark);
+  }
+  .autoridade__papel {
+    margin-top: 6px;
+    font-size: var(--text-body-sm);
+    font-weight: 600;
+    color: var(--text-on-dark-soft);
+  }
+  .autoridade__bio {
+    margin-top: 20px;
+    max-width: 46ch;
+    color: var(--text-on-dark-soft);
   }
 </style>

@@ -1,47 +1,83 @@
 ---
 /**
- * Problema → solução (PLANO §5.4): educação do tráfego frio. Coluna única editorial
- * CENTRADA no desktop (must-fix 2 do council visual: encostada à esquerda sobrava ~45%
- * de vazio à direita; centrada, a medida conversa com FAQ e oferta).
- * A seção funciona 100% sem vídeo (fallback é o próprio texto).
+ * Problema → solução (redesign 2026-07-23). Faixa clara com profundidade:
+ * glifo R gigante tom-sobre-tom bleeding na borda (depth, ponto 3/6/7) + reveal no scroll.
+ * Copy alinhada ao panfleto A6 (ponto 8): "Enquanto você cresce, outro pode registrar o seu nome".
+ * Funciona 100% sem vídeo (o texto é o fallback).
  */
+import rGlyph from '../assets/r-glyph.svg';
 ---
 
-<section class="bg-(--surface-page)">
+<section class="problema">
+  <img src={rGlyph.src} alt="" aria-hidden="true" class="problema__r" />
   <div class="container-page py-16 md:py-24">
     <div class="prose-measure mx-auto">
       {/*
         [PENDENTE:VIDEO] — se o vídeo chegar (PERGUNTAS-ABERTAS 6), entra AQUI, acima do H2,
-        complementando o texto (nunca substituindo — §3). Spec (§5.4):
-        <video class="mb-10 aspect-video w-full rounded-2xl" controls preload="none"
-          poster="/video-poster.jpg" width="1280" height="720">
-          <source src="/video.mp4" type="video/mp4" />
-        </video>
-        Poster gerado do primeiro frame; máx. 720p; lazy por preload="none".
+        complementando o texto (nunca substituindo — §3).
       */}
-      <h2 class="text-h2">Quem não registra, perde.</h2>
-      <p class="mt-4">
+      <p class="problema__eyebrow reveal">A sua marca é realmente sua?</p>
+      <h2 class="text-h2 reveal" style="--reveal-delay:80ms">
+        Enquanto você cresce, outro pode registrar o seu nome.
+      </h2>
+      <p class="mt-4 reveal" style="--reveal-delay:140ms">
         Não é força de expressão. É como a lei funciona: o direito sobre a marca nasce do registro
         no INPI, não do uso.
       </p>
       <ul class="mt-8 grid gap-4">
-        <li class="li-square">
+        <li class="li-square reveal" style="--reveal-delay:180ms">
           Outra empresa pode registrar o seu nome e ficar com ele, mesmo que você tenha chegado
           primeiro.
         </li>
-        <li class="li-square">
+        <li class="li-square reveal" style="--reveal-delay:240ms">
           Quem tem o registro pode exigir a remoção do seu perfil, dos seus anúncios e da sua loja
           com esse nome.
         </li>
-        <li class="li-square">
+        <li class="li-square reveal" style="--reveal-delay:300ms">
           Faça a conta: R$ 3 mil por mês em divulgação são R$ 72 mil em dois anos construindo um
           nome que pode acabar registrado por outro.
         </li>
       </ul>
-      <p class="mt-8">
+      <p class="mt-8 reveal" style="--reveal-delay:360ms">
         O registro resolve isso de vez: exclusividade em todo o Brasil, renovável a cada 10 anos. E
         a sua prioridade na fila nasce no dia do protocolo, não no fim do processo.
       </p>
     </div>
   </div>
 </section>
+
+<style>
+  .problema {
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-alt);
+    isolation: isolate;
+  }
+  /* Glifo R gigante tom-sobre-tom, bleeding na borda — profundidade sem cor nova */
+  .problema__r {
+    position: absolute;
+    z-index: -1;
+    right: -8%;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 118%;
+    width: auto;
+    opacity: 0.05;
+    pointer-events: none;
+    user-select: none;
+  }
+  @media (min-width: 768px) {
+    .problema__r {
+      right: 2%;
+      opacity: 0.06;
+    }
+  }
+  .problema__eyebrow {
+    font-size: var(--text-caption);
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+</style>

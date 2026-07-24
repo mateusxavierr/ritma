@@ -36,14 +36,14 @@ const passos = [
 
 <section class="bg-(--surface-page)">
   <div class="container-page py-16 md:py-24">
-    <h2 class="text-h2">Como funciona, sem juridiquês</h2>
+    <h2 class="text-h2 reveal">Como funciona, sem juridiquês</h2>
     <div class="relative mt-10">
       <span aria-hidden="true" class="linha-h hidden md:block"></span>
       <span aria-hidden="true" class="linha-v md:hidden"></span>
       <ol class="passos grid gap-8 md:grid-cols-4 md:gap-6">
       {
         passos.map((p, i) => (
-          <li class="grid grid-cols-[48px_1fr] gap-x-2 md:block">
+          <li class="reveal grid grid-cols-[48px_1fr] gap-x-2 md:block" style={`--reveal-delay:${i * 110}ms`}>
             <span aria-hidden="true" class="numeral">
               {i + 1}
             </span>
@@ -56,7 +56,7 @@ const passos = [
       }
       </ol>
     </div>
-    <div class="mt-10 max-w-[62ch] rounded-xl bg-(--surface-alt) p-6">
+    <div class="reveal mt-10 max-w-[62ch] rounded-xl bg-(--surface-alt) p-6">
       <p class="text-body-sm">
         <strong>Transparência:</strong> as etapas 1 a 3 são rápidas. Lenta é a fila de exame do
         INPI, que leva meses e não depende de ninguém. É por isso que protocolar cedo importa: a
