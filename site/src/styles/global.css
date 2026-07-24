@@ -158,6 +158,22 @@
     opacity: 0.6;
   }
 
+  /* Card com relevo sutil sobre faixa clara (padrão firmado no redesign) */
+  .card-lift {
+    box-shadow:
+      0 1px 2px rgb(76 78 78 / 0.05),
+      0 8px 24px rgb(76 78 78 / 0.06);
+    transition:
+      transform 200ms ease,
+      box-shadow 200ms ease;
+  }
+  .card-lift:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      0 2px 4px rgb(76 78 78 / 0.06),
+      0 14px 34px rgb(76 78 78 / 0.1);
+  }
+
   /* Revelação no scroll — o estado inicial só existe quando o JS está ativo (.js no <html>),
      então sem JS/reduced-motion o conteúdo aparece normal (PLANO §8, a11y). */
   .js .reveal {

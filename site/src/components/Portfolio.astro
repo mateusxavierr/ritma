@@ -62,16 +62,5 @@ import patternR from '../assets/pattern-r.svg';
     background-size: 170px auto;
     background-repeat: repeat;
   }
-
-  /* Relevo sutil dos cards sobre a textura (profundidade — feedback do Mateus) */
-  .card-lift {
-    box-shadow: 0 1px 2px rgb(76 78 78 / 0.05), 0 8px 24px rgb(76 78 78 / 0.06);
-    transition:
-      transform 200ms ease,
-      box-shadow 200ms ease;
-  }
-  .card-lift:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 2px 4px rgb(76 78 78 / 0.06), 0 14px 34px rgb(76 78 78 / 0.1);
-  }
+  /* .card-lift agora é utilitário global (global.css) */
 </style>
