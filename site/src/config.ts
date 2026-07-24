@@ -32,14 +32,11 @@ export const WHATSAPP_MESSAGE = WA_MESSAGES.default;
 export const CTA_LABEL = 'Verificar a disponibilidade da minha marca';
 
 /*
- * Variante pós-liberação — ativar SÓ se a pergunta 12 (PERGUNTAS-ABERTAS) confirmar
- * EMPRESA (não sociedade de advogados). Swap de 1 linha: comentar a const acima e
- * descomentar a de baixo. As demais superfícies com gratuidade/honorários (§10.23)
- * trocam nos comentários dos próprios componentes.
+ * A variante "Fazer minha consulta gratuita" está MORTA desde 2026-07-24: a Amanda confirmou
+ * que quem assina o contrato é ela como advogada (a Ritma não tem CNPJ), então a página vive
+ * sob as regras de publicidade da OAB em definitivo. Sem "grátis", sem valor de honorário.
  *
- * export const CTA_LABEL = 'Fazer minha consulta gratuita';
- *
- * Alternativa B (guardar pro A/B futuro, PLANO §4.1):
+ * Alternativa viva pro A/B futuro (PLANO §4.1), essa sim OAB-safe:
  * export const CTA_LABEL = 'Descobrir se minha marca está livre';
  */
 

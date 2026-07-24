@@ -31,24 +31,39 @@ import rCeramico from '../assets/r-ceramico.png';
         acompanhamento até a decisão final.
       </p>
 
+      {/* Lista REAL confirmada pela Amanda em 2026-07-24 (fecha [PENDENTE:SERVICOS]). */}
       <p class="oferta-card__label">Incluído na assessoria</p>
-      {/*
-        [PENDENTE:SERVICOS] — escopo definicional abaixo; validar contra a lista real
-        da agência quando chegar (PERGUNTAS-ABERTAS 1).
-      */}
       <ul class="oferta-checklist">
         <li>Consulta de viabilidade e análise de colidência</li>
+        <li>Orientação sobre o tipo de marca: nominativa, mista, figurativa ou tridimensional</li>
         <li>Definição de classes e estratégia de proteção</li>
         <li>Preparação e protocolo do pedido no INPI</li>
         <li>Acompanhamento do processo e aviso de cada despacho</li>
         <li>Atendimento digital para todo o Brasil</li>
       </ul>
 
-      {/*
-        Nota de custos removida a pedido do Mateus (não falar de valores no card).
-        [PENDENTE:PRECO] — se um dia entrar preço/taxa, é aqui (PERGUNTAS-ABERTAS 2).
-        [PENDENTE:GARANTIA] — risk reversal entra aqui SÓ se a Amanda confirmar (PERGUNTAS-ABERTAS 3).
-      */}
+      {/* Serviços que a Amanda faz mas NÃO entram no plano básico — ela orça caso a caso
+          ("é difícil alguém fechar um pacote que inclui tudo, porque sai mais caro").
+          Marcador é "+", nunca check: check ao lado de item não incluído é promessa falsa. */}
+      <p class="oferta-card__label">Quando o caso pede, orçado à parte</p>
+      <ul class="oferta-extras">
+        <li>Resposta a exigências do INPI</li>
+        <li>Defesa contra oposições e oposição a pedidos de terceiros</li>
+        <li>Recursos administrativos</li>
+        <li>Petições de retificação de dados</li>
+        <li>Monitoramento de marcas semelhantes (colidências)</li>
+        <li>Renovação do registro, a cada 10 anos</li>
+        <li>Averbação de alteração de nome, endereço ou razão social</li>
+        <li>Transferência de titularidade (cessão de marca)</li>
+      </ul>
+
+      {/* Texto de honorários na formulação que a própria Amanda validou como OAB-safe:
+          sem valor, sem "a partir de" (fecha [PENDENTE:PRECO] e [PENDENTE:GARANTIA] —
+          não existe garantia; o que existe é orçamento por caso). */}
+      <p class="oferta-card__nota">
+        Os honorários são definidos de acordo com as particularidades de cada caso. Entre em
+        contato para receber uma proposta personalizada.
+      </p>
       <div class="oferta-card__cta">
         <CtaButton block align="center" origin="oferta" />
       </div>
@@ -149,6 +164,40 @@ import rCeramico from '../assets/r-ceramico.png';
   }
 
   /* Checklist — círculo + check em CSS (sem lib de ícone), reforça "você recebe isto" */
+  /* Extras: marcador "+" e texto secundário. Deliberadamente MENOS destacado que a lista de
+     incluídos — é serviço que existe, não é promessa do que já está pago. */
+  .oferta-extras {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 10px;
+  }
+  .oferta-extras li {
+    position: relative;
+    padding-left: 32px;
+    font-size: var(--text-body-sm);
+    line-height: var(--text-body-sm--line-height);
+    color: var(--text-secondary);
+  }
+  .oferta-extras li::before {
+    content: '+';
+    position: absolute;
+    left: 6px;
+    top: 0;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .oferta-card__nota {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-subtle);
+    font-size: var(--text-body-sm);
+    line-height: var(--text-body-sm--line-height);
+    color: var(--text-secondary);
+  }
+
   .oferta-checklist {
     margin: 14px 0 0;
     padding: 0;
