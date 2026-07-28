@@ -76,7 +76,7 @@ const continuidade = [
       </div>
 
       {/* BLOCO 1 — o que a assessoria entrega, lido pelo ganho dela. */}
-      <div class="oferta-card card-lift reveal" style="--reveal-delay:120ms">
+      <div class="oferta-card oferta-card--principal card-lift reveal" style="--reveal-delay:120ms">
         <h2 class="text-h2 oferta-card__title">Muito além de um processo burocrático</h2>
         <p class="oferta-card__lead">
           A burocracia é nossa. Do seu lado fica só a decisão: o que proteger, em qual ramo e até
@@ -104,11 +104,15 @@ const continuidade = [
         Lei 9.279/96, e a cessão já constava da lista de serviços da Amanda.
         Fora do card, ele vira o respiro entre os dois blocos claros. */}
     <aside class="oferta-ativo reveal" style="--reveal-delay:80ms">
-      <p class="oferta-ativo__titulo">Registro não é taxa. É patrimônio.</p>
-      <p class="oferta-ativo__corpo">
-        O registro vale 10 anos e é renovável para sempre. A partir dele a marca é um bem do seu
-        negócio: pode ser licenciada, transferida ou vendida junto com ele.
-      </p>
+      <span class="oferta-ativo__textura" aria-hidden="true"></span>
+      <p class="oferta-ativo__numero" aria-hidden="true">10<span>anos</span></p>
+      <div class="oferta-ativo__texto">
+        <p class="oferta-ativo__titulo">Registro não é taxa. É patrimônio.</p>
+        <p class="oferta-ativo__corpo">
+          O registro vale <strong>10 anos e é renovável para sempre</strong>. A partir dele a marca
+          é um bem do seu negócio: pode ser licenciada, transferida ou vendida junto com ele.
+        </p>
+      </div>
     </aside>
 
     {/* BLOCO 3 — continuidade + honorários + ação. Serviços que a Amanda faz mas NÃO entram
@@ -143,7 +147,7 @@ const continuidade = [
   /* O padding vive no wrapper: os três blocos empilham dentro dele com o mesmo respiro. */
   .oferta__wrap {
     display: grid;
-    gap: 20px;
+    gap: 16px;
     padding-block: 64px;
   }
   @media (min-width: 1024px) {
@@ -206,16 +210,19 @@ const continuidade = [
     background: var(--surface-soft);
     border: 1px solid var(--border-subtle);
     border-radius: 18px;
-    padding: 34px 24px;
+    padding: 32px 24px;
     overflow: hidden;
   }
   @media (min-width: 768px) {
     .oferta-card {
-      padding: 48px 48px 44px;
+      padding: 48px;
     }
   }
-  /* acento no topo do card — toque "desenhado" que casa com as etapas */
-  .oferta-card::before {
+  /* Acento no topo só do card primário. Antes os dois traziam a barra e a mesma sombra,
+     então liam com o mesmo peso — o de continuidade é material de apoio e precisa ceder o
+     primeiro plano ao da entrega. Classe explícita, não :first-of-type: o primeiro filho
+     do grid é a coluna do R, então o seletor posicional não pegava card nenhum. */
+  .oferta-card--principal::before {
     content: '';
     position: absolute;
     inset: 0 0 auto 0;
@@ -228,16 +235,17 @@ const continuidade = [
   }
   .oferta-card__lead {
     margin-top: 12px;
+    max-width: 52ch; /* medida de leitura: o card chega a ~700px no desktop */
     color: var(--text-secondary);
   }
 
   .oferta-card__label {
-    margin-top: 28px;
+    margin-top: 32px;
     font-size: var(--text-caption);
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--text-muted);
+    color: var(--text-secondary); /* era --text-muted: 4.46:1 sobre o card, reprova AA */
   }
   /* Quando o rótulo abre o card, ele não carrega o respiro de quem vinha depois de uma
      lista. Precisa vir DEPOIS da regra base: mesma especificidade, quem fica embaixo vence. */
@@ -250,22 +258,72 @@ const continuidade = [
      seção, então ele para o olho sem competir com o botão (que segue sendo a única
      coisa colorida da página). */
   .oferta-ativo {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     border-radius: 18px;
     background: var(--surface-inverse);
-    padding: 26px 24px;
+    padding: 24px;
+    /* Bloco escuro erguido sobre a faixa clara: sem sombra ele lê como buraco, com
+       sombra lê como peça apoiada. Sombra preta — a tingida no chumbo some aqui. */
+    box-shadow:
+      0 2px 4px rgb(20 21 21 / 0.16),
+      0 18px 40px rgb(20 21 21 / 0.22);
   }
+  /* Padrão de R oficial das diretrizes, em osso sobre o chumbo. É o mesmo asset das faixas
+     escuras da página — aqui ele dá acabamento de papelaria ao único bloco invertido. */
+  .oferta-ativo__textura {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: url('/ritma/pattern-r.svg') repeat;
+    background-size: 260px auto;
+    opacity: 0.05;
+  }
+  .oferta-ativo__numero,
+  .oferta-ativo__texto {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Métrica grande + rótulo pequeno: o argumento do bloco é um número, e número merece
+     virar âncora visual em vez de ficar diluído no meio da frase. */
+  .oferta-ativo__numero {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-size: clamp(2.75rem, 2rem + 3vw, 4rem);
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--text-on-inverse);
+  }
+  .oferta-ativo__numero span {
+    font-size: var(--text-body);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    /* Osso direto, NÃO --text-on-dark-soft: dentro de .band-light aquele token é remapeado
+       pra chumbo (global.css), e este bloco é uma ilha escura dentro da faixa clara. */
+    color: color-mix(in srgb, var(--sand-100) 76%, transparent);
+  }
+
   @media (min-width: 768px) {
     .oferta-ativo {
-      /* Bloco próprio entre os dois cards claros: medida curta e centrada faz ele ler
-         como declaração, não como mais um parágrafo da lista. */
-      padding: 34px 40px;
-      text-align: center;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 40px;
+      padding: 32px 48px;
     }
-    .oferta-ativo__corpo {
-      max-width: 62ch;
-      margin-inline: auto;
+    /* Régua entre o número e o texto: separa os dois papéis sem precisar de caixa. */
+    .oferta-ativo__texto {
+      border-left: 1px solid color-mix(in srgb, var(--sand-100) 22%, transparent);
+      padding-left: 40px;
     }
   }
+
   .oferta-ativo__titulo {
     font-size: var(--text-h3);
     line-height: var(--text-h3--line-height);
@@ -274,9 +332,19 @@ const continuidade = [
   }
   .oferta-ativo__corpo {
     margin-top: 8px;
+    max-width: 62ch;
     font-size: var(--text-body-sm);
     line-height: var(--text-body-sm--line-height);
     color: var(--text-on-inverse-2);
+  }
+  .oferta-ativo__corpo strong {
+    font-weight: 700;
+    color: var(--text-on-inverse);
+  }
+  @media (max-width: 767.98px) {
+    .oferta-ativo__texto {
+      margin-top: 20px;
+    }
   }
 
   /* Checklist — círculo + check em CSS (sem lib de ícone), reforça "você recebe isto" */
@@ -289,11 +357,11 @@ const continuidade = [
     color: var(--text-secondary);
   }
   .oferta-extras {
-    margin: 14px 0 0;
+    margin: 16px 0 0;
     padding: 0;
     list-style: none;
     display: grid;
-    gap: 10px;
+    gap: 12px;
   }
   /* Duas colunas a partir do desktop: 8 itens em coluna única viravam um paredão que
      lia como "o que você vai pagar a mais". */
@@ -316,12 +384,12 @@ const continuidade = [
     left: 6px;
     top: 0;
     font-weight: 700;
-    color: var(--text-muted);
+    color: var(--text-secondary); /* mesmo motivo do rótulo: 4.46:1 não passa */
   }
 
   .oferta-card__nota {
-    margin-top: 24px;
-    padding-top: 20px;
+    margin-top: 32px;
+    padding-top: 24px;
     border-top: 1px solid var(--border-subtle);
     font-size: var(--text-body-sm);
     line-height: var(--text-body-sm--line-height);
@@ -329,7 +397,7 @@ const continuidade = [
   }
 
   .oferta-checklist {
-    margin: 14px 0 0;
+    margin: 16px 0 0;
     padding: 0;
     list-style: none;
     display: grid;
@@ -387,6 +455,6 @@ const continuidade = [
     }
   }
   .oferta-card__cta {
-    margin-top: 28px;
+    margin-top: 32px;
   }
 </style>
