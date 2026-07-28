@@ -14,21 +14,21 @@ const passos = [
   {
     titulo: 'Consulta de viabilidade',
     corpo: 'Pesquisamos o seu nome nas bases do INPI e você já sabe se ele está disponível.',
-    pilula: 'Sem compromisso',
+    pilula: 'Primeira análise pela Ritma',
   },
   {
-    titulo: 'Estratégia',
-    corpo: 'Definimos a classe e a forma de proteção certas pro seu negócio.',
+    titulo: 'Pesquisa e Estratégia',
+    corpo: 'Avaliamos riscos, semelhanças e o melhor caminho para o pedido de registro.',
     pilula: 'Você aprova antes',
   },
   {
     titulo: 'Protocolo',
-    corpo: 'Depositamos o pedido no INPI e você garante o seu lugar na fila.',
+    corpo: 'Protocolamos o pedido no INPI e acompanhamos a prioridade da sua marca a partir dessa etapa.',
     pilula: 'Garante seu lugar',
   },
   {
     titulo: 'Acompanhamento',
-    corpo: 'Seguimos cada movimentação do processo e avisamos do que importa, até a decisão final.',
+    corpo: 'Seguimos as movimentações do processo e orientamos você nas etapas importantes.',
     pilula: 'Até a decisão',
   },
 ];
@@ -39,7 +39,7 @@ const passos = [
   <div class="container-page py-16 md:py-24">
     <div class="cf-panel">
       <p class="cf-eyebrow reveal">Do WhatsApp ao certificado</p>
-      <h2 class="text-h2 reveal" style="--reveal-delay:80ms">Como funciona, sem complicação</h2>
+      <h2 class="text-h2 reveal" style="--reveal-delay:80ms">Qual caminho claro para proteger sua marca</h2>
 
       <ol class="cf-grid">
         {
@@ -59,11 +59,9 @@ const passos = [
       {/* 2026-07-24: era `hidden md:flex` (§10.26, CTA de meio só no desktop). Regra nova do
           Mateus: todo botão do desktop existe no mobile — a sticky bar é que se ajusta. */}
       <div class="cf-cta reveal">
-        <CtaButton
-          label="Começar pela etapa 1: verificar a disponibilidade da minha marca"
-          align="center"
-          origin="comofunciona"
-        />
+        {/* 2026-07-28: o enquadramento "Começar pela etapa 1…" saiu — regra do Mateus é
+            um label só, sem exceção. Volta ao CTA_LABEL padrão do CtaButton. */}
+        <CtaButton align="center" origin="comofunciona" />
       </div>
     </div>
   </div>

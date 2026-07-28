@@ -29,7 +29,7 @@ export const WHATSAPP_MESSAGE = WA_MESSAGES.default;
  * Default OAB-safe ATIVO (PLANO §10.23): sem referência a gratuidade ou valores
  * (Provimento 205/2021 OAB, art. 4º, §2º), até a pergunta 12 confirmar a estrutura.
  */
-export const CTA_LABEL = 'Verificar a disponibilidade da minha marca';
+export const CTA_LABEL = 'Quero analisar a proteção da minha marca';
 
 /*
  * A variante "Fazer minha consulta gratuita" está MORTA desde 2026-07-24: a Amanda confirmou
