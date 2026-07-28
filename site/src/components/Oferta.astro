@@ -58,54 +58,65 @@ const continuidade = [
 ---
 
 <section class="oferta band-light">
-  <div class="container-page oferta__grid">
-    <div class="oferta__r reveal" aria-hidden="true">
-      <Picture
-        src={rCeramico}
-        alt=""
-        formats={['avif', 'webp']}
-        widths={[320, 480, 700, 900]}
-        sizes="(min-width: 1024px) 420px, 60vw"
-        class="oferta__r-img"
-      />
+  {/* 2026-07-28 — o card único ficou longo demais (pedido do Mateus: quebrar em 2-3).
+      Vira três blocos com papéis distintos: entrega → argumento → continuidade + ação.
+      O R permanece, com menos protagonismo: ele deixa de ser o contrapeso de um card
+      gigante e passa a acompanhar só o primeiro bloco. */}
+  <div class="container-page oferta__wrap">
+    <div class="oferta__grid">
+      <div class="oferta__r reveal" aria-hidden="true">
+        <Picture
+          src={rCeramico}
+          alt=""
+          formats={['avif', 'webp']}
+          widths={[280, 420, 600, 780]}
+          sizes="(min-width: 1024px) 300px, 55vw"
+          class="oferta__r-img"
+        />
+      </div>
+
+      {/* BLOCO 1 — o que a assessoria entrega, lido pelo ganho dela. */}
+      <div class="oferta-card card-lift reveal" style="--reveal-delay:120ms">
+        <h2 class="text-h2 oferta-card__title">Muito além de um processo burocrático</h2>
+        <p class="oferta-card__lead">
+          A burocracia é nossa. Do seu lado fica só a decisão: o que proteger, em qual ramo e até
+          onde.
+        </p>
+
+        {/* Lista REAL confirmada pela Amanda em 2026-07-24 (fecha [PENDENTE:SERVICOS]). */}
+        <p class="oferta-card__label">O que muda pra você</p>
+        <ul class="oferta-checklist">
+          {
+            incluidos.map((item) => (
+              <li>
+                <strong>{item.ganho}</strong>
+                <span>{item.servico}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
 
-    <div class="oferta-card card-lift reveal" style="--reveal-delay:120ms">
-      <h2 class="text-h2 oferta-card__title">Muito além de um processo burocrático</h2>
-      <p class="oferta-card__lead">
-        A burocracia é nossa. Do seu lado fica só a decisão: o que proteger, em qual ramo e até
-        onde.
+    {/* BLOCO 2 — a ideia nova da seção (2026-07-28): até aqui a página inteira trata o
+        registro como processo. Este é o único lugar onde ele vira PATRIMÔNIO, e é o
+        argumento que reposiciona o custo. Fato, não promessa: prazo e cessão são da
+        Lei 9.279/96, e a cessão já constava da lista de serviços da Amanda.
+        Fora do card, ele vira o respiro entre os dois blocos claros. */}
+    <aside class="oferta-ativo reveal" style="--reveal-delay:80ms">
+      <p class="oferta-ativo__titulo">Registro não é taxa. É patrimônio.</p>
+      <p class="oferta-ativo__corpo">
+        O registro vale 10 anos e é renovável para sempre. A partir dele a marca é um bem do seu
+        negócio: pode ser licenciada, transferida ou vendida junto com ele.
       </p>
+    </aside>
 
-      {/* Lista REAL confirmada pela Amanda em 2026-07-24 (fecha [PENDENTE:SERVICOS]). */}
-      <p class="oferta-card__label">O que muda pra você</p>
-      <ul class="oferta-checklist">
-        {
-          incluidos.map((item) => (
-            <li>
-              <strong>{item.ganho}</strong>
-              <span>{item.servico}</span>
-            </li>
-          ))
-        }
-      </ul>
-
-      {/* A ideia nova da seção (2026-07-28): até aqui a página inteira trata o registro como
-          processo. Este é o único lugar onde ele vira PATRIMÔNIO — e é o argumento que
-          reposiciona o custo. Fato, não promessa: prazo e cessão são da Lei 9.279/96, e a
-          cessão já constava da própria lista de serviços da Amanda. */}
-      <aside class="oferta-ativo">
-        <p class="oferta-ativo__titulo">Registro não é taxa. É patrimônio.</p>
-        <p class="oferta-ativo__corpo">
-          O registro vale 10 anos e é renovável para sempre. A partir dele a marca é um bem do seu
-          negócio: pode ser licenciada, transferida ou vendida junto com ele.
-        </p>
-      </aside>
-
-      {/* Serviços que a Amanda faz mas NÃO entram no plano básico — ela orça caso a caso
-          ("é difícil alguém fechar um pacote que inclui tudo, porque sai mais caro").
-          Marcador é "+", nunca check: check ao lado de item não incluído é promessa falsa. */}
-      <p class="oferta-card__label">Depois do protocolo, a Ritma continua</p>
+    {/* BLOCO 3 — continuidade + honorários + ação. Serviços que a Amanda faz mas NÃO entram
+        no plano básico; ela orça caso a caso ("é difícil alguém fechar um pacote que inclui
+        tudo, porque sai mais caro"). Marcador é "+", nunca check: check ao lado de item não
+        incluído é promessa falsa. */}
+    <div class="oferta-card card-lift reveal" style="--reveal-delay:80ms">
+      <p class="oferta-card__label oferta-card__label--topo">Depois do protocolo, a Ritma continua</p>
       <p class="oferta-extras__nota">Orçados à parte, conforme o que o seu caso pedir.</p>
       <ul class="oferta-extras">
         {continuidade.map((item) => <li>{item}</li>)}
@@ -129,17 +140,29 @@ const continuidade = [
   .oferta {
     overflow: hidden;
   }
+  /* O padding vive no wrapper: os três blocos empilham dentro dele com o mesmo respiro. */
+  .oferta__wrap {
+    display: grid;
+    gap: 20px;
+    padding-block: 64px;
+  }
+  @media (min-width: 1024px) {
+    .oferta__wrap {
+      gap: 24px;
+      padding-block: 96px;
+    }
+  }
   .oferta__grid {
     display: grid;
     gap: 24px;
     align-items: center;
-    padding-block: 64px;
   }
   @media (min-width: 1024px) {
     .oferta__grid {
-      grid-template-columns: 0.85fr 1fr;
+      /* Era 0.85fr 1fr, quando o R equilibrava um card único e altíssimo. Com o conteúdo
+         repartido em três, a coluna do R encolhe: ele continua na composição, sem mandar. */
+      grid-template-columns: 0.5fr 1fr;
       gap: 40px;
-      padding-block: 96px;
     }
   }
 
@@ -172,7 +195,7 @@ const continuidade = [
     z-index: 1;
     display: block;
     width: 100%;
-    max-width: 380px;
+    max-width: 300px; /* era 380px — protagonismo menor, presença mantida */
     height: auto;
   }
 
@@ -216,20 +239,31 @@ const continuidade = [
     text-transform: uppercase;
     color: var(--text-muted);
   }
+  /* Quando o rótulo abre o card, ele não carrega o respiro de quem vinha depois de uma
+     lista. Precisa vir DEPOIS da regra base: mesma especificidade, quem fica embaixo vence. */
+  .oferta-card__label--topo {
+    margin-top: 0;
+  }
 
   /* Bloco de patrimônio: a "vida" que o Manolo pediu, feita com contraste em vez de cor
      nova. Inverte pro chumbo dentro de um card claro — é o único elemento invertido da
      seção, então ele para o olho sem competir com o botão (que segue sendo a única
      coisa colorida da página). */
   .oferta-ativo {
-    margin-top: 28px;
-    border-radius: 14px;
+    border-radius: 18px;
     background: var(--surface-inverse);
-    padding: 22px 24px;
+    padding: 26px 24px;
   }
   @media (min-width: 768px) {
     .oferta-ativo {
-      padding: 26px 28px;
+      /* Bloco próprio entre os dois cards claros: medida curta e centrada faz ele ler
+         como declaração, não como mais um parágrafo da lista. */
+      padding: 34px 40px;
+      text-align: center;
+    }
+    .oferta-ativo__corpo {
+      max-width: 62ch;
+      margin-inline: auto;
     }
   }
   .oferta-ativo__titulo {
