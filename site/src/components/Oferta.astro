@@ -9,6 +9,52 @@
 import { Picture } from 'astro:assets';
 import CtaButton from './CtaButton.astro';
 import rCeramico from '../assets/r-ceramico.png';
+
+/* 2026-07-28 — reescrita pedida pelo Manolo ("deixar o serviço como benefício"). A seção
+   prometia "muito além de um processo burocrático" e entregava 14 linhas de lista
+   burocrática: ela desmentia o próprio título, e é a última antes do FAQ.
+   Cada item agora lidera pelo GANHO dela; o nome do serviço fica como legenda — nada foi
+   removido nem inventado, é a mesma lista que a Amanda confirmou em 2026-07-24. */
+const incluidos = [
+  {
+    ganho: 'Você descobre se o nome está livre antes de gastar com ele',
+    servico: 'Consulta de viabilidade e análise de colidência',
+  },
+  {
+    ganho: 'Você entende o que está protegendo: o nome, o desenho ou os dois',
+    servico: 'Orientação sobre marca nominativa, mista, figurativa ou tridimensional',
+  },
+  {
+    ganho: 'A proteção cobre o ramo em que você atua, não um genérico',
+    servico: 'Definição de classes e estratégia de proteção',
+  },
+  {
+    ganho: 'Sua prioridade na fila começa a contar, e não é você quem preenche nada',
+    servico: 'Preparação e protocolo do pedido no INPI',
+  },
+  {
+    ganho: 'Você não precisa abrir o site do INPI nenhuma vez',
+    servico: 'Acompanhamento do processo e aviso de cada despacho',
+  },
+  {
+    ganho: 'A conversa acontece onde você já está',
+    servico: 'Atendimento digital para todo o Brasil',
+  },
+];
+
+/* Mesma lista de antes, outra leitura: era "o que NÃO está incluído" (paredão de upsell),
+   vira "a Ritma continua com você depois do protocolo". O aviso de orçamento à parte
+   permanece — a honestidade da linha é inegociável, o enquadramento é que muda. */
+const continuidade = [
+  'Resposta a exigências do INPI',
+  'Defesa contra oposições e oposição a pedidos de terceiros',
+  'Recursos administrativos',
+  'Petições de retificação de dados',
+  'Monitoramento de marcas semelhantes',
+  'Renovação do registro, a cada 10 anos',
+  'Averbação de alteração de nome, endereço ou razão social',
+  'Transferência de titularidade (cessão de marca)',
+];
 ---
 
 <section class="oferta band-light">
@@ -27,34 +73,42 @@ import rCeramico from '../assets/r-ceramico.png';
     <div class="oferta-card card-lift reveal" style="--reveal-delay:120ms">
       <h2 class="text-h2 oferta-card__title">Muito além de um processo burocrático</h2>
       <p class="oferta-card__lead">
-        Uma assessoria estratégica que assume a burocracia por você: do primeiro protocolo ao
-        acompanhamento até a decisão final.
+        A burocracia é nossa. Do seu lado fica só a decisão: o que proteger, em qual ramo e até
+        onde.
       </p>
 
       {/* Lista REAL confirmada pela Amanda em 2026-07-24 (fecha [PENDENTE:SERVICOS]). */}
-      <p class="oferta-card__label">Incluído na assessoria</p>
+      <p class="oferta-card__label">O que muda pra você</p>
       <ul class="oferta-checklist">
-        <li>Consulta de viabilidade e análise de colidência</li>
-        <li>Orientação sobre o tipo de marca: nominativa, mista, figurativa ou tridimensional</li>
-        <li>Definição de classes e estratégia de proteção</li>
-        <li>Preparação e protocolo do pedido no INPI</li>
-        <li>Acompanhamento do processo e aviso de cada despacho</li>
-        <li>Atendimento digital para todo o Brasil</li>
+        {
+          incluidos.map((item) => (
+            <li>
+              <strong>{item.ganho}</strong>
+              <span>{item.servico}</span>
+            </li>
+          ))
+        }
       </ul>
+
+      {/* A ideia nova da seção (2026-07-28): até aqui a página inteira trata o registro como
+          processo. Este é o único lugar onde ele vira PATRIMÔNIO — e é o argumento que
+          reposiciona o custo. Fato, não promessa: prazo e cessão são da Lei 9.279/96, e a
+          cessão já constava da própria lista de serviços da Amanda. */}
+      <aside class="oferta-ativo">
+        <p class="oferta-ativo__titulo">Registro não é taxa. É patrimônio.</p>
+        <p class="oferta-ativo__corpo">
+          O registro vale 10 anos e é renovável para sempre. A partir dele a marca é um bem do seu
+          negócio: pode ser licenciada, transferida ou vendida junto com ele.
+        </p>
+      </aside>
 
       {/* Serviços que a Amanda faz mas NÃO entram no plano básico — ela orça caso a caso
           ("é difícil alguém fechar um pacote que inclui tudo, porque sai mais caro").
           Marcador é "+", nunca check: check ao lado de item não incluído é promessa falsa. */}
-      <p class="oferta-card__label">Quando o caso pede, orçado à parte</p>
+      <p class="oferta-card__label">Depois do protocolo, a Ritma continua</p>
+      <p class="oferta-extras__nota">Orçados à parte, conforme o que o seu caso pedir.</p>
       <ul class="oferta-extras">
-        <li>Resposta a exigências do INPI</li>
-        <li>Defesa contra oposições e oposição a pedidos de terceiros</li>
-        <li>Recursos administrativos</li>
-        <li>Petições de retificação de dados</li>
-        <li>Monitoramento de marcas semelhantes (colidências)</li>
-        <li>Renovação do registro, a cada 10 anos</li>
-        <li>Averbação de alteração de nome, endereço ou razão social</li>
-        <li>Transferência de titularidade (cessão de marca)</li>
+        {continuidade.map((item) => <li>{item}</li>)}
       </ul>
 
       {/* Texto de honorários na formulação que a própria Amanda validou como OAB-safe:
@@ -163,15 +217,57 @@ import rCeramico from '../assets/r-ceramico.png';
     color: var(--text-muted);
   }
 
+  /* Bloco de patrimônio: a "vida" que o Manolo pediu, feita com contraste em vez de cor
+     nova. Inverte pro chumbo dentro de um card claro — é o único elemento invertido da
+     seção, então ele para o olho sem competir com o botão (que segue sendo a única
+     coisa colorida da página). */
+  .oferta-ativo {
+    margin-top: 28px;
+    border-radius: 14px;
+    background: var(--surface-inverse);
+    padding: 22px 24px;
+  }
+  @media (min-width: 768px) {
+    .oferta-ativo {
+      padding: 26px 28px;
+    }
+  }
+  .oferta-ativo__titulo {
+    font-size: var(--text-h3);
+    line-height: var(--text-h3--line-height);
+    font-weight: 700;
+    color: var(--text-on-inverse);
+  }
+  .oferta-ativo__corpo {
+    margin-top: 8px;
+    font-size: var(--text-body-sm);
+    line-height: var(--text-body-sm--line-height);
+    color: var(--text-on-inverse-2);
+  }
+
   /* Checklist — círculo + check em CSS (sem lib de ícone), reforça "você recebe isto" */
   /* Extras: marcador "+" e texto secundário. Deliberadamente MENOS destacado que a lista de
      incluídos — é serviço que existe, não é promessa do que já está pago. */
+  .oferta-extras__nota {
+    margin-top: 4px;
+    font-size: var(--text-caption);
+    line-height: 1.45;
+    color: var(--text-secondary);
+  }
   .oferta-extras {
     margin: 14px 0 0;
     padding: 0;
     list-style: none;
     display: grid;
     gap: 10px;
+  }
+  /* Duas colunas a partir do desktop: 8 itens em coluna única viravam um paredão que
+     lia como "o que você vai pagar a mais". */
+  @media (min-width: 768px) {
+    .oferta-extras {
+      grid-template-columns: 1fr 1fr;
+      column-gap: 24px;
+    }
   }
   .oferta-extras li {
     position: relative;
@@ -205,10 +301,23 @@ import rCeramico from '../assets/r-ceramico.png';
     display: grid;
     gap: 12px;
   }
+  /* O ganho lidera em corpo cheio; o nome do serviço vira legenda logo abaixo. Assim a
+     lista para de ser ficha técnica sem perder o que de fato está sendo entregue. */
   .oferta-checklist li {
     position: relative;
     padding-left: 32px;
     color: var(--text-primary);
+  }
+  .oferta-checklist li strong {
+    display: block;
+    font-weight: 600;
+  }
+  .oferta-checklist li span {
+    display: block;
+    margin-top: 2px;
+    font-size: var(--text-caption);
+    line-height: 1.45;
+    color: var(--text-secondary);
   }
   .oferta-checklist li::before {
     content: '';

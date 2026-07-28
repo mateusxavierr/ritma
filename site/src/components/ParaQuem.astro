@@ -12,28 +12,31 @@ import imgComecando from '../assets/paraquem-comecando.jpg';
 import imgConhecido from '../assets/paraquem-conhecido.jpg';
 import imgConflito from '../assets/paraquem-conflito.jpg';
 
+/* 2026-07-28 — enquadramento novo (Manolo, via Mateus): a seção deixa de rotular o leitor
+   ("para você que…") e passa a descrever o MOMENTO do nome dele. Os três títulos viram uma
+   escala — nasce → anda → é disputado — e a linha de fecho amarra no ritmo/crescimento. */
 const perfis = [
   {
     img: imgComecando,
-    titulo: 'Para você que está começando',
+    titulo: 'O nome acabou de nascer',
     corpo:
-      'Vai investir em logo, embalagem e divulgação. Melhor construir tudo isso sobre um nome que já é seu.',
+      'Você está montando logo, embalagem e perfil. O nome merece ser seu antes de aparecer em tudo isso.',
     pos: '50% 40%',
   },
   {
     img: imgConhecido,
-    titulo: 'Para você que já é conhecido',
+    titulo: 'O nome já anda sozinho',
     corpo:
-      'Seu nome já tem valor no mercado. Cada mês sem registro é uma aposta de que ninguém vai registrá-lo antes.',
+      'As pessoas já procuram você por ele. Sem registro, cada mês é uma aposta de que ninguém vai chegar no INPI antes.',
     pos: '50% 42%',
   },
   {
     /* Perfil trocado pelo Mateus em 2026-07-24 (era "comparando"): agora é quem já está
        em conflito de marca — imagem de duas pessoas disputando o mesmo produto com o R. */
     img: imgConflito,
-    titulo: 'Para você que está em conflito',
+    titulo: 'O nome virou disputa',
     corpo:
-      'Apareceu uma marca parecida demais com a sua, ou questionaram o seu nome. Casos assim têm defesa, e têm prazo.',
+      'Apareceu uma marca parecida demais, ou questionaram a sua. Situações assim têm defesa, e têm prazo.',
     pos: '50% 44%',
   },
 ];
@@ -42,8 +45,9 @@ const perfis = [
 <section class="band-dark paraquem">
   <span class="paraquem__glow" aria-hidden="true"></span>
   <div class="container-page py-16 md:py-24">
-    {/* Título trocado pelo Mateus em 2026-07-24 (era "Isso é pra você?"). */}
-    <h2 class="text-h2 text-center reveal paraquem__title">Quem precisa dos serviços da Ritma?</h2>
+    {/* Título trocado pelo Mateus em 2026-07-24 (era "Isso é pra você?"), e de novo em
+        2026-07-28 (era "Quem precisa dos serviços da Ritma?"). */}
+    <h2 class="text-h2 text-center reveal paraquem__title">Em que momento o seu negócio está?</h2>
     <div class="paraquem__grid">
       {
         perfis.map((p, i) => (
@@ -69,6 +73,12 @@ const perfis = [
         ))
       }
     </div>
+
+    {/* Fecho da seção (2026-07-28): amarra os três momentos numa promessa só. É o único
+        lugar da página onde o trocadilho ritmo/Ritma aparece — repetir mata. */}
+    <p class="paraquem__fecho reveal" style="--reveal-delay:420ms">
+      Em qualquer um desses momentos, a Ritma acompanha o <strong>ritmo do seu crescimento</strong>.
+    </p>
   </div>
 </section>
 
@@ -96,6 +106,20 @@ const perfis = [
       grid-template-columns: repeat(3, 1fr);
       gap: 22px;
     }
+  }
+
+  /* Fecho: medida curta e centrada pra ler como remate da seção, não como parágrafo novo. */
+  .paraquem__fecho {
+    max-width: 46ch;
+    margin: 32px auto 0;
+    text-align: center;
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    color: var(--text-on-dark-soft);
+  }
+  .paraquem__fecho strong {
+    font-weight: 700;
+    color: var(--text-on-dark);
   }
 
   .card-foto {
