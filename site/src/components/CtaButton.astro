@@ -130,21 +130,23 @@ const ariaLabel = label === CTA_LABEL ? CTA_ARIA_LABEL : `${label} pelo WhatsApp
       width: 100%;
       container-type: inline-size;
     }
-    /* Ajuste 7 do council visual: em fluxo inline o glifo centraliza junto com o texto,
-       como bloco único, em vez de ficar órfão na borda esquerda. */
+    /* Era `display: block` (ajuste 7 do council): com o rótulo em DUAS linhas, o fluxo
+       inline era o que impedia o glifo de ficar órfão na esquerda enquanto o texto
+       centrava. Com uma linha só esse motivo sumiu — e o block passou a ancorar o texto
+       no topo, deixando toda a sobra do min-height embaixo. Volta pro flex, que centra
+       nos dois eixos e alinha o glifo de graça. */
     .cta-lg {
-      display: block;
+      display: flex;
       width: 100%;
+      gap: 6px;
       padding-inline: 12px;
       white-space: nowrap;
       font-size: min(16px, calc((100cqw - 46px) / 19.2));
     }
     .cta-lg svg {
-      display: inline-block;
+      flex: none;
       width: 16px;
       height: 16px;
-      vertical-align: -0.2em;
-      margin-right: 6px;
     }
   }
 
