@@ -379,6 +379,13 @@ const continuidade = [
   /* 2026-07-24 (2ª decisão do Mateus, substitui a de horas antes): o botão VOLTA pro mobile.
      Regra nova da página — todo botão do desktop existe no mobile; quem se ajusta é a sticky
      bar, que agora só aparece quando nenhum botão está na tela (ver StickyCta.astro). */
+  /* No mobile o botão avança sobre o padding do card. Uma linha só de rótulo é o pedido,
+     e cada pixel de largura vira fonte: sem isso a fonte cairia a 11,8px aos 360px. */
+  @media (max-width: 767.98px) {
+    .oferta-card__cta {
+      margin-inline: -12px;
+    }
+  }
   .oferta-card__cta {
     margin-top: 28px;
   }

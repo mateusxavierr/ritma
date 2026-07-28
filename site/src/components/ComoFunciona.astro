@@ -169,4 +169,11 @@ const passos = [
     justify-content: center;
     margin-top: 44px;
   }
+  /* No mobile o botão avança sobre o padding do painel: o rótulo é de uma linha só e cada
+     pixel de largura vira tamanho de fonte (mesma razão do card da Oferta). */
+  @media (max-width: 767.98px) {
+    .cf-cta {
+      margin-inline: -12px;
+    }
+  }
 </style>

@@ -109,27 +109,53 @@ const ariaLabel = label === CTA_LABEL ? CTA_ARIA_LABEL : `${label} pelo WhatsApp
     background-color: var(--cta-inverse-bg-hover);
   }
 
-  /* O label OAB-safe tem 42 caracteres: abaixo de 768px ele quebra em 2 linhas
-     BALANCEADAS e centradas (nunca texto minúsculo); de md pra cima, 1 linha sempre. */
   .cta-lg {
     min-height: 56px;
     padding: 12px 20px;
     font-size: 16px;
     line-height: 1.25;
     text-align: center;
-    text-wrap: balance;
   }
-  /* Ajuste 7 do council visual: com o label em 2 linhas, o flex deixava o glifo órfão
-     na borda esquerda enquanto o texto centrava. Abaixo de md o botão vira fluxo inline:
-     o glifo entra na primeira linha do texto e centraliza JUNTO, como bloco único. */
+
+  /* 2026-07-28 (Mateus): uma linha SEMPRE no mobile — antes o label quebrava em duas.
+     Como o botão aparece em contextos de largura diferente (solto no container ou dentro
+     do card da Oferta, que soma o próprio padding), vw não serve de régua: a fonte é
+     calculada sobre a largura REAL do bloco, via container query.
+
+     A conta: o label mede 18,41px de largura por 1px de fonte (medido na Catamaran 700).
+     Divisor 19.2 = esses 18,41 + ~4% de folga pra antialiasing e arredondamento.
+     Os 46px descontados são o cromo do botão: 24 de padding + 16 de glifo + 6 de gap. */
   @media (max-width: 767.98px) {
+    .cta-block {
+      width: 100%;
+      container-type: inline-size;
+    }
+    /* Ajuste 7 do council visual: em fluxo inline o glifo centraliza junto com o texto,
+       como bloco único, em vez de ficar órfão na borda esquerda. */
     .cta-lg {
       display: block;
+      width: 100%;
+      padding-inline: 12px;
+      white-space: nowrap;
+      font-size: min(16px, calc((100cqw - 46px) / 19.2));
     }
     .cta-lg svg {
       display: inline-block;
-      vertical-align: -0.22em;
-      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      vertical-align: -0.2em;
+      margin-right: 6px;
+    }
+  }
+
+  /* Abaixo de 360px o glifo sai: em tela dessa largura ele custa 22px, que valem ~1,2px
+     de fonte — e rótulo legível pesa mais que ícone. Mesma decisão já vigente no .cta-sm. */
+  @media (max-width: 359.98px) {
+    .cta-lg svg {
+      display: none;
+    }
+    .cta-lg {
+      font-size: min(16px, calc((100cqw - 24px) / 19.2));
     }
   }
   @media (min-width: 768px) {
