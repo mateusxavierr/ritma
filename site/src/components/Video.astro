@@ -198,6 +198,17 @@ const YT_ID = 'QJb9fCU5QuA';
     text-wrap: balance;
     transition: color 700ms ease;
   }
+  /* Duas linhas no desktop (pedido do Mateus, 2026-08-06), quebrando na vírgula:
+     "Antes de investir mais na sua marca," / "entenda se ela está protegida."
+     O balance vira 2 linhas a partir de 26ch — 28ch é folga proposital, porque em cima do
+     limiar qualquer diferença de métrica na carga da fonte joga de volta pra 3 linhas.
+     Em ch, não em px: a medida acompanha o clamp do --text-h2 e a quebra é a mesma em
+     qualquer largura daqui pra cima. No mobile continua 22ch (3 linhas equilibradas). */
+  @media (min-width: 768px) {
+    .video__title {
+      max-width: 28ch;
+    }
+  }
 
   /* ——— MODO CINEMA ———
      O véu é fixo, cobre tudo (inclusive o header) e NÃO recebe clique. Fica abaixo da sticky
