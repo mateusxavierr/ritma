@@ -8,13 +8,15 @@
  * pausa. Autoplay em navegador só roda MUDO (regra do Chrome/Safari, não escolha nossa);
  * o som fica a um clique, nos controles do próprio player.
  *
- * VÍDEO PROVISÓRIO: demo de natureza em 4K (aquele tipo que roda em TV OLED de loja), só
- * pra validar o comportamento. Trocar YT_ID pelo vídeo da Amanda quando chegar
- * (PERGUNTAS-ABERTAS 7) — nada mais muda.
+ * VÍDEO DA AMANDA (entrou 2026-08-06, PERGUNTAS-ABERTAS C): é VERTICAL 9:16 (1080×1920,
+ * publicado como Short) com legenda queimada no terço inferior. O palco era 16:9 e virou
+ * retrato por causa disso — num quadro 16:9 o YouTube tarjaria as duas laterais e a Amanda
+ * ficaria num filete central. Cortar não é opção: comeria a legenda queimada, que é o que
+ * carrega a mensagem enquanto o autoplay roda mudo.
  */
 import CtaButton from './CtaButton.astro';
 
-const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test nature relaxation"
+const YT_ID = 'QJb9fCU5QuA';
 ---
 
 <section class="video band-light">
@@ -48,10 +50,6 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
         </a>
       </noscript>
     </div>
-
-    <p class="ph video__ph">
-      Vídeo provisório (demo 4K). Entra o vídeo da Amanda Pereira quando chegar.
-    </p>
 
     <div class="video__cta reveal" style="--reveal-delay:180ms">
       <CtaButton align="center" origin="video" />
@@ -226,8 +224,7 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
   }
   :global(.cinema-on) .video__title,
   :global(.cinema-on) .video__frame,
-  :global(.cinema-on) .video__cta,
-  :global(.cinema-on) .video__ph {
+  :global(.cinema-on) .video__cta {
     position: relative;
     z-index: 36;
   }
@@ -252,9 +249,11 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
     color: var(--text-primary);
   }
 
-  /* Palco 16:9 — vira <iframe>/<video> sem mexer no layout. Herda o fundo escuro de
-     .band-dark (mesmo gradiente das faixas escuras da página) e, por tabela, o remap de
-     texto: o que estiver dentro já nasce em osso. */
+  /* Palco 9:16 — o formato vem do material da Amanda, não de gosto. A largura é o menor de
+     três limites, e cada um resolve um contexto: 380px trava o exagero em monitor grande;
+     88vw dá a margem lateral no celular; 42vh impede que o retrato passe da altura da tela
+     em notebook baixo (largura = altura × 9/16, então 42vh ≈ 75vh de altura). Uma linha só,
+     sem media query. */
   .video__frame {
     position: relative;
     display: flex;
@@ -263,8 +262,8 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
     justify-content: center;
     gap: 14px;
     margin: 32px auto 0;
-    max-width: 860px;
-    aspect-ratio: 16 / 9;
+    width: min(380px, 88vw, 42vh);
+    aspect-ratio: 9 / 16;
     overflow: hidden;
     border: 0;
     border-radius: 20px;
@@ -327,14 +326,6 @@ const YT_ID = 'E02MEDmvjYI'; // provisório — "4K VIDEO ultrahd hdr demo test 
     font-weight: 700;
     text-decoration: underline;
     text-underline-offset: 4px;
-  }
-
-  .video__ph {
-    display: block;
-    max-width: 46ch;
-    margin: 16px auto 0;
-    text-align: center;
-    font-size: var(--text-caption);
   }
 
   .video__cta {
