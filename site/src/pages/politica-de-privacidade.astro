@@ -6,7 +6,12 @@
  * verificado no código antes de escrever: não há <form>, <input>, cookie próprio, localStorage
  * nem fetch em lugar nenhum de src/ (confere com `grep -rn "<form\|localStorage\|document.cookie"
  * site/src` — zero resultados). A fonte Catamaran é servida do próprio domínio, então nem o
- * Google Fonts entra aqui. Os únicos terceiros são o embed do YouTube e a hospedagem.
+ * Google Fonts entra aqui.
+ *
+ * 2026-08-07: o vídeo saiu do YouTube e passou a ser servido daqui. A seção "Vídeo" foi
+ * reescrita NO MESMO COMMIT da troca, porque no instante em que o player mudou o texto antigo
+ * (que prometia modo sem cookies do YouTube) virou declaração falsa. Hoje o ÚNICO terceiro
+ * que resta é o provedor de hospedagem.
  *
  * QUANDO OS PIXELS DA PENDÊNCIA E ENTRAREM (Meta, GA4), esta página VIRA MENTIRA e tem que ser
  * atualizada no mesmo commit — a seção "Medição de audiência" existe pra ser reescrita ali.
@@ -22,7 +27,7 @@ const home = import.meta.env.BASE_URL;
 
 /* Data da última revisão do texto. Escrita à mão de propósito: se viesse do build, cada
    republicação por motivo de layout fingiria que o texto jurídico mudou. */
-const ATUALIZADO_EM = '6 de agosto de 2026';
+const ATUALIZADO_EM = '7 de agosto de 2026';
 ---
 
 <Base
@@ -75,12 +80,12 @@ const ATUALIZADO_EM = '6 de agosto de 2026';
           não usamos esses dados para outra finalidade.
         </p>
 
-        <h2 class="text-h3">Vídeo incorporado</h2>
+        <h2 class="text-h3">Vídeo</h2>
         <p>
-          A página exibe um vídeo hospedado no YouTube. Ele é carregado em modo sem cookies e só
-          é solicitado quando você chega na seção do vídeo. Antes disso, nenhum pedido é feito ao
-          YouTube. Se o vídeo for reproduzido, o YouTube e o Google podem coletar dados conforme
-          as políticas próprias deles, sobre as quais não temos controle.
+          O vídeo da página é servido por este próprio site. Não há YouTube, não há player de
+          terceiro e não há qualquer serviço externo envolvido: assistir não informa nada a
+          ninguém além do provedor que hospeda estas páginas. O arquivo só começa a ser baixado
+          quando você chega na seção do vídeo.
         </p>
 
         <h2 class="text-h3">Hospedagem</h2>

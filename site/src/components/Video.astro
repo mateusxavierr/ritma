@@ -3,37 +3,40 @@
  * Seção 2 — vídeo (pedido do Mateus, 2026-07-24; estrutura de referência: hero → vídeo → ...).
  * Título acima, vídeo no meio, CTA abaixo. Fundo com a marca d'água de R (padrão oficial).
  *
- * PLAYER PRÓPRIO (2026-08-06, pedido do Mateus): o vídeo continua hospedado no YouTube, mas
- * nada na tela diz YouTube. A UI nativa é desligada no embed (controls=0) e o que aparece é
- * controle nosso, na tipografia e nas cores da marca — a barra de progresso é petróleo claro,
- * não vermelho. Três peças fazem isso funcionar:
- *   1. controls=0 + disablekb=1 + iv_load_policy=3 + rel=0: sem barra, sem teclado do YouTube,
- *      sem anotação, sem vídeo relacionado.
- *   2. um ESCUDO transparente por cima do iframe, que come todo clique. Sem ele, clicar no
- *      vídeo abre o overlay de título/compartilhar do YouTube e o logo vira link pra lá.
- *   3. loop=1: o vídeo reinicia sozinho e a tela final de sugestões nunca chega a existir.
+ * VÍDEO NO PRÓPRIO SITE (2026-08-07). Saiu o YouTube, entrou <video> nativo.
  *
- * O QUE ISSO CUSTA, PRA CONSTAR: os Termos da API do YouTube pedem que o player não seja
- * escondido nem descaracterizado. Custom player com controls=0 é prática espalhada e o vídeo
- * segue servido e contabilizado por eles, mas a decisão foi do Mateus, com esse risco na mesa.
+ * Por quê: o vídeo da Amanda é vertical de 1:17 e o YouTube classifica isso como Short. Pra
+ * Short ele serve um player que IGNORA controls=0 e desenha por cima o título, o nome do canal
+ * e o logo. Testei seis combinações de parâmetro (host normal e nocookie, loop+playlist,
+ * autoplay+mute, widget_referrer, videoseries) e a flag `isShortsExperienceEligible` continuou
+ * em todas — ela vem da classificação do vídeo no catálogo, não de parâmetro nosso. Não existe
+ * chave pra desligar do lado de fora. Servindo o arquivo daqui, o problema deixa de existir.
  *
- * PLAY AUTOMÁTICO NO SCROLL (pedido do Manolo via Mateus): nada é pedido ao YouTube antes de a
- * seção entrar na tela — nem o script da API. Ao sair, pausa. Autoplay em navegador só roda
- * MUDO (regra do Chrome/Safari, não escolha nossa), e por isso existe o botão "Ativar som":
- * afordância explícita vale mais que esperar o visitante adivinhar.
+ * O ARQUIVO: master de 163 MB (2160×3840, HEVC, 60fps) reencodado pra 1080×1920 a 30fps,
+ * H.264 CRF 28 = 13,7 MB a 1,5 Mbps, com +faststart pra tocar durante o download. Comparado
+ * quadro a quadro com o master no recorte da legenda queimada: indistinguível. O material tem
+ * bastante b-roll (shopping, loja, plano de cidade), que comprime pior que plano fixo — por
+ * isso 13,7 MB e não os 8 que a estimativa inicial supunha.
  *
- * O host continua sendo youtube-nocookie, e isso NÃO é detalhe: a política de privacidade
- * publicada em 2026-08-06 afirma que o vídeo é carregado em modo sem cookies. Trocar o host
- * aqui transforma aquele texto em mentira.
+ * CUSTO ACEITO: sem bitrate adaptativo. Quem está em conexão ruim espera mais, em vez de
+ * receber 360p automático. Atenuado pelo download progressivo (o play começa com alguns
+ * segundos de buffer) e por preload="none" (quem não chega na seção não baixa nada).
  *
- * VÍDEO DA AMANDA (PERGUNTAS-ABERTAS C): VERTICAL 9:16 (1080×1920, publicado como Short) com
- * legenda queimada no terço inferior. O palco é retrato por causa disso — num quadro 16:9 o
- * YouTube tarjaria as laterais, e cortar comeria a legenda, que é o que carrega a mensagem
- * enquanto o autoplay roda mudo.
+ * PLAY AUTOMÁTICO NO SCROLL (pedido do Manolo via Mateus): nada é baixado antes de a seção
+ * entrar na tela. Ao sair, pausa. Autoplay em navegador só roda MUDO (regra do Chrome/Safari,
+ * não escolha nossa), e por isso existe o botão "Ativar som".
+ *
+ * SEM JS o <video> nasce com `controls` nativo e o script tira o atributo ao assumir. Assim
+ * quem tem JS desligado assiste com os controles do navegador em vez de olhar um retângulo
+ * morto — antes essa gente ia parar num link pro YouTube.
+ *
+ * O palco é retrato porque o material é 9:16 com legenda queimada no terço inferior; cortar
+ * pra caber num quadro deitado comeria a legenda, que é o que carrega a mensagem no mudo.
  */
 import CtaButton from './CtaButton.astro';
 
-const YT_ID = 'QJb9fCU5QuA';
+const MP4 = `${import.meta.env.BASE_URL}video/amanda.mp4`;
+const POSTER = `${import.meta.env.BASE_URL}video/amanda-poster.webp`;
 ---
 
 <section class="video band-light">
@@ -49,32 +52,32 @@ const YT_ID = 'QJb9fCU5QuA';
         O escuro abraça o player em vez de tomar a seção inteira: assim a alternância
         escuro/claro da página continua de pé E o contraste ao redor do vídeo fica MAIOR,
         porque a faixa em volta é clara. */}
-    <div
-      class="video__frame band-dark reveal"
-      style="--reveal-delay:120ms"
-      data-yt={YT_ID}
-      data-video-stage
-    >
-      {/* O iframe nasce aqui dentro. Wrapper próprio porque em tela cheia o frame passa a
-          ocupar o monitor inteiro e é o palco que segura o 9:16 no meio. */}
-      <div class="video__palco" data-video-palco></div>
+    <div class="video__frame band-dark reveal" style="--reveal-delay:120ms" data-video-stage>
+      <div class="video__palco">
+        {/* controls sai no JS. preload="none": zero byte até alguém chegar aqui. */}
+        <video
+          class="video__midia"
+          data-video-midia
+          poster={POSTER}
+          preload="none"
+          playsinline
+          muted
+          loop
+          controls
+        >
+          <source src={MP4} type="video/mp4" />
+        </video>
+      </div>
 
-      {/* ESCUDO: transparente, cobre o vídeo e engole o clique antes de ele chegar no YouTube.
-          É ele também que dá o play/pause ao toque, como em qualquer player.
-          Div e não button, com aria-hidden: os controles de verdade (o botão central e o da
-          barra) já cobrem teclado e leitor de tela, e um terceiro botão gigante por cima só
-          repetiria a mesma ação pra quem navega sem enxergar. */}
-      <div class="video__escudo" data-video-escudo aria-hidden="true"></div>
-
-      {/* Botão central: estado de espera antes do player existir e de pausa depois. */}
-      <button class="video__grande" data-video-grande aria-label="Reproduzir vídeo">
+      {/* Botão central: estado de espera antes do primeiro play e de pausa depois. */}
+      <button class="video__grande" data-video-grande aria-label="Reproduzir vídeo" hidden>
         <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true">
           <path d="M8 5v14l11-7z"></path>
         </svg>
       </button>
 
       {/* Chamada pra ligar o som: o autoplay é obrigatoriamente mudo, então sem isto o
-          visitante assiste inteiro sem áudio achando que o vídeo é legendado e pronto. */}
+          visitante assiste inteiro sem áudio achando que o vídeo é só legendado. */}
       <button class="video__som-dica" data-video-som-dica hidden>
         <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
           <path d="M4 9v6h4l5 5V4L8 9H4z" fill="currentColor"></path>
@@ -88,7 +91,7 @@ const YT_ID = 'QJb9fCU5QuA';
         Ativar som
       </button>
 
-      <div class="video__barra" data-video-barra>
+      <div class="video__barra" data-video-barra hidden>
         <button class="video__bt" data-video-play aria-label="Reproduzir">
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
             <path data-video-play-glifo d="M8 5v14l11-7z"></path>
@@ -145,12 +148,6 @@ const YT_ID = 'QJb9fCU5QuA';
           </svg>
         </button>
       </div>
-
-      <noscript>
-        <a class="video__fallback" href={`https://www.youtube.com/watch?v=${YT_ID}`} rel="noopener">
-          Assistir ao vídeo
-        </a>
-      </noscript>
     </div>
 
     <div class="video__cta reveal" style="--reveal-delay:180ms">
@@ -162,15 +159,12 @@ const YT_ID = 'QJb9fCU5QuA';
 <script is:inline>
   (function () {
     var frame = document.querySelector('[data-video-stage]');
-    if (!frame || !('IntersectionObserver' in window)) return;
+    if (!frame) return;
 
-    var id = frame.getAttribute('data-yt');
-    var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    var palco = frame.querySelector('[data-video-palco]');
-    var escudo = frame.querySelector('[data-video-escudo]');
+    var video = frame.querySelector('[data-video-midia]');
     var btGrande = frame.querySelector('[data-video-grande]');
     var somDica = frame.querySelector('[data-video-som-dica]');
+    var barra = frame.querySelector('[data-video-barra]');
     var btPlay = frame.querySelector('[data-video-play]');
     var playGlifo = frame.querySelector('[data-video-play-glifo]');
     var trilha = frame.querySelector('[data-video-trilha]');
@@ -180,110 +174,21 @@ const YT_ID = 'QJb9fCU5QuA';
     var btSom = frame.querySelector('[data-video-som]');
     var btTela = frame.querySelector('[data-video-tela]');
 
-    var player = null;
-    var pronto = false;
-    var tocando = false;
-    var mudo = true;
-    var duracao = 0;
+    /* Assumimos o controle: fora os nativos, dentro os nossos. Nessa ordem, pra nunca existir
+       um instante com dois conjuntos de controle na tela nem um sem nenhum. */
+    video.removeAttribute('controls');
+    barra.hidden = false;
+    btGrande.hidden = false;
+
+    var reduzirMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     var arrastando = false;
-    var relogio = null;
     var sumico = null;
 
     var GLIFO_PLAY = 'M8 5v14l11-7z';
     var GLIFO_PAUSE = 'M7 5h3.5v14H7zM13.5 5H17v14h-3.5z';
 
-    /* ——— Carga da API ———
-       O script só é buscado quando a seção entra na tela: a promessa de "nenhum pedido ao
-       YouTube antes disso" vale pro script também, não só pro iframe. */
-    function carregarApi(feito) {
-      if (window.YT && window.YT.Player) return feito();
-      var fila = (window.__ritmaYt = window.__ritmaYt || []);
-      fila.push(feito);
-      if (document.getElementById('ritma-yt-api')) return;
-      var anterior = window.onYouTubeIframeAPIReady;
-      window.onYouTubeIframeAPIReady = function () {
-        if (typeof anterior === 'function') anterior();
-        var pendentes = window.__ritmaYt || [];
-        window.__ritmaYt = [];
-        for (var i = 0; i < pendentes.length; i++) pendentes[i]();
-      };
-      var s = document.createElement('script');
-      s.id = 'ritma-yt-api';
-      s.src = 'https://www.youtube.com/iframe_api';
-      document.head.appendChild(s);
-    }
-
-    function criarPlayer(autoplay) {
-      if (player) return;
-      player = true; // trava reentrada enquanto a API não devolve o objeto
-      carregarApi(function () {
-        var alvo = document.createElement('div');
-        palco.appendChild(alvo);
-        player = new window.YT.Player(alvo, {
-          videoId: id,
-          // Host sem cookie: a política de privacidade publicada afirma isso.
-          host: 'https://www.youtube-nocookie.com',
-          playerVars: {
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            rel: 0,
-            modestbranding: 1,
-            iv_load_policy: 3,
-            playsinline: 1,
-            loop: 1,
-            playlist: id,
-            autoplay: autoplay ? 1 : 0,
-            mute: 1,
-            origin: window.location.origin,
-          },
-          events: {
-            onReady: function () {
-              pronto = true;
-              duracao = player.getDuration() || 0;
-              player.mute();
-              if (autoplay) player.playVideo();
-              atualizar();
-              mostrarBarra();
-            },
-            onStateChange: function (e) {
-              var E = window.YT.PlayerState;
-              tocando = e.data === E.PLAYING;
-              frame.classList.toggle('is-playing', tocando);
-              playGlifo.setAttribute('d', tocando ? GLIFO_PAUSE : GLIFO_PLAY);
-              btPlay.setAttribute('aria-label', tocando ? 'Pausar' : 'Reproduzir');
-              btGrande.hidden = tocando;
-              // A pílula de som só faz sentido enquanto o vídeo ROLA mudo. Pausado, o botão
-              // central já ocupa a atenção; com som ligado, ela não tem mais o que oferecer.
-              somDica.hidden = !(tocando && mudo);
-              if (!duracao) duracao = player.getDuration() || 0;
-              if (tocando) {
-                iniciarRelogio();
-                esconderBarraDepois();
-              } else {
-                pararRelogio();
-                mostrarBarra(true);
-              }
-            },
-          },
-        });
-      });
-    }
-
-    function usavel() {
-      return pronto && player && typeof player.getCurrentTime === 'function';
-    }
-
-    /* ——— Relógio de progresso ———
-       250ms é o intervalo em que a barra anda sem degrau visível e sem acordar o main thread
-       à toa. Abaixo disso não se vê diferença; acima, a bolinha pula. */
-    function iniciarRelogio() {
-      pararRelogio();
-      relogio = setInterval(atualizar, 250);
-    }
-    function pararRelogio() {
-      if (relogio) clearInterval(relogio);
-      relogio = null;
+    function tocando() {
+      return !video.paused && !video.ended;
     }
 
     function relogioTexto(s) {
@@ -293,19 +198,12 @@ const YT_ID = 'QJb9fCU5QuA';
       return m + ':' + (r < 10 ? '0' : '') + r;
     }
 
-    function atualizar() {
-      if (!usavel() || arrastando) return;
-      if (!duracao) duracao = player.getDuration() || 0;
-      var agora = player.getCurrentTime() || 0;
-      pintar(duracao ? (agora / duracao) * 100 : 0);
-      escreverTempo(agora);
-    }
-
-    /* "0:12 / 1:17". A duração entra só quando o YouTube já sabe informá-la — antes disso
-       seria "0:00 / 0:00", que passa a impressão de player quebrado. */
+    /* "0:12 / 1:17". A duração entra só quando os metadados chegam — antes disso seria
+       "0:00 / 0:00", que passa impressão de player quebrado. */
     function escreverTempo(agora) {
-      tempoTexto.textContent = duracao
-        ? relogioTexto(agora) + ' / ' + relogioTexto(duracao)
+      var d = isFinite(video.duration) ? video.duration : 0;
+      tempoTexto.textContent = d
+        ? relogioTexto(agora) + ' / ' + relogioTexto(d)
         : relogioTexto(agora);
     }
 
@@ -315,6 +213,13 @@ const YT_ID = 'QJb9fCU5QuA';
       bola.style.left = pct + '%';
       trilha.setAttribute('aria-valuenow', Math.round(pct));
       trilha.setAttribute('aria-valuetext', Math.round(pct) + ' por cento');
+    }
+
+    function atualizar() {
+      if (arrastando) return;
+      var d = isFinite(video.duration) ? video.duration : 0;
+      pintar(d ? (video.currentTime / d) * 100 : 0);
+      escreverTempo(video.currentTime);
     }
 
     /* ——— Barra que aparece e some ———
@@ -328,19 +233,33 @@ const YT_ID = 'QJb9fCU5QuA';
     function esconderBarraDepois() {
       if (sumico) clearTimeout(sumico);
       sumico = setTimeout(function () {
-        if (tocando && !arrastando) frame.classList.remove('mostra-controles');
+        if (tocando() && !arrastando) frame.classList.remove('mostra-controles');
       }, 2600);
     }
 
-    /* ——— Interações ——— */
+    /* Um só lugar decide a cara dos controles, e ele lê o estado REAL do <video> em vez de
+       supor. Os eventos play/pause chamam isto, e o play recusado também. */
+    function sincronizar() {
+      var t = tocando();
+      frame.classList.toggle('is-playing', t);
+      playGlifo.setAttribute('d', t ? GLIFO_PAUSE : GLIFO_PLAY);
+      btPlay.setAttribute('aria-label', t ? 'Pausar' : 'Reproduzir');
+      btGrande.hidden = t;
+      somDica.hidden = !(t && video.muted);
+    }
+
+    /* play() devolve promessa e ela PODE ser recusada — autoplay bloqueado, aba em segundo
+       plano, modo de baixo consumo. Quando isso acontece o navegador nem sempre dispara
+       'pause', e sem este catch a barra fica mostrando "pausar" em cima de um vídeo parado.
+       Apareceu no teste, não é hipótese. */
+    function tocar() {
+      var p = video.play();
+      if (p && p.catch) p.catch(sincronizar);
+    }
+
     function alternar() {
-      if (!player) {
-        criarPlayer(true);
-        return;
-      }
-      if (!usavel()) return;
-      if (tocando) player.pauseVideo();
-      else player.playVideo();
+      if (tocando()) video.pause();
+      else tocar();
       mostrarBarra();
     }
 
@@ -348,8 +267,8 @@ const YT_ID = 'QJb9fCU5QuA';
        No celular a barra fica escondida enquanto roda, e sem essa regra o toque de "deixa eu
        ver quanto falta" pausa o vídeo na cara do visitante. Botão central e botão da barra
        seguem pausando de primeira, porque ali a intenção é explícita. */
-    escudo.addEventListener('click', function () {
-      if (tocando && !frame.classList.contains('mostra-controles')) {
+    video.addEventListener('click', function () {
+      if (tocando() && !frame.classList.contains('mostra-controles')) {
         mostrarBarra();
         return;
       }
@@ -358,25 +277,40 @@ const YT_ID = 'QJb9fCU5QuA';
     btGrande.addEventListener('click', alternar);
     btPlay.addEventListener('click', alternar);
 
-    function ligarSom() {
-      if (!usavel()) return;
-      mudo = !mudo;
-      if (mudo) player.mute();
-      else {
-        player.unMute();
-        player.setVolume(100);
-      }
-      frame.classList.toggle('com-som', !mudo);
-      btSom.setAttribute('aria-label', mudo ? 'Ativar som' : 'Desativar som');
-      somDica.hidden = !mudo || !tocando;
+    video.addEventListener('play', function () {
+      sincronizar();
+      esconderBarraDepois();
+    });
+    video.addEventListener('pause', function () {
+      sincronizar();
+      mostrarBarra(true);
+    });
+    video.addEventListener('timeupdate', atualizar);
+    video.addEventListener('loadedmetadata', atualizar);
+    video.addEventListener('durationchange', atualizar);
+
+    function alternarSom() {
+      video.muted = !video.muted;
+      if (!video.muted) video.volume = 1;
+      frame.classList.toggle('com-som', !video.muted);
+      btSom.setAttribute('aria-label', video.muted ? 'Ativar som' : 'Desativar som');
+      somDica.hidden = !(video.muted && tocando());
       mostrarBarra();
     }
-    btSom.addEventListener('click', ligarSom);
-    somDica.addEventListener('click', ligarSom);
+    btSom.addEventListener('click', alternarSom);
+    somDica.addEventListener('click', alternarSom);
 
+    /* Tela cheia: no iPhone o Safari não põe elemento comum em tela cheia, só o próprio
+       <video> — e aí quem aparece é o player do sistema, com os controles dele. É limitação
+       do iOS, não escolha; nos outros lugares vai o palco inteiro e os controles são nossos. */
     btTela.addEventListener('click', function () {
-      if (document.fullscreenElement) document.exitFullscreen();
-      else if (frame.requestFullscreen) frame.requestFullscreen();
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else if (frame.requestFullscreen) {
+        frame.requestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+      }
     });
     document.addEventListener('fullscreenchange', function () {
       var cheia = document.fullscreenElement === frame;
@@ -391,14 +325,14 @@ const YT_ID = 'QJb9fCU5QuA';
       return Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
     }
     function buscar(e, soltar) {
-      if (!usavel() || !duracao) return;
+      var d = isFinite(video.duration) ? video.duration : 0;
+      if (!d) return;
       var f = posicao(e);
       pintar(f * 100);
-      escreverTempo(f * duracao);
-      if (soltar) player.seekTo(f * duracao, true);
+      escreverTempo(f * d);
+      if (soltar) video.currentTime = f * d;
     }
     trilha.addEventListener('pointerdown', function (e) {
-      if (!usavel()) return;
       arrastando = true;
       trilha.setPointerCapture(e.pointerId);
       buscar(e, false);
@@ -414,13 +348,13 @@ const YT_ID = 'QJb9fCU5QuA';
       esconderBarraDepois();
     });
     trilha.addEventListener('keydown', function (e) {
-      if (!usavel() || !duracao) return;
-      var agora = player.getCurrentTime() || 0;
+      var d = isFinite(video.duration) ? video.duration : 0;
+      if (!d) return;
       var destino = null;
-      if (e.key === 'ArrowRight') destino = agora + 5;
-      else if (e.key === 'ArrowLeft') destino = agora - 5;
+      if (e.key === 'ArrowRight') destino = video.currentTime + 5;
+      else if (e.key === 'ArrowLeft') destino = video.currentTime - 5;
       else if (e.key === 'Home') destino = 0;
-      else if (e.key === 'End') destino = duracao;
+      else if (e.key === 'End') destino = d;
       else if (e.key === ' ' || e.key === 'Enter') {
         e.preventDefault();
         alternar();
@@ -428,10 +362,8 @@ const YT_ID = 'QJb9fCU5QuA';
       }
       if (destino === null) return;
       e.preventDefault();
-      destino = Math.min(duracao, Math.max(0, destino));
-      player.seekTo(destino, true);
-      pintar((destino / duracao) * 100);
-      escreverTempo(destino);
+      video.currentTime = Math.min(d, Math.max(0, destino));
+      atualizar();
       mostrarBarra();
     });
 
@@ -439,17 +371,16 @@ const YT_ID = 'QJb9fCU5QuA';
       mostrarBarra();
     });
     frame.addEventListener('pointerleave', function () {
-      if (tocando && !arrastando) frame.classList.remove('mostra-controles');
+      if (tocando() && !arrastando) frame.classList.remove('mostra-controles');
     });
     frame.addEventListener('focusin', function () {
       mostrarBarra(true);
     });
 
-    // Sem JS o player nem nasce; com movimento reduzido, nasce só no clique.
-    if (reduzirMovimento) {
-      frame.classList.add('mostra-controles');
-      return;
-    }
+    mostrarBarra(true);
+
+    // Com movimento reduzido nada toca sozinho: quem manda é o botão.
+    if (reduzirMovimento || !('IntersectionObserver' in window)) return;
 
     /* ——— MODO CINEMA (ideia do Mateus, 2026-07-24) ———
        Depois de ~3,5s com a seção enquadrada, a página toda escurece por baixo de um véu e
@@ -482,13 +413,24 @@ const YT_ID = 'QJb9fCU5QuA';
       }, 20);
     }
 
+    // Pausa por SAÍDA DE TELA e pausa por clique são coisas diferentes: se o visitante pausou
+    // na mão, voltar à seção não pode religar o vídeo por cima da vontade dele.
+    var pausadoNaMao = false;
+    btGrande.addEventListener('click', marcarManual);
+    btPlay.addEventListener('click', marcarManual);
+    video.addEventListener('click', marcarManual);
+    function marcarManual() {
+      pausadoNaMao = !tocando();
+    }
+
     new IntersectionObserver(
       function (entradas) {
         var visivel = entradas[entradas.length - 1].isIntersecting;
-        if (visivel && !player) criarPlayer(true);
-        else if (usavel()) {
-          if (visivel) player.playVideo();
-          else player.pauseVideo();
+        if (visivel) {
+          if (!pausadoNaMao) tocar();
+        } else if (tocando()) {
+          video.pause();
+          pausadoNaMao = false;
         }
 
         clearTimeout(tempoCinema);
@@ -625,30 +567,15 @@ const YT_ID = 'QJb9fCU5QuA';
     position: absolute;
     inset: 0;
   }
-  /* :global obrigatório — o iframe nasce em runtime, sem o atributo de escopo do Astro, então
-     uma regra escopada não o alcançaria. Selecionar por TAG e não por classe porque quem cria
-     o elemento é a API do YouTube, e ela não preserva className. */
-  .video__palco :global(iframe) {
-    position: absolute;
-    inset: 0;
+  .video__midia {
+    display: block;
     width: 100%;
     height: 100%;
-    border: 0;
-  }
-
-  /* ESCUDO: cobre o vídeo inteiro e come o clique antes de ele chegar na UI do YouTube.
-     Botão de verdade (não div) pra continuar alcançável por teclado e leitor de tela. */
-  .video__escudo {
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: 0;
-    padding: 0;
+    /* cover e não contain: o arquivo é 9:16 e o palco é 9:16, então não há corte nenhum —
+       o cover só garante que arredondamento de subpixel não deixe fresta escura na borda. */
+    object-fit: cover;
+    background: #101111;
     cursor: pointer;
-    appearance: none;
   }
 
   /* Botão central de espera/pausa. */
@@ -711,9 +638,8 @@ const YT_ID = 'QJb9fCU5QuA';
   }
 
   /* ——— BARRA DE CONTROLES ———
-     Nada aqui vem do YouTube: o preenchimento da trilha é petróleo claro, o mesmo tom que o
-     CTA usa dentro das faixas escuras. Era o ponto do pedido — a cor da barra é o detalhe que
-     mais denuncia de onde o player veio. */
+     A trilha é petróleo claro, o mesmo tom que o CTA usa dentro das faixas escuras: o player
+     é do site, e a cor da barra é o detalhe que mais denuncia quando não é. */
   .video__barra {
     position: absolute;
     z-index: 4;
@@ -733,6 +659,9 @@ const YT_ID = 'QJb9fCU5QuA';
       opacity 240ms ease,
       transform 240ms ease;
     pointer-events: none;
+  }
+  .video__barra[hidden] {
+    display: none;
   }
   .video__frame.mostra-controles .video__barra {
     opacity: 1;
@@ -831,7 +760,7 @@ const YT_ID = 'QJb9fCU5QuA';
 
   /* ——— TELA CHEIA ———
      O frame ocupa o monitor e o palco segura o 9:16 no meio. Sem isto, o retrato esticaria
-     pra 16:9 e a Amanda ficaria deformada. */
+     pra largura toda. */
   .video__frame:fullscreen {
     width: 100%;
     height: 100%;
@@ -847,13 +776,6 @@ const YT_ID = 'QJb9fCU5QuA';
     height: 100%;
     aspect-ratio: 9 / 16;
     margin-inline: auto;
-  }
-
-  .video__fallback {
-    color: var(--sand-100);
-    font-weight: 700;
-    text-decoration: underline;
-    text-underline-offset: 4px;
   }
 
   .video__cta {
