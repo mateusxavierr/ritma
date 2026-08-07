@@ -7,6 +7,11 @@
  *  Formato: DDI+DDD+número, só dígitos. */
 export const WHATSAPP_NUMBER = '5581997469578';
 
+/** O mesmo número em formato de leitura, pro rodapé. Derivar do WHATSAPP_NUMBER por regex seria
+ *  esperto e frágil: o dia que o DDI ou o nono dígito mudarem, quebra calado. Duas constantes
+ *  lado a lado, uma pra máquina e uma pro olho. */
+export const WHATSAPP_DISPLAY = '(81) 99746-9578';
+
 /**
  * Mensagens pré-preenchidas do wa.me, personalizadas por origem do clique (pedido do Mateus
  * 2026-07-23). Modo diagnóstico, sem dado pessoal e OAB-safe (sem gratuidade/valores/promessa).
@@ -19,6 +24,7 @@ export const WA_MESSAGES: Record<string, string> = {
   oferta: 'Olá! Vim pelo site da Ritma e quero saber mais sobre o registro da minha marca.',
   final: 'Olá! Vim pelo site da Ritma e quero verificar se a minha marca ainda está livre.',
   fab: 'Olá! Vim pelo site da Ritma sobre registro de marcas. Tenho interesse em mais informações.',
+  rodape: 'Olá! Vim pelo site da Ritma sobre registro de marcas. Tenho interesse em mais informações.',
 };
 
 /** Compat: mensagem padrão como const única (usada por metadados/legado). */

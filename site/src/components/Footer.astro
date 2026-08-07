@@ -1,9 +1,39 @@
 ---
 /**
  * Footer sóbrio (PLANO §5.11, §4.14): continuidade do bloco escuro de fechamento.
- * Dados publicados pela própria marca (papelaria oficial); sem telefone (§10.12).
+ *
+ * WHATSAPP NO RODAPÉ (2026-08-06, pedido do Mateus). O §10.12 mandava rodapé sem telefone, mas
+ * a razão era "o telefone é o dado marcado como pendente no BRIEF, não assumir" — e essa razão
+ * venceu: o número foi confirmado pelo Mateus em 2026-07-23 e mora no config desde então. Nada
+ * é contrariado aqui, só uma trava que perdeu o motivo.
+ *
+ * Ícones só NESTA coluna: contato é lista de canais, onde o glifo orienta a varredura. A coluna
+ * de identificação (nome, OAB, endereço) segue tipográfica — pino de mapa e chapéu de formatura
+ * ali seriam decoração, que é o que o §10.19 existe pra impedir.
  */
 import logoOsso from '../assets/logo-ritma-osso.svg';
+import { WHATSAPP_DISPLAY, waHref } from '../config';
+
+/* Ano do BUILD, não do acesso: em página estática não existe "agora" do visitante sem JS. Some
+   o risco de o rodapé envelhecer sozinho enquanto o site for republicado ao menos uma vez ao ano. */
+const ano = new Date().getFullYear();
+
+const contatos = [
+  { glifo: 'wa-icon', solido: true, href: waHref('rodape'), texto: WHATSAPP_DISPLAY, externo: true },
+  {
+    glifo: 'ig-icon',
+    href: 'https://www.instagram.com/ritmaregistros',
+    texto: '@ritmaregistros',
+    externo: true,
+  },
+  {
+    glifo: 'ig-icon',
+    href: 'https://www.instagram.com/amandapereiraadv_/',
+    texto: '@amandapereiraadv_',
+    externo: true,
+  },
+  { glifo: 'mail-icon', href: 'mailto:ritmaregistros@gmail.com', texto: 'ritmaregistros@gmail.com' },
+];
 ---
 
 <footer class="bloco-escuro footer-dark text-(--text-on-inverse-2)">
@@ -21,20 +51,31 @@ import logoOsso from '../assets/logo-ritma-osso.svg';
       <p class="text-body-sm">Atendimento digital para todo o Brasil</p>
     </div>
     <div>
-      <a
-        href="https://www.instagram.com/ritmaregistros"
-        rel="noopener"
-        class="flex min-h-12 items-center text-body-sm underline-offset-4 hover:underline"
-        >@ritmaregistros</a
-      >
-      <a
-        href="mailto:ritmaregistros@gmail.com"
-        class="flex min-h-12 items-center text-body-sm underline-offset-4 hover:underline"
-        >ritmaregistros@gmail.com</a
-      >
+      {
+        contatos.map((c) => (
+          <a
+            href={c.href}
+            class="rodape-link"
+            target={c.externo ? '_blank' : undefined}
+            rel={c.externo ? 'noopener' : undefined}
+          >
+            <span class="rodape-link__glifo" aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                width={c.solido ? 16 : 18}
+                height={c.solido ? 16 : 18}
+                fill={c.solido ? 'currentColor' : 'none'}
+              >
+                <use href={`#${c.glifo}`} />
+              </svg>
+            </span>
+            <span class="text-body-sm">{c.texto}</span>
+          </a>
+        ))
+      }
     </div>
     <div class="md:text-right">
-      <p class="text-caption">© 2026 Ritma Registros. Todos os direitos reservados.</p>
+      <p class="text-caption">© {ano} Ritma Registros. Todos os direitos reservados.</p>
     </div>
   </div>
 </footer>
@@ -50,6 +91,37 @@ import logoOsso from '../assets/logo-ritma-osso.svg';
   /* Continua o tom escuro do CTA final sem emenda (bottom do band-dark = ink-950) */
   .footer-dark {
     background-color: var(--surface-dark-bottom);
+  }
+
+  /* Linha de contato: glifo + texto. min-height 48px é alvo de toque, não estética. */
+  .rodape-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+  }
+  /* Caixa de 18px: alinha os quatro numa coluna só. O glifo do WhatsApp desenha 16px dentro
+     dela de propósito — sólido do mesmo tamanho de um de traço pesa mais no olho, e o que tem
+     que ficar igual é o peso aparente, não o número. */
+  .rodape-link__glifo {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    opacity: 0.62;
+    transition: opacity 200ms ease;
+  }
+  /* Entra apagado e acende no hover: no escuro, ícone em contraste cheio compete com o texto,
+     que é quem carrega a informação. */
+  .rodape-link:hover .rodape-link__glifo {
+    opacity: 1;
+  }
+  /* Sublinhado só no texto: glifo sublinhado vira rabisco. */
+  .rodape-link:hover span {
+    text-decoration: underline;
+    text-underline-offset: 4px;
   }
 
   /* O dark do footer fecha a página (must-fix 5): o respiro do safe-area mobile
