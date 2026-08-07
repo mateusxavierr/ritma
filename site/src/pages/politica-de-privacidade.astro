@@ -1,0 +1,166 @@
+---
+/**
+ * Política de privacidade (2026-08-06, pedido do Mateus).
+ *
+ * ⚠️ TEXTO NÃO REVISADO PELA AMANDA. Foi escrito descrevendo o que a página REALMENTE faz hoje,
+ * verificado no código antes de escrever: não há <form>, <input>, cookie próprio, localStorage
+ * nem fetch em lugar nenhum de src/ (confere com `grep -rn "<form\|localStorage\|document.cookie"
+ * site/src` — zero resultados). A fonte Catamaran é servida do próprio domínio, então nem o
+ * Google Fonts entra aqui. Os únicos terceiros são o embed do YouTube e a hospedagem.
+ *
+ * QUANDO OS PIXELS DA PENDÊNCIA E ENTRAREM (Meta, GA4), esta página VIRA MENTIRA e tem que ser
+ * atualizada no mesmo commit — a seção "Medição de audiência" existe pra ser reescrita ali.
+ *
+ * Segunda página do site. O deploy segue 100% estático (nada de função, nada de redirect), então
+ * Hostinger e Vercel continuam idênticos.
+ */
+import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
+import logoChumbo from '../assets/logo-ritma-chumbo.svg';
+
+const home = import.meta.env.BASE_URL;
+
+/* Data da última revisão do texto. Escrita à mão de propósito: se viesse do build, cada
+   republicação por motivo de layout fingiria que o texto jurídico mudou. */
+const ATUALIZADO_EM = '6 de agosto de 2026';
+---
+
+<Base
+  title="Política de privacidade | Ritma Registros"
+  description="Como o site da Ritma Registros trata dados pessoais: o que coleta, o que não coleta e quais são os seus direitos."
+  path="politica-de-privacidade/"
+>
+  <header class="pp-topo">
+    <div class="container-page">
+      <a href={home} aria-label="Voltar para a página inicial">
+        <img src={logoChumbo.src} alt="Ritma Registros" width="103" height="26" class="h-6 w-auto" />
+      </a>
+    </div>
+  </header>
+
+  <main id="conteudo" class="band-light">
+    <div class="container-page py-14 md:py-20">
+      <div class="prose-measure pp-texto">
+        <h1 class="text-h2">Política de privacidade</h1>
+        <p class="pp-data">Última atualização: {ATUALIZADO_EM}</p>
+
+        <p>
+          Esta página explica como o site da Ritma Registros trata dados pessoais. Ela descreve o
+          que o site faz hoje. Se isso mudar, o texto muda junto e a data de atualização muda com
+          ele.
+        </p>
+
+        <h2 class="text-h3">Quem é o responsável</h2>
+        <p>
+          Amanda Pereira, advogada inscrita na OAB/PE sob o nº 57.651, com endereço na Rua
+          Rosemiro Alves da Rocha, 342, Centro, Santa Cruz do Capibaribe, PE. A Ritma Registros é
+          o nome pelo qual o serviço de assessoria em registro de marcas é apresentado. Contato
+          para qualquer assunto desta política:
+          <a href="mailto:ritmaregistros@gmail.com">ritmaregistros@gmail.com</a>.
+        </p>
+
+        <h2 class="text-h3">O que este site coleta</h2>
+        <p>
+          Nada diretamente. Não existe formulário, campo de cadastro ou área de login. O site não
+          grava cookie próprio nem guarda informação no seu navegador. Você consegue ler a página
+          inteira sem nos informar nada.
+        </p>
+
+        <h2 class="text-h3">O que acontece quando você clica no WhatsApp</h2>
+        <p>
+          Os botões da página levam você para uma conversa no WhatsApp com uma mensagem já
+          escrita. A partir do momento em que a conversa começa, o aplicativo é operado pela Meta
+          e segue as regras de privacidade dela. Do nosso lado, usamos o que você escrever apenas
+          para responder e conduzir o atendimento sobre a sua marca. Não vendemos, não cedemos e
+          não usamos esses dados para outra finalidade.
+        </p>
+
+        <h2 class="text-h3">Vídeo incorporado</h2>
+        <p>
+          A página exibe um vídeo hospedado no YouTube. Ele é carregado em modo sem cookies e só
+          é solicitado quando você chega na seção do vídeo. Antes disso, nenhum pedido é feito ao
+          YouTube. Se o vídeo for reproduzido, o YouTube e o Google podem coletar dados conforme
+          as políticas próprias deles, sobre as quais não temos controle.
+        </p>
+
+        <h2 class="text-h3">Hospedagem</h2>
+        <p>
+          Como acontece com qualquer site, o provedor que serve estas páginas registra dados
+          técnicos de acesso, entre eles o endereço de IP, por motivos de segurança e
+          funcionamento. Esses registros são do provedor de hospedagem e seguem as práticas dele.
+        </p>
+
+        <h2 class="text-h3">Medição de audiência</h2>
+        <p>
+          Nesta data, o site <strong>não</strong> utiliza ferramentas de medição, estatística ou
+          publicidade: não há Google Analytics, pixel de rede social nem qualquer rastreador. Se
+          alguma dessas ferramentas passar a ser utilizada, esta política será atualizada antes,
+          descrevendo qual ferramenta, para quê e como recusar.
+        </p>
+
+        <h2 class="text-h3">Seus direitos</h2>
+        <p>
+          A Lei Geral de Proteção de Dados (Lei nº 13.709/2018) garante a você, entre outros
+          direitos, confirmar se tratamos dados seus, acessá-los, corrigi-los, pedir que sejam
+          anonimizados ou eliminados e revogar consentimento. Para exercer qualquer um deles,
+          escreva para <a href="mailto:ritmaregistros@gmail.com">ritmaregistros@gmail.com</a>.
+        </p>
+        <p>
+          Vale registrar que os dados trocados no atendimento de um caso concreto também são
+          alcançados pelo sigilo profissional do advogado, que é anterior e independente desta
+          política.
+        </p>
+
+        <h2 class="text-h3">Alterações</h2>
+        <p>
+          Este texto pode ser revisado a qualquer momento. A versão em vigor é sempre a publicada
+          nesta página, com a data da última atualização indicada.
+        </p>
+
+        <p class="pp-voltar"><a href={home}>Voltar para a página inicial</a></p>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Base>
+
+<style>
+  /* Topo mínimo: só a marca, clicável de volta pra home. Um header com CTA numa página
+     jurídica seria vender no meio de um texto que existe pra informar. */
+  .pp-topo {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .pp-texto :global(h1) {
+    margin-bottom: 6px;
+  }
+  .pp-data {
+    color: var(--text-secondary);
+    font-size: var(--text-caption);
+    margin-bottom: 32px;
+  }
+  /* Espaço acima do subtítulo maior que o de baixo: é o que amarra cada bloco ao próprio
+     texto em vez de deixar títulos boiando no meio do corrido. */
+  .pp-texto :global(h2) {
+    margin-top: 40px;
+    margin-bottom: 10px;
+  }
+  .pp-texto :global(p) {
+    font-size: var(--text-body);
+    line-height: 1.65;
+    color: var(--text-secondary);
+  }
+  .pp-texto :global(p + p) {
+    margin-top: 14px;
+  }
+  .pp-texto :global(a) {
+    color: var(--text-primary);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .pp-voltar {
+    margin-top: 48px;
+  }
+</style>

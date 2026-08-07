@@ -83,8 +83,25 @@ const MAPS_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURICo
         ))
       }
     </div>
-    <div class="md:text-right">
-      <p class="text-caption">© {ano} Ritma Registros. Todos os direitos reservados.</p>
+    {/* COLUNA LEGAL (2026-08-06). Estava com só o copyright e sobrando vazio; o Mateus mandou
+        pôr ali o que faltava. Ordem proposital: o aviso da OAB primeiro, porque é ele que
+        enquadra a página inteira; a política depois, porque é destino; o copyright por último,
+        que é o menos importante dos três e estava sozinho ocupando a coluna. */}
+    <div class="rodape-legal md:text-right">
+      {/* ⚠️ Redação não revisada pela Amanda. Enquadramento do Provimento 205/2021 do CFOAB:
+          publicidade da advocacia é informativa, não pode captar clientela nem prometer
+          resultado. A página já obedece isso na prática desde 2026-07-24 (sem "grátis", sem
+          valor de honorário, sem promessa) — a linha só declara o que já é verdade. */}
+      <p class="text-caption rodape-legal__aviso">
+        Conteúdo de caráter informativo, sem captação de clientela nem promessa de resultado
+        (Provimento 205/2021, CFOAB).
+      </p>
+      <a href={`${import.meta.env.BASE_URL}politica-de-privacidade/`} class="text-caption"
+        >Política de privacidade</a
+      >
+      <p class="text-caption rodape-legal__copy">
+        © {ano} Ritma Registros. Todos os direitos reservados.
+      </p>
     </div>
   </div>
 </footer>
@@ -100,6 +117,36 @@ const MAPS_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURICo
   /* Continua o tom escuro do CTA final sem emenda (bottom do band-dark = ink-950) */
   .footer-dark {
     background-color: var(--surface-dark-bottom);
+  }
+
+  /* Coluna legal: três blocos de peso decrescente. O aviso da OAB é o único texto do rodapé em
+     medida curta de propósito — 34ch força quebra em três linhas e ele lê como nota de rodapé,
+     não como parágrafo. Na coluna alinhada à direita, a medida encosta na borda direita. */
+  .rodape-legal__aviso {
+    max-width: 34ch;
+    opacity: 0.78;
+  }
+  @media (min-width: 768px) {
+    .rodape-legal__aviso {
+      margin-left: auto;
+    }
+  }
+  .rodape-legal a {
+    display: inline-block;
+    margin-top: 16px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: rgb(235 232 226 / 0.35);
+    transition: text-decoration-color 200ms ease;
+  }
+  .rodape-legal a:hover {
+    text-decoration-color: currentColor;
+  }
+  /* O copyright desce e apaga: é o item menos importante da coluna e não pode competir com o
+     link, que é o único destino clicável daqui. */
+  .rodape-legal__copy {
+    margin-top: 20px;
+    opacity: 0.62;
   }
 
   /* Endereço vira link pro Maps sem parecer botão: mesma cor e mesmo peso do resto do bloco de

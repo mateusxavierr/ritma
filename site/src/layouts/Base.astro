@@ -6,12 +6,25 @@ import '../styles/global.css';
 import { SITE_URL } from '../config';
 import copy from '../copy.json';
 
-const canonical = new URL(import.meta.env.BASE_URL, SITE_URL).href;
+/* O layout nasceu pra uma página só. A política de privacidade (2026-08-06) trouxe a segunda,
+   então título, descrição e canonical viram props OPCIONAIS: sem nada passado, tudo continua
+   saindo do copy.json exatamente como antes e a index não muda uma vírgula. */
+interface Props {
+  title?: string;
+  description?: string;
+  /** Caminho relativo ao base do Astro, com barra final. Vazio = home. */
+  path?: string;
+}
+const { title: tituloProp, description: descricaoProp, path = '' } = Astro.props;
+
+const canonical = new URL(`${import.meta.env.BASE_URL}${path}`, SITE_URL).href;
 const ogImage = new URL(`${import.meta.env.BASE_URL}og.png`, SITE_URL).href;
 
 /* Metadados saem de src/copy.json, a mesma fonte do hero (regra do Mateus, 2026-07-24:
    mudou título/eyebrow do hero, muda a OG junto). Nada de string solta aqui. */
-const { title, description, ogTitle, ogDescription, ogImageAlt } = copy.meta;
+const { ogTitle, ogDescription, ogImageAlt } = copy.meta;
+const title = tituloProp ?? copy.meta.title;
+const description = descricaoProp ?? copy.meta.description;
 ---
 
 <html lang="pt-BR">
