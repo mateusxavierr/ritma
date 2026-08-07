@@ -34,6 +34,14 @@ const contatos = [
   },
   { glifo: 'mail-icon', href: 'mailto:ritmaregistros@gmail.com', texto: 'ritmaregistros@gmail.com' },
 ];
+
+/* Endereço clicável (2026-08-06): negócio local com endereço em texto morto obriga quem quer
+   conferir se existe escritório de verdade a copiar e colar. Formato /maps/search com api=1 é o
+   documentado pelo Google e o único que não depende de place_id — endereço muda, o link segue. */
+const ENDERECO = ['Rua Rosemiro Alves da Rocha, 342, Centro', 'Santa Cruz do Capibaribe, PE'];
+const MAPS_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+  `${ENDERECO.join(', ')}, Brasil`
+)}`;
 ---
 
 <footer class="bloco-escuro footer-dark text-(--text-on-inverse-2)">
@@ -46,8 +54,9 @@ const contatos = [
           2026-07-28: nome do rodapé alinhado ao resto do site (era o nome civil completo).
           O site inteiro chama a advogada de "Amanda Pereira" — nome único, sem variação. */}
       <p class="mt-4 text-body-sm">Amanda Pereira, OAB/PE 57.651</p>
-      <p class="text-body-sm">Rua Rosemiro Alves da Rocha, 342, Centro</p>
-      <p class="text-body-sm">Santa Cruz do Capibaribe, PE</p>
+      <a href={MAPS_HREF} target="_blank" rel="noopener" class="rodape-endereco text-body-sm">
+        {ENDERECO.map((linha) => <span>{linha}</span>)}
+      </a>
       <p class="text-body-sm">Atendimento digital para todo o Brasil</p>
     </div>
     <div>
@@ -93,12 +102,35 @@ const contatos = [
     background-color: var(--surface-dark-bottom);
   }
 
-  /* Linha de contato: glifo + texto. min-height 48px é alvo de toque, não estética. */
+  /* Endereço vira link pro Maps sem parecer botão: mesma cor e mesmo peso do resto do bloco de
+     identificação, sublinha só no hover. As duas linhas juntas já dão ~44px de alvo. */
+  .rodape-endereco {
+    display: block;
+  }
+  .rodape-endereco span {
+    display: block;
+  }
+  .rodape-endereco:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  /* Linha de contato: glifo + texto.
+     ALTURA (2026-08-06, pedido do Mateus pra apertar): 32px no ponteiro fino, 44px no grosso.
+     A média era 48px em todo lugar e sobrava ar entre quatro linhas de uma linha só. O corte é
+     por TIPO DE PONTEIRO e não por largura de tela, porque quem manda no tamanho do alvo é o
+     dedo, não o viewport — tablet largo continua com alvo de dedo. Os 44px do toque são o piso
+     do critério AAA da WCAG (2.5.5); abaixo disso eu não desço com quatro links colados. */
   .rodape-link {
     display: flex;
     align-items: center;
     gap: 10px;
-    min-height: 48px;
+    min-height: 32px;
+  }
+  @media (pointer: coarse) {
+    .rodape-link {
+      min-height: 44px;
+    }
   }
   /* Caixa de 18px: alinha os quatro numa coluna só. O glifo do WhatsApp desenha 16px dentro
      dela de propósito — sólido do mesmo tamanho de um de traço pesa mais no olho, e o que tem
