@@ -4,7 +4,7 @@
 /* Catamaran variable self-host (PLANO §8): 1 woff2, subset latin, pesos 100–900 */
 @font-face {
   font-family: 'Catamaran';
-  src: url('/ritma/fonts/catamaran-var.woff2') format('woff2-variations');
+  src: url('/fonts/catamaran-var.woff2') format('woff2-variations');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
@@ -185,12 +185,12 @@
     background-size: 300px auto;
   }
   .texture-r {
-    background-image: url('/ritma/pattern-r.svg');
+    background-image: url('/pattern-r.svg');
     opacity: 0.05;
   }
   /* R chumbo — pra faixa CLARA (o .texture-r osso é pra faixa escura). */
   .texture-r-ink {
-    background-image: url('/ritma/pattern-r-ink.svg');
+    background-image: url('/pattern-r-ink.svg');
     opacity: 0.04;
   }
 

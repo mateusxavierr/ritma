@@ -3,12 +3,11 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import { SITE_URL } from './src/config.ts';
 
-// PLANO §1: output 100% estático — o mesmo dist/ serve por FTP na Hostinger
-// e como estático na Vercel. Nenhuma função, nenhum redirect, nenhum header custom.
+// PLANO §1: output 100% estático — o mesmo dist/ sobe em qualquer host de arquivo.
+// Produção: Cloudflare Pages, na raiz do domínio. Nenhuma função, nenhum redirect,
+// nenhum header custom — e nenhum `base`: todo asset resolve a partir de `/`.
 export default defineConfig({
   site: SITE_URL,
-  // Deploy de REVISÃO no GitHub Pages (subpath /ritma/). Trocar/remover pra produção.
-  base: '/ritma/',
   output: 'static',
   vite: {
     plugins: [tailwindcss()],
