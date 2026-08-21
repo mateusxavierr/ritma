@@ -24,3 +24,14 @@ Thumbs.db
 
 # Cache gerado pelo Astro (recriado a cada build)
 .astro/
+
+# Material da cliente e método interno — vivem SÓ no local, nunca neste repo
+# (é público). O build da página não depende de nada aqui: ver scripts/assets.sh.
+docs/
+_antes-depois/
+scripts/
+.agents/
+.claude/
+CLAUDE.md
+PROJECT-KICKOFF-CHECKLIST.md
+skills-lock.json
