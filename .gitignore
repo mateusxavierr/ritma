@@ -21,3 +21,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.log
+
+# Cache gerado pelo Astro (recriado a cada build)
+.astro/
