@@ -102,6 +102,16 @@ const MAPS_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURICo
       <p class="text-caption rodape-legal__copy">
         © {ano} Ritma Registros. Todos os direitos reservados.
       </p>
+      <a
+        class="rodape-mxc text-caption"
+        href="https://mxcdigital.com.br"
+        target="_blank"
+        rel="noopener"
+        aria-label="Feito por MXC Digital (abre em nova aba)"
+      >
+        <span>Feito por</span>
+        <img src="/mxc-logo-claro.webp" width="281" height="64" alt="" loading="lazy" />
+      </a>
     </div>
   </div>
 </footer>
@@ -147,6 +157,26 @@ const MAPS_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURICo
   .rodape-legal__copy {
     margin-top: 20px;
     opacity: 0.62;
+  }
+
+  /* Selo de autoria: última linha, logo abaixo do ©. Logo na variante clara ("digital" em
+     branco) porque o fundo é o ink-950. O texto fica a 85% do osso (8,3:1 sobre #2E3030) — mais
+     apagado que o resto do rodapé, mas acima do 7:1. Hover só acende a cor: nada se mexe. */
+  .rodape-legal a.rodape-mxc {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 12px;
+    text-decoration: none;
+    color: color-mix(in srgb, var(--text-on-inverse-2) 85%, var(--surface-dark-bottom));
+    transition: color 200ms ease;
+  }
+  .rodape-legal a.rodape-mxc:hover {
+    color: var(--text-on-inverse-2);
+  }
+  .rodape-mxc img {
+    height: 26px;
+    width: auto;
   }
 
   /* Endereço vira link pro Maps sem parecer botão: mesma cor e mesmo peso do resto do bloco de
