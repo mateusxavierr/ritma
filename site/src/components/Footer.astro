@@ -102,9 +102,10 @@ const MAPS_HREF = `https://www.google.com/maps/search/?api=1&query=${encodeURICo
       <p class="text-caption rodape-legal__copy">
         © {ano} Ritma Registros. Todos os direitos reservados.
       </p>
+      <!-- UTM de propósito (skill /rodape-rastreavel): utm_source = este cliente. Sem ele a visita cai em "direto" no GA4 da MXC. Não tirar ao mexer no selo. -->
       <a
         class="rodape-mxc text-caption"
-        href="https://mxcdigital.com.br"
+        href="https://mxcdigital.com.br/?utm_source=ritma&amp;utm_medium=rodape&amp;utm_campaign=assinatura"
         target="_blank"
         rel="noopener"
         aria-label="Feito por MXC Digital (abre em nova aba)"
